@@ -6,9 +6,8 @@ import { motion } from 'framer-motion';
 
 const navigation = [
   { name: 'Product', href: '/product' },
-  { name: 'Solutions', href: '/solutions' },
   { name: 'Pricing', href: '/pricing' },
-  { name: 'Resources', href: '/resources' },
+  { name: 'Company', href: '/company' },
 ];
 
 export default function Navbar() {
@@ -53,15 +52,9 @@ export default function Navbar() {
           ))}
         </div>
 
-        <div className="hidden lg:flex lg:flex-1 lg:justify-end lg:gap-x-6">
+        <div className="hidden lg:flex lg:flex-1 lg:justify-end">
           <Link
-            href="/login"
-            className="text-sm font-semibold leading-6 text-gray-900 hover:text-blue-600 transition-colors"
-          >
-            Log in
-          </Link>
-          <Link
-            href="/get-started"
+            href="/auth"
             className="rounded-full bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 transition-colors"
           >
             Get Started
@@ -114,14 +107,8 @@ export default function Navbar() {
                   </div>
                   <div className="py-6">
                     <Link
-                      href="/login"
-                      className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                    >
-                      Log in
-                    </Link>
-                    <Link
-                      href="/get-started"
-                      className="mt-4 block rounded-full bg-blue-600 px-4 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-blue-500"
+                      href="/auth"
+                      className="block rounded-full bg-blue-600 px-4 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-blue-500"
                     >
                       Get Started
                     </Link>
