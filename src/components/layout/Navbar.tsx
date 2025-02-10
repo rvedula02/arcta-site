@@ -23,7 +23,7 @@ export default function Navbar() {
             <span className="sr-only">Arcta</span>
             <img
               className="h-8 w-auto"
-              src="/logo.png"
+              src="/logo.svg"
               alt="Arcta"
             />
           </Link>
@@ -66,7 +66,7 @@ export default function Navbar() {
               <span className="sr-only">Arcta</span>
               <img
                 className="h-8 w-auto"
-                src="/logo.png"
+                src="/logo.svg"
                 alt="Arcta"
               />
             </Link>

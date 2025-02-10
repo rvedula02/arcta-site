@@ -59,8 +59,8 @@ export default function Footer() {
         <div className="xl:grid xl:grid-cols-3 xl:gap-8">
           <div className="space-y-8">
             <img
-              className="h-7"
-              src="/logo.png"
+              className="h-8"
+              src="/logo.svg"
               alt="Arcta"
             />
             <p className="text-sm leading-6 text-gray-600">

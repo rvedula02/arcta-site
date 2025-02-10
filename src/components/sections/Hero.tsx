@@ -50,7 +50,7 @@ export default function Hero() {
             </div>
             {/* Platform preview image */}
             <img
-              src="/platform-preview.png"
+              src="/platform-preview.svg"
               alt="Arcta Platform Interface"
               className="relative rounded-xl shadow-xl ring-1 ring-gray-900/10"
             />
