@@ -5,97 +5,57 @@ import Link from 'next/link';
 
 export default function Hero() {
   return (
-    <div className="relative isolate overflow-hidden">
-      {/* Background gradient */}
-      <div
-        className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
-        aria-hidden="true"
-      >
-        <div
-          className="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
-          style={{
-            clipPath:
-              'polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)',
-          }}
-        />
-      </div>
-
-      {/* Main content */}
-      <div className="mx-auto max-w-7xl px-6 pb-24 pt-32 sm:pt-40 lg:px-8 lg:pt-44">
-        <div className="mx-auto max-w-4xl text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
-              Transform Your Data into{' '}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
-                Intelligent Insights
-              </span>
-            </h1>
-            <p className="mt-6 text-lg leading-8 text-gray-600">
-              Arcta AI combines the power of RAG (Retrieval-Augmented Generation) with agentic AI to help you make better decisions, faster. Turn your unstructured data into actionable intelligence.
-            </p>
-          </motion.div>
-          
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="mt-10 flex items-center justify-center gap-x-6"
-          >
-            <Link
-              href="/get-started"
-              className="rounded-full bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 transition-colors"
-            >
-              Get started
-            </Link>
-            <Link
-              href="/demo"
-              className="text-sm font-semibold leading-6 text-gray-900 hover:text-blue-600 transition-colors"
-            >
-              Live demo <span aria-hidden="true">→</span>
-            </Link>
-          </motion.div>
-        </div>
-
-        {/* Feature highlights */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-          className="mx-auto mt-16 max-w-7xl px-6 lg:px-8"
-        >
-          <div className="mx-auto max-w-4xl divide-y divide-gray-900/10 border-y border-gray-900/10">
-            <dl className="grid grid-cols-1 gap-x-8 gap-y-10 py-10 sm:grid-cols-2 lg:grid-cols-3">
-              {[
-                { name: 'Advanced RAG', description: 'State-of-the-art retrieval for precise information access' },
-                { name: 'Agentic AI', description: 'Autonomous agents that understand and act on your data' },
-                { name: 'Enterprise Ready', description: 'Built for scale with security and compliance in mind' },
-              ].map((feature) => (
-                <div key={feature.name} className="text-center">
-                  <dt className="text-base font-semibold leading-7 text-gray-900">{feature.name}</dt>
-                  <dd className="mt-1 text-sm leading-6 text-gray-600">{feature.description}</dd>
-                </div>
-              ))}
-            </dl>
+    <div className="relative isolate">
+      <div className="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:flex lg:items-center lg:gap-x-10 lg:px-8 lg:py-40">
+        <div className="mx-auto max-w-2xl lg:mx-0 lg:flex-auto">
+          <div className="flex">
+            <div className="relative flex items-center gap-x-4 rounded-full px-4 py-1 text-sm leading-6 text-gray-600 ring-1 ring-gray-900/10 hover:ring-gray-900/20">
+              <span className="font-semibold text-emerald-600">Financial Analytics Market</span>
+              <span className="h-4 w-px bg-gray-900/10" aria-hidden="true" />
+              <a href="/market" className="flex items-center gap-x-1">
+                Valued at $9.73bn in 2024
+                <span className="absolute inset-0" aria-hidden="true" />
+              </a>
+            </div>
           </div>
-        </motion.div>
-      </div>
-
-      {/* Bottom gradient */}
-      <div
-        className="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]"
-        aria-hidden="true"
-      >
-        <div
-          className="relative left-[calc(50%+3rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%+36rem)] sm:w-[72.1875rem]"
-          style={{
-            clipPath:
-              'polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)',
-          }}
-        />
+          <h1 className="mt-10 max-w-lg text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
+            Transforming the way Investment Offices work
+          </h1>
+          <p className="mt-6 text-lg leading-8 text-gray-600">
+            Speak to your data. We're re-imagining data and workflows with AI-driven solutions - from actionable insights and intuitive visualizations to workflow automation, enabling seamless dialogue for investment professionals with data of any kind.
+          </p>
+          <div className="mt-10 flex items-center gap-x-6">
+            <a
+              href="/demo"
+              className="rounded-md bg-emerald-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-emerald-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
+            >
+              Request a Demo
+            </a>
+            <a href="/about" className="text-sm font-semibold leading-6 text-gray-900">
+              Learn more <span aria-hidden="true">→</span>
+            </a>
+          </div>
+        </div>
+        <div className="mt-16 sm:mt-24 lg:mt-0 lg:flex-shrink-0 lg:flex-grow">
+          <div className="relative mx-auto w-full max-w-lg">
+            {/* Decorative image grid */}
+            <div className="absolute -top-8 left-1/2 -ml-24 transform-gpu blur-3xl lg:top-auto lg:-ml-32 lg:left-[calc(50%-12rem)]" aria-hidden="true">
+              <div
+                className="aspect-[1108/632] w-[69.25rem] bg-gradient-to-r from-emerald-300 to-emerald-600 opacity-20"
+                style={{
+                  clipPath:
+                    'polygon(73.6% 51.7%, 91.7% 11.8%, 100% 46.4%, 97.4% 82.2%, 92.5% 84.9%, 75.7% 64%, 55.3% 47.5%, 46.5% 49.4%, 45% 62.9%, 50.3% 87.2%, 21.3% 64.1%, 0.1% 100%, 5.4% 51.1%, 21.4% 63.9%, 58.9% 0.2%, 73.6% 51.7%)',
+                }}
+              />
+            </div>
+            {/* Platform preview image */}
+            <img
+              src="/platform-preview.svg"
+              alt="Arcta Platform Interface"
+              className="relative rounded-xl shadow-xl ring-1 ring-gray-900/10"
+            />
+          </div>
+        </div>
       </div>
     </div>
   );
