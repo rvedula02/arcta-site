@@ -29,16 +29,30 @@ jobs:
       - name: Build with Next.js
         run: npm run build
         
+      - name: List output directory
+        run: ls -la out/
+        
       - name: Add .nojekyll file
         run: touch out/.nojekyll
         
       - name: Add CNAME file
         run: echo "arcta.ai" > out/CNAME
         
+      - name: List output directory after adding files
+        run: ls -la out/
+        
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./out
+          path: out
+          
+      - name: Upload artifact (fallback method)
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: github-pages
+          path: out
+          if-no-files-found: error
 
   deploy:
     environment:
