@@ -1,5 +1,9 @@
 import Hero from '@/components/sections/Hero';
+import Problem from '@/components/sections/Problem';
 import Solution from '@/components/sections/Solution';
+import Market from '@/components/sections/Market';
+import WhyNow from '@/components/sections/WhyNow';
+import Business from '@/components/sections/Business';
 
 const features = [
   {
@@ -38,7 +42,11 @@ export default function Home() {
   return (
     <div className="bg-white">
       <Hero />
+      <Problem />
       <Solution />
+      <WhyNow />
+      <Market />
+      <Business />
 
       {/* Features section */}
       <div className="mx-auto mt-32 max-w-7xl px-6 sm:mt-40 lg:px-8">
@@ -81,10 +89,10 @@ export default function Home() {
         </div>
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-            Speak to your data
+            Ready to transform your financial operations?
           </h2>
           <p className="mx-auto mt-6 max-w-xl text-lg leading-8 text-gray-600">
-            We're re-imagining data and workflows with AI-driven solutions - enabling seamless dialogue for investment professionals with data of any kind.
+            Join leading financial institutions in revolutionizing how they handle data and workflows.
           </p>
           <div className="mt-10 flex items-center justify-center gap-x-6">
             <a
