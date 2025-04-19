@@ -4,7 +4,6 @@ import Solution from '@/components/sections/Solution';
 import VideoDemo from '@/components/sections/VideoDemo';
 import Market from '@/components/sections/Market';
 import WhyNow from '@/components/sections/WhyNow';
-import Business from '@/components/sections/Business';
 
 const features = [
   {
@@ -48,7 +47,6 @@ export default function Home() {
       <VideoDemo />
       <WhyNow />
       <Market />
-      <Business />
 
       {/* Features section */}
       <div className="mx-auto mt-32 max-w-7xl px-6 sm:mt-40 lg:px-8">

@@ -18,7 +18,7 @@ export default function Market() {
                 Total Addressable Market (TAM)
               </dt>
               <dd className="mt-4">
-                <span className="text-4xl font-bold tracking-tight text-emerald-600">$24.67B</span>
+                <span className="text-4xl font-bold tracking-tight text-emerald-600">$24.7B</span>
                 <p className="mt-2 text-base leading-7 text-gray-600">16.35% CAGR</p>
               </dd>
             </div>
@@ -35,7 +35,7 @@ export default function Market() {
                 Serviceable Obtainable Market (SOM)
               </dt>
               <dd className="mt-4">
-                <span className="text-4xl font-bold tracking-tight text-emerald-600">$6.6B</span>
+                <span className="text-4xl font-bold tracking-tight text-emerald-600">$775M</span>
               </dd>
             </div>
           </div>
