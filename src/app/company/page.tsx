@@ -4,22 +4,28 @@ import { motion } from 'framer-motion';
 
 const team = [
   {
-    name: 'John Smith',
-    role: 'CEO & Co-founder',
-    image: '/team/john.jpg',
-    bio: 'Former AI Research Lead at Google Brain with 15+ years of experience in machine learning and artificial intelligence.',
+    name: 'Tarun Venkatasamy',
+    role: 'CEO',
+    image: '/team/tarun.png',
+    bio: 'AI and financial technology expert with a vision to transform how financial offices operate through intelligent automation.',
   },
   {
-    name: 'Sarah Johnson',
-    role: 'CTO & Co-founder',
-    image: '/team/sarah.jpg',
-    bio: 'PhD in Computer Science from MIT, specializing in natural language processing and large language models.',
+    name: 'Arjun Hegde',
+    role: 'COO',
+    image: '/team/arjun.png',
+    bio: 'Finance and operations expert with experience in investment management and a passion for applying AI to transform financial workflows.',
   },
   {
-    name: 'Michael Chen',
-    role: 'Head of Engineering',
-    image: '/team/michael.jpg',
-    bio: 'Previously led engineering teams at OpenAI and DeepMind, focusing on scalable AI systems.',
+    name: 'Rahul Vedula',
+    role: 'CSO',
+    image: '/team/rahul.png',
+    bio: 'Strategic business leader focused on developing innovative market approaches and driving growth in the AI financial solutions space.',
+  },
+  {
+    name: 'Arnav Kolli',
+    role: 'CTO',
+    image: '/team/arnie.png',
+    bio: 'Technical visionary with deep expertise in machine learning and large language models, leading platform development and engineering.',
   },
 ];
 
@@ -145,11 +151,8 @@ export default function CompanyPage() {
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="mx-auto max-w-2xl lg:text-center">
             <h2 className="text-base font-semibold leading-7 text-blue-600">Our Team</h2>
-            <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-              Meet the experts behind Arcta AI
-            </p>
             <p className="mt-6 text-lg leading-8 text-gray-600">
-              Our team brings together decades of experience in AI, machine learning, and enterprise software.
+              Our team brings together experience in AI, machine learning, and product development.
             </p>
           </div>
 
