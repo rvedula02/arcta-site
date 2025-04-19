@@ -1,6 +1,7 @@
 import Hero from '@/components/sections/Hero';
 import Problem from '@/components/sections/Problem';
 import Solution from '@/components/sections/Solution';
+import VideoDemo from '@/components/sections/VideoDemo';
 import Market from '@/components/sections/Market';
 import WhyNow from '@/components/sections/WhyNow';
 import Business from '@/components/sections/Business';
@@ -44,6 +45,7 @@ export default function Home() {
       <Hero />
       <Problem />
       <Solution />
+      <VideoDemo />
       <WhyNow />
       <Market />
       <Business />
