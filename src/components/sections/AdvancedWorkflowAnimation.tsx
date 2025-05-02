@@ -64,6 +64,14 @@ export default function AdvancedWorkflowAnimation() {
       {/* Fixed timeline header */}
       <div className="sticky top-0 bg-gray-50 py-6 border-t border-b border-gray-200 z-50 shadow-sm">
         <div className="mx-auto max-w-6xl px-6 lg:px-8">
+          {/* Add the header text */}
+          <div className="text-center mb-6">
+            <h3 className="text-base font-semibold leading-7 text-emerald-600">Streamlined Process</h3>
+            <p className="text-2xl font-bold tracking-tight text-gray-900">
+              Our Intelligent Workflow
+            </p>
+          </div>
+          
           <div className="relative">
             {/* Horizontal timeline line */}
             <div className="h-1 bg-gray-200 rounded-full"></div>
