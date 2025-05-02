@@ -1,6 +1,7 @@
 import Hero from '@/components/sections/Hero';
 import Problem from '@/components/sections/Problem';
 import Solution from '@/components/sections/Solution';
+import WorkflowAnimation from '@/components/sections/WorkflowAnimation';
 import VideoDemo from '@/components/sections/VideoDemo';
 import Market from '@/components/sections/Market';
 import WhyNow from '@/components/sections/WhyNow';
@@ -44,6 +45,7 @@ export default function Home() {
       <Hero />
       <Problem />
       <Solution />
+      <WorkflowAnimation />
       <VideoDemo />
       <WhyNow />
       <Market />
