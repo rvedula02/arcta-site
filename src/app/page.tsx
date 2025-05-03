@@ -88,13 +88,13 @@ const features = [
 
 export default function Home() {
   return (
-    <div className="bg-dark-green text-gray-300">
+    <div className="text-gray-300 bg-gray-950">
       <Hero />
       <AdvancedWorkflowAnimation />
       <VideoDemo />
 
       {/* Features section - Restyled as cards */}
-      <div className="mx-auto mt-32 max-w-7xl px-6 sm:mt-40 lg:px-8 border-t border-gray-700 pt-16">
+      <div className="mx-auto mt-32 max-w-7xl px-6 sm:mt-40 lg:px-8 border-t border-gray-700 pt-16 bg-gradient-to-b from-dark-green via-emerald-900 to-dark-green">
         <div className="mx-auto max-w-2xl lg:text-center">
           <h2 className="text-base font-semibold leading-7 text-emerald-400">Everything you do, but faster.</h2>
           <p className="mt-2 text-3xl font-bold tracking-tight text-gray-100 sm:text-4xl">
@@ -107,7 +107,7 @@ export default function Home() {
         <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-none">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {features.map((feature) => (
-              <div key={feature.name} className="flex flex-col rounded-lg p-6 bg-[#101010] hover:bg-black transition-colors border border-gray-800 hover:border-gray-700">
+              <div key={feature.name} className="flex flex-col rounded-lg p-6 bg-transparent hover:bg-gray-900/50 transition-colors border border-gray-700 hover:border-gray-600">
                 <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-dark-green mb-4">
                   <div className="text-emerald-400">
                     {feature.icon}

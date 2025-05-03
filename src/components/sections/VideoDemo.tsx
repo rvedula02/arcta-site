@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function VideoDemo() {
   return (
-    <div className="py-24 sm:py-32 border-t border-gray-700 pt-16">
+    <div className="py-24 sm:py-32 border-t border-gray-700 pt-16 bg-gradient-to-b from-gray-950 to-dark-green">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto max-w-2xl lg:text-center">
           <h2 className="text-base font-semibold leading-7 text-emerald-400">See It In Action</h2>

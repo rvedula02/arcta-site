@@ -46,7 +46,7 @@ export default function AdvancedWorkflowAnimation() {
   }, [scrollYProgress, workflowSteps.length]);
 
   return (
-    <div ref={sectionRef} className="bg-white dark:bg-gray-900 py-20 text-gray-900 dark:text-gray-100 border-t border-gray-200 dark:border-gray-700">
+    <div ref={sectionRef} id="workflow-animation" className="py-20 text-gray-900 dark:text-gray-100 border-t border-gray-700 bg-gradient-to-b from-dark-green to-gray-950">
       {/* Header */}
       <div className="mx-auto max-w-7xl px-6 lg:px-8 mb-16">
         <div className="mx-auto max-w-2xl lg:text-center">
