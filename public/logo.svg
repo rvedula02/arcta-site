@@ -1,5 +1,6 @@
-<svg width="120" height="40" viewBox="0 0 120 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <path d="M20 8L32 32H8L20 8Z" fill="#059669" fillOpacity="0.8"/>
-  <path d="M20 12L28 28H12L20 12Z" fill="#10B981"/>
-  <text x="45" y="28" fontFamily="Arial" fontSize="24" fontWeight="bold" fill="#111827">arcta</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" fill="none">
+  <path d="M511.858 226.569L639.438 496.761L511.858 226.569Z" fill="#40A384"/>
+  <path d="M649.747 517.378L511.857 226.568L373.968 517.378H288.135L511.857 82.8926L735.58 517.378H649.747Z" fill="#40A384"/>
+  <path d="M245.097 648.81L167.906 482.702L90.7148 648.81H67.5742L167.906 444.865L268.238 648.81H245.097Z" fill="#40A384"/>
+  <path d="M369.095 648.81L167.906 242.24L78.285 422.395H55.1445L167.906 204.404L446.286 725.457L384.664 612.246L369.095 648.81Z" fill="#40A384"/>
 </svg> 
