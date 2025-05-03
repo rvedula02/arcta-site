@@ -1,6 +1,7 @@
 import Hero from '@/components/sections/Hero';
 import AdvancedWorkflowAnimation from '@/components/sections/AdvancedWorkflowAnimation';
 import VideoDemo from '@/components/sections/VideoDemo';
+import AuthButtons from '@/components/AuthButtons';
 
 const features = [
   {
@@ -88,7 +89,8 @@ const features = [
 
 export default function Home() {
   return (
-    <div className="text-gray-300 bg-gray-950">
+    <div className="text-gray-300 bg-gray-950 relative">
+      <AuthButtons />
       <Hero />
       <AdvancedWorkflowAnimation />
       <VideoDemo />

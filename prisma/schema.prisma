@@ -77,6 +77,10 @@ model DemoRequest {
   email     String
   message   String
 
+  // Fields for booked demo
+  bookedTime  DateTime? // Time the demo is scheduled for
+  meetingLink String?   // Link to the meeting (e.g., Zoom, Google Meet)
+
   userId    String? // Optional: Link to a logged-in user
   user      User?   @relation(fields: [userId], references: [id], onDelete: SetNull) // Optional relation
 
