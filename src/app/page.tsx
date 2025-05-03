@@ -1,6 +1,5 @@
 import Hero from '@/components/sections/Hero';
-import Problem from '@/components/sections/Problem';
-import Solution from '@/components/sections/Solution';
+import AdvancedWorkflowAnimation from '@/components/sections/AdvancedWorkflowAnimation';
 import VideoDemo from '@/components/sections/VideoDemo';
 
 const features = [
@@ -91,8 +90,7 @@ export default function Home() {
   return (
     <div className="bg-dark-green text-gray-300">
       <Hero />
-      <Problem />
-      <Solution />
+      <AdvancedWorkflowAnimation />
       <VideoDemo />
 
       {/* Features section - Restyled as cards */}

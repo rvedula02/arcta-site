@@ -51,6 +51,10 @@ model User {
   accounts      Account[]
   sessions      Session[]
   demoRequests  DemoRequest[] // Relation to DemoRequest
+
+  // Fields for Calendly demo scheduling
+  calendlyEventUri String?
+  demoScheduledAt DateTime?
 }
 
 model VerificationToken {
