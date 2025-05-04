@@ -1,8 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',  // Enables static export
+  // output: 'export',  // Removed: Enables static export - Incompatible with NextAuth
   images: {
-    unoptimized: true,  // Required for static export
+    unoptimized: true,  // Might not be needed anymore, keep for now
   },
   eslint: {
     // This allows production builds to successfully complete even if
@@ -11,6 +11,7 @@ const nextConfig = {
   },
   // Only add this if you're NOT using a custom domain
   // basePath: '/arcta-site',
+  reactStrictMode: true,
 };
 
 module.exports = nextConfig; 

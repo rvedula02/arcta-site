@@ -1,0 +1,101 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String? // Can likely be removed if using firstName/lastName
+  email         String    @unique // Make email required
+  emailVerified DateTime?
+  password      String? // Assuming password-based auth exists
+
+  // Add new required fields
+  firstName String
+  lastName  String
+  company   String
+
+  // Add optional field
+  needsDescription String?
+
+  image     String?
+  accounts  Account[]
+  sessions  Session[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  // Relation to DemoRequest (Keep if DemoRequest model is still used)
+  demoRequests DemoRequest[]
+
+  // Fields for Calendly booking
+  demoBookingTime DateTime? // Stores the scheduled time of the demo
+  demoBookingUri  String? // Stores the URI/link of the Calendly event
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// New model for Demo Requests
+model DemoRequest {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  firstName String
+  lastName  String
+  company   String
+  email     String
+  message   String
+
+  // Fields for booked demo
+  bookedTime  DateTime? // Time the demo is scheduled for
+  meetingLink String? // Link to the meeting (e.g., Zoom, Google Meet)
+
+  userId String? // Optional: Link to a logged-in user
+  user   User?   @relation(fields: [userId], references: [id], onDelete: SetNull) // Optional relation
+
+  @@index([userId]) // Index for faster lookups by user
+}
