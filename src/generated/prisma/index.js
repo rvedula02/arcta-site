@@ -186,7 +186,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/Users/tarunvenkatasamy/Documents/arcta-site/src/generated/prisma",
+      "value": "/Users/arjunhegde/Library/CloudStorage/OneDrive-CornellUniversity/arcta-site/src/generated/prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -200,12 +200,11 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "/Users/tarunvenkatasamy/Documents/arcta-site/prisma/schema.prisma",
+    "sourceFilePath": "/Users/arjunhegde/Library/CloudStorage/OneDrive-CornellUniversity/arcta-site/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
-    "rootEnvPath": null,
-    "schemaEnvPath": "../../../.env"
+    "rootEnvPath": null
   },
   "relativePath": "../../../prisma",
   "clientVersion": "6.7.0",

@@ -1,10 +1,9 @@
 // Copied from src/pages/api/auth/[...nextauth].ts and adapted for App Router
 import NextAuth, { AuthOptions } from "next-auth";
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import { PrismaAdapter } from "@auth/prisma-adapter";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { PrismaClient } from "../../../../generated/prisma";
 import bcrypt from "bcrypt";
-import prisma from '@/lib/prisma'; // Use shared client
+import { prisma } from "@/lib/prisma"; // Use shared client
 
 export const authOptions: AuthOptions = {
   adapter: PrismaAdapter(prisma),
