@@ -11,6 +11,7 @@ const nextConfig = {
   },
   // Only add this if you're NOT using a custom domain
   // basePath: '/arcta-site',
+  reactStrictMode: true,
 };
 
 module.exports = nextConfig; 

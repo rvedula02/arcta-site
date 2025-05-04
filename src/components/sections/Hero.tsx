@@ -19,7 +19,7 @@ export default function Hero() {
         </div>
         <div className="mx-auto max-w-2xl text-center">
           <h1 className="text-4xl font-bold tracking-tight text-gray-100 sm:text-6xl">
-            The AI Workspace for Enterprise
+            The AI-native Decision Engine for Finance
           </h1>
           <p className="mt-6 text-lg leading-8 text-gray-400">
             Empowering enterprise finance teams with an AI-driven workspace designed for complex data analysis and workflow automation.

@@ -43,18 +43,31 @@ model Session {
 
 model User {
   id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
+  name          String?   // Can likely be removed if using firstName/lastName
+  email         String    @unique // Make email required
   emailVerified DateTime?
-  password      String?
+  password      String?   // Assuming password-based auth exists
+
+  // Add new required fields
+  firstName     String
+  lastName      String
+  company       String
+
+  // Add optional field
+  needsDescription String?
+
   image         String?
   accounts      Account[]
   sessions      Session[]
-  demoRequests  DemoRequest[] // Relation to DemoRequest
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
 
-  // Fields for Calendly demo scheduling
-  calendlyEventUri String?
-  demoScheduledAt DateTime?
+  // Relation to DemoRequest (Keep if DemoRequest model is still used)
+  demoRequests  DemoRequest[]
+
+  // Fields for Calendly booking
+  demoBookingTime DateTime? // Stores the scheduled time of the demo
+  demoBookingUri  String?   // Stores the URI/link of the Calendly event
 }
 
 model VerificationToken {

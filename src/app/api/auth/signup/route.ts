@@ -1,30 +1,18 @@
-// Copied from src/pages/api/auth/signup.ts and adapted for App Router
+// Use the shared Prisma client
+import prisma from '@/lib/prisma';
 import { NextResponse } from 'next/server';
-import { PrismaClient } from "../../../../generated/prisma";
 import bcrypt from 'bcrypt';
-
-// Prisma Client Instantiation (same as before)
-let prisma: PrismaClient;
-if (process.env.NODE_ENV === 'production') {
-  prisma = new PrismaClient();
-} else {
-  // @ts-ignore
-  if (!global.prisma) {
-    // @ts-ignore
-    global.prisma = new PrismaClient();
-  }
-  // @ts-ignore
-  prisma = global.prisma;
-}
 
 const SALT_ROUNDS = 10;
 
 export async function POST(request: Request) {
   try {
-    const { name, email, password } = await request.json();
+    // Destructure new fields from the request body
+    const { firstName, lastName, company, email, password, needsDescription } = await request.json();
 
-    if (!name || !email || !password) {
-      return NextResponse.json({ message: 'Missing name, email, or password' }, { status: 400 });
+    // Validate required fields
+    if (!firstName || !lastName || !company || !email || !password) {
+      return NextResponse.json({ message: 'Missing required fields: firstName, lastName, company, email, password' }, { status: 400 });
     }
 
     // Basic email validation
@@ -44,12 +32,15 @@ export async function POST(request: Request) {
     // Hash password
     const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
 
-    // Create user
+    // Create user with new fields
     await prisma.user.create({
       data: {
-        name,
+        firstName,
+        lastName,
+        company,
         email,
         password: hashedPassword,
+        needsDescription, // Include optional field
       },
     });
 

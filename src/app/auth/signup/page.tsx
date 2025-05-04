@@ -1,92 +1,211 @@
 'use client'; // Sign up page needs client-side interactivity
 
-import { useState } from 'react';
+import { useState, FormEvent } from 'react';
 import { useRouter } from 'next/navigation'; // Use navigation hooks for App Router
 import Link from 'next/link';
 
 export default function SignUpPage() {
-  const router = useRouter();
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [company, setCompany] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [needsDescription, setNeedsDescription] = useState('');
   const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
     setError(null);
-    setSuccess(false);
 
-    const target = event.target as typeof event.target & {
-      name: { value: string };
-      email: { value: string };
-      password: { value: string };
-    };
-
-    const name = target.name.value;
-    const email = target.email.value;
-    const password = target.password.value;
+    if (!firstName || !lastName || !company || !email || !password) {
+      setError('Please fill in all required fields.');
+      setIsLoading(false);
+      return;
+    }
 
     try {
-      // The API endpoint is now /api/auth/signup (POST)
-      const res = await fetch('/api/auth/signup', {
+      const response = await fetch('/api/auth/signup', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ name, email, password }),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          firstName,
+          lastName,
+          company,
+          email,
+          password,
+          needsDescription, // Include optional field
+        }),
       });
 
-      const data = await res.json();
-
-      if (!res.ok) {
-        setError(data.message || 'Sign up failed. Please try again.');
+      if (response.ok) {
+        // Redirect to sign-in page upon successful signup
+        router.push('/auth/signin?message=Signup successful! Please sign in.');
       } else {
-        setSuccess(true);
-        // Redirect to sign-in page after a short delay using App Router
-        setTimeout(() => {
-          router.push('/auth/signin'); 
-        }, 1500);
+        const data = await response.json();
+        setError(data.message || 'Sign up failed. Please try again.');
       }
     } catch (err) {
-       console.error("Sign up request failed:", err);
-       setError('An unexpected error occurred. Please try again.');
+      console.error(err);
+      setError('An unexpected error occurred.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  // Styling and form structure remain largely the same
   return (
-    <div style={{ fontFamily: 'sans-serif', maxWidth: '400px', margin: '50px auto', padding: '30px', border: '1px solid #eee', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>
-      <h1 style={{ textAlign: 'center', marginBottom: '25px' }}>Sign Up</h1>
-      {error && (
-        <p style={{ backgroundColor: '#ffebee', color: '#c62828', border: '1px solid #ef9a9a', padding: '10px', borderRadius: '4px', marginBottom: '15px', textAlign: 'center' }}>
-          {error}
-        </p>
-      )}
-      {success && (
-        <p style={{ backgroundColor: '#e8f5e9', color: '#2e7d32', border: '1px solid #a5d6a7', padding: '10px', borderRadius: '4px', marginBottom: '15px', textAlign: 'center' }}>
-          Sign up successful! Redirecting to sign in...
-        </p>
-      )}
-      {!success && (
-        <form onSubmit={handleSubmit}>
-          <div style={{ marginBottom: '15px' }}>
-            <label htmlFor="name" style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>Name</label>
-            <input name="name" id="name" type="text" required style={{ width: '100%', padding: '10px', boxSizing: 'border-box', border: '1px solid #ccc', borderRadius: '4px' }}/>
+    <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+      <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+        {/* Logo or Header */}
+        <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
+          Create your account
+        </h2>
+      </div>
+
+      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+        <form className="space-y-6" onSubmit={handleSubmit} method="POST">
+          {/* First Name Input */}
+          <div>
+            <label htmlFor="firstName" className="block text-sm font-medium leading-6 text-gray-900">
+              First Name <span className="text-red-600">*</span>
+            </label>
+            <div className="mt-2">
+              <input
+                id="firstName"
+                name="firstName"
+                type="text"
+                autoComplete="given-name"
+                required
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              />
+            </div>
           </div>
-          <div style={{ marginBottom: '15px' }}>
-            <label htmlFor="email" style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>Email Address</label>
-            <input name="email" id="email" type="email" required style={{ width: '100%', padding: '10px', boxSizing: 'border-box', border: '1px solid #ccc', borderRadius: '4px' }}/>
+
+          {/* Last Name Input */}
+          <div>
+            <label htmlFor="lastName" className="block text-sm font-medium leading-6 text-gray-900">
+              Last Name <span className="text-red-600">*</span>
+            </label>
+            <div className="mt-2">
+              <input
+                id="lastName"
+                name="lastName"
+                type="text"
+                autoComplete="family-name"
+                required
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              />
+            </div>
           </div>
-          <div style={{ marginBottom: '20px' }}>
-            <label htmlFor="password" style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>Password</label>
-            <input name="password" id="password" type="password" required style={{ width: '100%', padding: '10px', boxSizing: 'border-box', border: '1px solid #ccc', borderRadius: '4px' }}/>
+
+           {/* Company Input */}
+          <div>
+            <label htmlFor="company" className="block text-sm font-medium leading-6 text-gray-900">
+              Company <span className="text-red-600">*</span>
+            </label>
+            <div className="mt-2">
+              <input
+                id="company"
+                name="company"
+                type="text"
+                autoComplete="organization"
+                required
+                value={company}
+                onChange={(e) => setCompany(e.target.value)}
+                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              />
+            </div>
           </div>
-          <button type="submit" style={{ width: '100%', padding: '12px 15px', cursor: 'pointer', backgroundColor: '#0070f3', color: 'white', border: 'none', borderRadius: '4px', fontSize: '16px', fontWeight: 'bold' }}>Sign Up</button>
+
+          {/* Email Input */}
+          <div>
+            <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
+              Email address <span className="text-red-600">*</span>
+            </label>
+            <div className="mt-2">
+              <input
+                id="email"
+                name="email"
+                type="email"
+                autoComplete="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              />
+            </div>
+          </div>
+
+          {/* Password Input */}
+          <div>
+            <div className="flex items-center justify-between">
+              <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
+                Password <span className="text-red-600">*</span>
+              </label>
+            </div>
+            <div className="mt-2">
+              <input
+                id="password"
+                name="password"
+                type="password"
+                autoComplete="new-password"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              />
+            </div>
+          </div>
+
+           {/* Needs Description Textarea (Optional) */}
+          <div>
+            <label htmlFor="needsDescription" className="block text-sm font-medium leading-6 text-gray-900">
+              Tell us about your needs (Optional)
+            </label>
+            <div className="mt-2">
+              <textarea
+                id="needsDescription"
+                name="needsDescription"
+                rows={3}
+                value={needsDescription}
+                onChange={(e) => setNeedsDescription(e.target.value)}
+                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              />
+            </div>
+          </div>
+
+          {/* Error Message */}
+          {error && (
+            <div className="text-sm text-red-600">
+              {error}
+            </div>
+          )}
+
+          {/* Submit Button */}
+          <div>
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:opacity-50"
+            >
+              {isLoading ? 'Creating Account...' : 'Create Account'}
+            </button>
+          </div>
         </form>
-      )}
-      {!success && (
-          <p style={{ marginTop: '25px', textAlign: 'center', fontSize: '14px' }}>
-            Already have an account? <Link href="/auth/signin" style={{ textDecoration: 'underline', color: '#0070f3', fontWeight: '500'}}>Sign In</Link>
-          </p>
-      )}
+
+        <p className="mt-10 text-center text-sm text-gray-500">
+          Already a member?{' '}
+          <Link href="/auth/signin" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
+            Sign in
+          </Link>
+        </p>
+      </div>
     </div>
   );
 } 
