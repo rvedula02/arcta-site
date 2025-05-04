@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
   output   = "../src/generated/prisma"
@@ -20,15 +14,14 @@ model Account {
   type              String
   provider          String
   providerAccountId String
-  refresh_token     String? @db.Text
-  access_token      String? @db.Text
+  refresh_token     String?
+  access_token      String?
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String? @db.Text
+  id_token          String?
   session_state     String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
@@ -42,32 +35,23 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?   // Can likely be removed if using firstName/lastName
-  email         String    @unique // Make email required
-  emailVerified DateTime?
-  password      String?   // Assuming password-based auth exists
-
-  // Add new required fields
-  firstName     String
-  lastName      String
-  company       String
-
-  // Add optional field
+  id               String        @id @default(cuid())
+  name             String?
+  email            String        @unique
+  emailVerified    DateTime?
+  password         String?
+  image            String?
+  company          String
+  createdAt        DateTime      @default(now())
+  demoBookingTime  DateTime?
+  demoBookingUri   String?
+  firstName        String
+  lastName         String
   needsDescription String?
-
-  image         String?
-  accounts      Account[]
-  sessions      Session[]
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-
-  // Relation to DemoRequest (Keep if DemoRequest model is still used)
-  demoRequests  DemoRequest[]
-
-  // Fields for Calendly booking
-  demoBookingTime DateTime? // Stores the scheduled time of the demo
-  demoBookingUri  String?   // Stores the URI/link of the Calendly event
+  updatedAt        DateTime      @updatedAt
+  accounts         Account[]
+  demoRequests     DemoRequest[]
+  sessions         Session[]
 }
 
 model VerificationToken {
@@ -78,24 +62,19 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
-// New model for Demo Requests
 model DemoRequest {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          String    @id @default(cuid())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  firstName   String
+  lastName    String
+  company     String
+  email       String
+  message     String
+  bookedTime  DateTime?
+  meetingLink String?
+  userId      String?
+  user        User?     @relation(fields: [userId], references: [id])
 
-  firstName String
-  lastName  String
-  company   String
-  email     String
-  message   String
-
-  // Fields for booked demo
-  bookedTime  DateTime? // Time the demo is scheduled for
-  meetingLink String?   // Link to the meeting (e.g., Zoom, Google Meet)
-
-  userId    String? // Optional: Link to a logged-in user
-  user      User?   @relation(fields: [userId], references: [id], onDelete: SetNull) // Optional relation
-
-  @@index([userId]) // Index for faster lookups by user
+  @@index([userId])
 }
