@@ -23,7 +23,7 @@ export default function Navbar() {
               src="/arcta-logo.png"
               alt="Arcta"
             />
-            <span className="text-2xl font-semibold text-white">Arcta</span>
+            <span className="text-2xl font-semibold text-green-500s">ARCTA</span>
           </Link>
         </div>
         <div className="flex lg:hidden">
