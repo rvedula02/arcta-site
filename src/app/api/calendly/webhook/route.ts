@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import prisma from '@/lib/prisma'; // Adjust import path if necessary
+import { prisma } from '@/lib/prisma'; // Adjust import path if necessary
 import crypto from 'crypto';
 import { parseISO } from 'date-fns';
 

@@ -1,41 +1,32 @@
-import NextAuth, { DefaultSession, DefaultUser } from "next-auth";
-import { JWT, DefaultJWT } from "next-auth/jwt";
+import { DefaultSession } from "next-auth";
 
-// Extend the built-in session types
 declare module "next-auth" {
+  /**
+   * Returned by `useSession`, `getSession` and received as a prop on the `SessionProvider` React Context
+   */
   interface Session {
     user: {
+      /** The user's id */
       id: string;
-      firstName: string;
-      lastName: string;
-      company: string;
-      needsDescription?: string | null; // Match optional nature in schema
-      demoBookingTime?: Date | null;
-      demoBookingUri?: string | null;
-    } & DefaultSession["user"]; // Keep the default fields like email, image
+      /** The user's first name */
+      firstName?: string;
+      /** The user's last name */
+      lastName?: string;
+      /** The user's company */
+      company?: string;
+      /** Optional description of user needs */
+      needsDescription?: string;
+      /** When the demo is booked for */
+      demoBookingTime?: Date;
+      /** URI to the demo booking */
+      demoBookingUri?: string;
+    } & DefaultSession["user"];
   }
 
-  // Extend the built-in User type (used in JWT callback `user` parameter)
-  interface User extends DefaultUser {
-    id: string;
+  interface User {
     firstName: string;
     lastName: string;
     company: string;
-    needsDescription?: string | null;
-    demoBookingTime?: Date | null;
-    demoBookingUri?: string | null;
-  }
-}
-
-// Extend the built-in JWT type
-declare module "next-auth/jwt" {
-  interface JWT extends DefaultJWT {
-    id: string;
-    firstName?: string; // Mark as optional as they are added based on dbUser lookup
-    lastName?: string;
-    company?: string;
-    needsDescription?: string | null;
-    demoBookingTime?: string | null; // Stored as ISO string in token
-    demoBookingUri?: string | null;
+    needsDescription?: string;
   }
 } 
