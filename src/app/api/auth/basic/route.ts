@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { PrismaClient } from '@/generated/prisma';
+import { PrismaClient } from '../../../../generated/prisma';
 import bcrypt from 'bcrypt';
 
 // Explicitly set Node.js runtime for this API route
@@ -17,8 +17,8 @@ export async function POST(request: Request) {
     }
     
     // Get database URL and convert if needed
-    let dbUrl = process.env.POSTGRES_PRISMA_URL || 
-              process.env.DATABASE_URL || 
+    let dbUrl = process.env.DATABASE_URL || 
+              process.env.POSTGRES_PRISMA_URL || 
               process.env.POSTGRES_URL;
     
     if (!dbUrl) {
@@ -29,6 +29,8 @@ export async function POST(request: Request) {
     if (dbUrl.startsWith('postgres://')) {
       dbUrl = dbUrl.replace(/^postgres:\/\//, 'postgresql://');
     }
+    
+    console.log(`Basic auth using database URL with protocol: ${dbUrl.split(':')[0]}`);
     
     // Create direct Prisma client
     const prisma = new PrismaClient({

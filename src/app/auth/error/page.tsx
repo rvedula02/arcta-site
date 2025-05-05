@@ -4,7 +4,7 @@ import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useEffect, useState, Suspense } from 'react';
-import ArctaLogo from '@/components/ArctaLogo';
+import ArctaLogo from '../../../components/ArctaLogo';
 
 // Component that uses useSearchParams must be wrapped in Suspense
 function AuthErrorContent() {

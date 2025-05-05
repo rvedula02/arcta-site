@@ -1,16 +1,33 @@
 import { NextResponse } from 'next/server';
-import { PrismaClient } from '@/generated/prisma';  // Use direct prisma client
+import { PrismaClient } from '../../../../generated/prisma';  // Use direct prisma client
 
-// Create a prisma client for this route
-const prisma = new PrismaClient();
+// Get database URL and convert if needed
+let dbUrl = process.env.DATABASE_URL || 
+          process.env.POSTGRES_PRISMA_URL || 
+          process.env.POSTGRES_URL || 
+          '[not set]';
 
-// Test connection using the shared prisma client
+// Convert postgres:// to postgresql:// if needed
+if (dbUrl && dbUrl.startsWith('postgres://')) {
+  dbUrl = dbUrl.replace(/^postgres:\/\//, 'postgresql://');
+}
+
+// Create a prisma client for this route with explicit database URL
+const prisma = new PrismaClient({
+  datasources: {
+    db: {
+      url: dbUrl === '[not set]' ? undefined : dbUrl
+    }
+  }
+});
+
+// Test connection using the prisma client
 export async function GET(): Promise<NextResponse> {
   try {
     // Log the DATABASE_URL (safely masked) for debugging
-    const dbUrl = process.env.DATABASE_URL || '[not set]';
     const maskedUrl = dbUrl.replace(/:([^@]*)@/, ':****@');
     console.log('Database URL:', maskedUrl);
+    console.log('Using protocol:', dbUrl.split(':')[0]);
     
     // Try a simple query using the shared client
     let result;

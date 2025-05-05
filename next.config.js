@@ -17,8 +17,6 @@ const nextConfig = {
   // basePath: '/arcta-site',
   reactStrictMode: true,
   experimental: {
-    // Enable server components
-    serverComponents: true,
     // Reduce potential for route conflicts
     scrollRestoration: true
   }
