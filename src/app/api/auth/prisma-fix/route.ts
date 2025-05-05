@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { PrismaClient } from '@/generated/prisma';
+import { PrismaClient } from '../../../../generated/prisma';
 
 // Explicitly set Node.js runtime for this API route
 export const runtime = 'nodejs';

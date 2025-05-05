@@ -1,8 +1,26 @@
 import { NextResponse } from 'next/server';
-import { prismaNeon as prisma } from '@/lib/prisma-neon';
+import { PrismaClient } from '../../../../generated/prisma';
 
 // Explicitly set Node.js runtime for this API route
 export const runtime = 'nodejs';
+
+// Create a Prisma client with explicit database URL
+let dbUrl = process.env.DATABASE_URL || 
+          process.env.POSTGRES_PRISMA_URL || 
+          process.env.POSTGRES_URL;
+
+// Fix protocol if needed
+if (dbUrl && dbUrl.startsWith('postgres://')) {
+  dbUrl = dbUrl.replace(/^postgres:\/\//, 'postgresql://');
+}
+
+const prisma = new PrismaClient({
+  datasources: {
+    db: {
+      url: dbUrl
+    }
+  }
+});
 
 // Mask sensitive information in database URLs
 function maskUrl(url: string): string {

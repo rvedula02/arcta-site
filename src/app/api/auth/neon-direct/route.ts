@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { testNeonConnection, getNeonUrl } from '@/lib/neon-adapter';
+import { testNeonConnection, getNeonUrl } from '../../../../lib/neon-adapter';
 
 // Mask sensitive information in database URLs
 function maskUrl(url: string): string {
