@@ -1,7 +1,25 @@
 import { NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma'; // Adjust import path if necessary
+import { PrismaClient } from '../../../../generated/prisma';
 import crypto from 'crypto';
 import { parseISO } from 'date-fns';
+
+// Create a Prisma client with explicit database URL
+let dbUrl = process.env.DATABASE_URL || 
+          process.env.POSTGRES_PRISMA_URL || 
+          process.env.POSTGRES_URL;
+
+// Fix protocol if needed
+if (dbUrl && dbUrl.startsWith('postgres://')) {
+  dbUrl = dbUrl.replace(/^postgres:\/\//, 'postgresql://');
+}
+
+const prisma = new PrismaClient({
+  datasources: {
+    db: {
+      url: dbUrl
+    }
+  }
+});
 
 // Ensure you have your Calendly Webhook Signing Key in environment variables
 const CALENDLY_WEBHOOK_SECRET = process.env.CALENDLY_WEBHOOK_SIGNING_KEY;
