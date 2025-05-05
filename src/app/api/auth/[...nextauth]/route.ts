@@ -1,5 +1,7 @@
 // Copied from src/pages/api/auth/[...nextauth].ts and adapted for App Router
-import NextAuth, { NextAuthOptions } from "next-auth";
+import NextAuth, { NextAuthOptions, User, Session } from "next-auth";
+import { AdapterUser } from "next-auth/adapters";
+import { JWT } from "next-auth/jwt";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcrypt";
 import { prisma } from "../../../../lib/prisma"; // Import centralized Prisma client
@@ -12,8 +14,8 @@ export const runtime = 'nodejs';
 const NEXTAUTH_SECRET = process.env.NEXTAUTH_SECRET || "arcta_site_dev_secret_key_change_in_production";
 
 // Ensure NEXTAUTH_URL is available with a fallback
-const NEXTAUTH_URL = process.env.NEXTAUTH_URL || 
-                    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 
+const NEXTAUTH_URL = process.env.NEXTAUTH_URL ||
+                    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` :
                     'http://localhost:3002');
 
 // Helper function to ensure database connection with retries
@@ -181,7 +183,7 @@ const authOptions: NextAuthOptions = {
     }
   },
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user }: { token: JWT; user?: User | AdapterUser }) {
       try {
         // Persist the user id and other fields from the database user record to the token right after sign in
         if (user) {
@@ -220,7 +222,7 @@ const authOptions: NextAuthOptions = {
         return token;
       }
     },
-    async session({ session, token }) {
+    async session({ session, token }: { session: Session; token: JWT }) {
       try {
         if (token && session.user) {
           console.log("Session callback - creating session for token with email:", token.email);
@@ -245,4 +247,4 @@ const authOptions: NextAuthOptions = {
 
 // In the App Router, we export the handlers directly
 const handler = NextAuth(authOptions);
-export { handler as GET, handler as POST }; 
+export { handler as GET, handler as POST };

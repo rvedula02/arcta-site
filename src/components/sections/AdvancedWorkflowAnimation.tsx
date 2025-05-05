@@ -61,12 +61,12 @@ export default function AdvancedWorkflowAnimation() {
       </div>
 
       {/* Fixed timeline header - Adjusted for dark mode */}
-      <div className="sticky top-0 bg-white dark:bg-gray-900 py-6 border-t border-b border-gray-200 dark:border-gray-700 z-10 shadow-sm">
+      <div className="sticky top-0 bg-white dark:bg-transparent py-6 border-t border-b border-gray-200 dark:border-gray-700 z-10 shadow-sm">
         <div className="mx-auto max-w-6xl px-6 lg:px-8">
           {/* Add the header text */}
           <div className="text-center mb-6">
             <h3 className="text-base font-semibold leading-7 text-emerald-600">Streamlined Process</h3>
-            <p className="text-2xl font-bold tracking-tight text-gray-900">
+            <p className="text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-100">
               Our Intelligent Workflow
             </p>
           </div>
