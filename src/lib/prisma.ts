@@ -62,7 +62,7 @@ function getDatabaseUrl() {
   return url;
 }
 
-// Prepare connection options
+// Prepare connection options - SIMPLIFIED FOR PRODUCTION
 function getPrismaClient() {
   // Production environment needs additional configuration
   const isProduction = process.env.NODE_ENV === 'production';
@@ -70,25 +70,18 @@ function getPrismaClient() {
   if (isProduction) {
     logConnectionInfo();
     console.log(`Running in production${isVercel ? ' on Vercel' : ''}`);
+
+    // In production, use the simplest client initialization possible
+    // This avoids issues with Prisma interpreting the DATABASE_URL
+    return new PrismaClient({
+      log: ['error'],
+    });
   }
   
-  // Determine the final database URL to use
-  const databaseUrl = getDatabaseUrl();
-  
-  const prismaOptions: any = {
-    log: isProduction 
-      ? ['error'] 
-      : ['query', 'error', 'warn'],
-    // Use the potentially modified URL with SSL for production
-    datasources: {
-      db: {
-        url: databaseUrl,
-      },
-    },
-  };
-
-  // Create new client with configured options
-  return new PrismaClient(prismaOptions);
+  // In development, use more verbose logging
+  return new PrismaClient({
+    log: ['query', 'error', 'warn'],
+  });
 }
 
 // Prevent multiple instances of Prisma Client in development

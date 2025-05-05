@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '@/lib/prisma';  // Use shared prisma client
 
-// Direct instantiation with detailed error reporting
+// Test connection using the shared prisma client
 export async function GET() {
   try {
     // Log the DATABASE_URL (safely masked) for debugging
@@ -9,32 +9,21 @@ export async function GET() {
     const maskedUrl = dbUrl.replace(/:([^@]*)@/, ':****@');
     console.log('Database URL:', maskedUrl);
     
-    // Create a standalone Prisma client for direct testing
-    const testClient = new PrismaClient({
-      datasources: {
-        db: {
-          url: process.env.DATABASE_URL
-        }
-      },
-      log: ['query', 'info', 'warn', 'error']
-    });
-    
-    // Try a simple query
+    // Try a simple query using the shared client
     let result;
     try {
-      const count = await testClient.user.count();
+      // Use the prisma instance from lib/prisma.ts
+      const count = await prisma.user.count();
       result = { success: true, userCount: count };
     } catch (queryError: any) {
+      console.error('Query error:', queryError);
       result = { 
         success: false,
         error: queryError.message,
         code: queryError.code,
         meta: queryError.meta,
-        clientVersion: queryError.clientVersion
+        clientVersion: queryError?.clientVersion
       };
-    } finally {
-      // Always disconnect
-      await testClient.$disconnect();
     }
     
     // Extra environment info
@@ -43,6 +32,7 @@ export async function GET() {
       VERCEL: process.env.VERCEL,
       VERCEL_URL: process.env.VERCEL_URL,
       VERCEL_ENV: process.env.VERCEL_ENV,
+      NEXTAUTH_URL: process.env.NEXTAUTH_URL,
       DATABASE_URL_PREFIX: dbUrl.split(':')[0]
     };
 
@@ -52,6 +42,7 @@ export async function GET() {
       environment: envInfo
     });
   } catch (error: any) {
+    console.error('Connection test failed:', error);
     return NextResponse.json({
       error: 'Connection test failed',
       message: error.message,
