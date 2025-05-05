@@ -31,6 +31,13 @@ export default function TeamPage() {
       degree: 'MEng in CS',
       image: '/team/arnie.png',
     }
+    {
+      name: 'Emily Gelchie',
+      position: 'Intern',
+      email: 'emg2757@cornell.edu',
+      degree: 'MEng in CS',
+      image: '/team/IMG_2858.JPG',
+    }
   ];
 
   return (
