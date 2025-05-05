@@ -1,7 +1,7 @@
-import Hero from '@/components/sections/Hero';
-import AdvancedWorkflowAnimation from '@/components/sections/AdvancedWorkflowAnimation';
-import VideoDemo from '@/components/sections/VideoDemo';
-import AuthButtons from '@/components/AuthButtons';
+import Hero from '../components/sections/Hero';
+import AdvancedWorkflowAnimation from '../components/sections/AdvancedWorkflowAnimation';
+import VideoDemo from '../components/sections/VideoDemo';
+import AuthButtons from '../components/AuthButtons';
 
 const features = [
   {

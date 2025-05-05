@@ -1,6 +1,23 @@
 import { NextRequest, NextResponse } from 'next/server';
-// Import the shared Prisma client instance
-import prisma from '@/lib/prisma';
+import { PrismaClient } from '../../../../generated/prisma';
+
+// Create a Prisma client with explicit database URL
+let dbUrl = process.env.DATABASE_URL || 
+          process.env.POSTGRES_PRISMA_URL || 
+          process.env.POSTGRES_URL;
+
+// Fix protocol if needed
+if (dbUrl && dbUrl.startsWith('postgres://')) {
+  dbUrl = dbUrl.replace(/^postgres:\/\//, 'postgresql://');
+}
+
+const prisma = new PrismaClient({
+  datasources: {
+    db: {
+      url: dbUrl
+    }
+  }
+});
 
 export async function POST(req: NextRequest) {
   try {

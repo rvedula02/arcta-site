@@ -1234,14 +1234,14 @@ export namespace Prisma {
 
   export type UserCountOutputType = {
     accounts: number
-    sessions: number
     demoRequests: number
+    sessions: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     accounts?: boolean | UserCountOutputTypeCountAccountsArgs
-    sessions?: boolean | UserCountOutputTypeCountSessionsArgs
     demoRequests?: boolean | UserCountOutputTypeCountDemoRequestsArgs
+    sessions?: boolean | UserCountOutputTypeCountSessionsArgs
   }
 
   // Custom InputTypes
@@ -1265,15 +1265,15 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountSessionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: SessionWhereInput
+  export type UserCountOutputTypeCountDemoRequestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DemoRequestWhereInput
   }
 
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountDemoRequestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: DemoRequestWhereInput
+  export type UserCountOutputTypeCountSessionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SessionWhereInput
   }
 
 
@@ -3525,15 +3525,15 @@ export namespace Prisma {
     email: string | null
     emailVerified: Date | null
     password: string | null
-    firstName: string | null
-    lastName: string | null
-    company: string | null
-    needsDescription: string | null
     image: string | null
+    company: string | null
     createdAt: Date | null
-    updatedAt: Date | null
     demoBookingTime: Date | null
     demoBookingUri: string | null
+    firstName: string | null
+    lastName: string | null
+    needsDescription: string | null
+    updatedAt: Date | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -3542,15 +3542,15 @@ export namespace Prisma {
     email: string | null
     emailVerified: Date | null
     password: string | null
-    firstName: string | null
-    lastName: string | null
-    company: string | null
-    needsDescription: string | null
     image: string | null
+    company: string | null
     createdAt: Date | null
-    updatedAt: Date | null
     demoBookingTime: Date | null
     demoBookingUri: string | null
+    firstName: string | null
+    lastName: string | null
+    needsDescription: string | null
+    updatedAt: Date | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -3559,15 +3559,15 @@ export namespace Prisma {
     email: number
     emailVerified: number
     password: number
-    firstName: number
-    lastName: number
-    company: number
-    needsDescription: number
     image: number
+    company: number
     createdAt: number
-    updatedAt: number
     demoBookingTime: number
     demoBookingUri: number
+    firstName: number
+    lastName: number
+    needsDescription: number
+    updatedAt: number
     _all: number
   }
 
@@ -3578,15 +3578,15 @@ export namespace Prisma {
     email?: true
     emailVerified?: true
     password?: true
-    firstName?: true
-    lastName?: true
-    company?: true
-    needsDescription?: true
     image?: true
+    company?: true
     createdAt?: true
-    updatedAt?: true
     demoBookingTime?: true
     demoBookingUri?: true
+    firstName?: true
+    lastName?: true
+    needsDescription?: true
+    updatedAt?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -3595,15 +3595,15 @@ export namespace Prisma {
     email?: true
     emailVerified?: true
     password?: true
-    firstName?: true
-    lastName?: true
-    company?: true
-    needsDescription?: true
     image?: true
+    company?: true
     createdAt?: true
-    updatedAt?: true
     demoBookingTime?: true
     demoBookingUri?: true
+    firstName?: true
+    lastName?: true
+    needsDescription?: true
+    updatedAt?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -3612,15 +3612,15 @@ export namespace Prisma {
     email?: true
     emailVerified?: true
     password?: true
-    firstName?: true
-    lastName?: true
-    company?: true
-    needsDescription?: true
     image?: true
+    company?: true
     createdAt?: true
-    updatedAt?: true
     demoBookingTime?: true
     demoBookingUri?: true
+    firstName?: true
+    lastName?: true
+    needsDescription?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -3702,15 +3702,15 @@ export namespace Prisma {
     email: string
     emailVerified: Date | null
     password: string | null
-    firstName: string
-    lastName: string
-    company: string
-    needsDescription: string | null
     image: string | null
+    company: string
     createdAt: Date
-    updatedAt: Date
     demoBookingTime: Date | null
     demoBookingUri: string | null
+    firstName: string
+    lastName: string
+    needsDescription: string | null
+    updatedAt: Date
     _count: UserCountAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
@@ -3736,18 +3736,18 @@ export namespace Prisma {
     email?: boolean
     emailVerified?: boolean
     password?: boolean
-    firstName?: boolean
-    lastName?: boolean
-    company?: boolean
-    needsDescription?: boolean
     image?: boolean
+    company?: boolean
     createdAt?: boolean
-    updatedAt?: boolean
     demoBookingTime?: boolean
     demoBookingUri?: boolean
+    firstName?: boolean
+    lastName?: boolean
+    needsDescription?: boolean
+    updatedAt?: boolean
     accounts?: boolean | User$accountsArgs<ExtArgs>
-    sessions?: boolean | User$sessionsArgs<ExtArgs>
     demoRequests?: boolean | User$demoRequestsArgs<ExtArgs>
+    sessions?: boolean | User$sessionsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -3757,15 +3757,15 @@ export namespace Prisma {
     email?: boolean
     emailVerified?: boolean
     password?: boolean
-    firstName?: boolean
-    lastName?: boolean
-    company?: boolean
-    needsDescription?: boolean
     image?: boolean
+    company?: boolean
     createdAt?: boolean
-    updatedAt?: boolean
     demoBookingTime?: boolean
     demoBookingUri?: boolean
+    firstName?: boolean
+    lastName?: boolean
+    needsDescription?: boolean
+    updatedAt?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -3774,15 +3774,15 @@ export namespace Prisma {
     email?: boolean
     emailVerified?: boolean
     password?: boolean
-    firstName?: boolean
-    lastName?: boolean
-    company?: boolean
-    needsDescription?: boolean
     image?: boolean
+    company?: boolean
     createdAt?: boolean
-    updatedAt?: boolean
     demoBookingTime?: boolean
     demoBookingUri?: boolean
+    firstName?: boolean
+    lastName?: boolean
+    needsDescription?: boolean
+    updatedAt?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
@@ -3791,22 +3791,22 @@ export namespace Prisma {
     email?: boolean
     emailVerified?: boolean
     password?: boolean
-    firstName?: boolean
-    lastName?: boolean
-    company?: boolean
-    needsDescription?: boolean
     image?: boolean
+    company?: boolean
     createdAt?: boolean
-    updatedAt?: boolean
     demoBookingTime?: boolean
     demoBookingUri?: boolean
+    firstName?: boolean
+    lastName?: boolean
+    needsDescription?: boolean
+    updatedAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "password" | "firstName" | "lastName" | "company" | "needsDescription" | "image" | "createdAt" | "updatedAt" | "demoBookingTime" | "demoBookingUri", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "password" | "image" | "company" | "createdAt" | "demoBookingTime" | "demoBookingUri" | "firstName" | "lastName" | "needsDescription" | "updatedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     accounts?: boolean | User$accountsArgs<ExtArgs>
-    sessions?: boolean | User$sessionsArgs<ExtArgs>
     demoRequests?: boolean | User$demoRequestsArgs<ExtArgs>
+    sessions?: boolean | User$sessionsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -3816,8 +3816,8 @@ export namespace Prisma {
     name: "User"
     objects: {
       accounts: Prisma.$AccountPayload<ExtArgs>[]
-      sessions: Prisma.$SessionPayload<ExtArgs>[]
       demoRequests: Prisma.$DemoRequestPayload<ExtArgs>[]
+      sessions: Prisma.$SessionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3825,15 +3825,15 @@ export namespace Prisma {
       email: string
       emailVerified: Date | null
       password: string | null
-      firstName: string
-      lastName: string
-      company: string
-      needsDescription: string | null
       image: string | null
+      company: string
       createdAt: Date
-      updatedAt: Date
       demoBookingTime: Date | null
       demoBookingUri: string | null
+      firstName: string
+      lastName: string
+      needsDescription: string | null
+      updatedAt: Date
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -4229,8 +4229,8 @@ export namespace Prisma {
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     accounts<T extends User$accountsArgs<ExtArgs> = {}>(args?: Subset<T, User$accountsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    sessions<T extends User$sessionsArgs<ExtArgs> = {}>(args?: Subset<T, User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     demoRequests<T extends User$demoRequestsArgs<ExtArgs> = {}>(args?: Subset<T, User$demoRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DemoRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    sessions<T extends User$sessionsArgs<ExtArgs> = {}>(args?: Subset<T, User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4265,15 +4265,15 @@ export namespace Prisma {
     readonly email: FieldRef<"User", 'String'>
     readonly emailVerified: FieldRef<"User", 'DateTime'>
     readonly password: FieldRef<"User", 'String'>
-    readonly firstName: FieldRef<"User", 'String'>
-    readonly lastName: FieldRef<"User", 'String'>
-    readonly company: FieldRef<"User", 'String'>
-    readonly needsDescription: FieldRef<"User", 'String'>
     readonly image: FieldRef<"User", 'String'>
+    readonly company: FieldRef<"User", 'String'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
-    readonly updatedAt: FieldRef<"User", 'DateTime'>
     readonly demoBookingTime: FieldRef<"User", 'DateTime'>
     readonly demoBookingUri: FieldRef<"User", 'String'>
+    readonly firstName: FieldRef<"User", 'String'>
+    readonly lastName: FieldRef<"User", 'String'>
+    readonly needsDescription: FieldRef<"User", 'String'>
+    readonly updatedAt: FieldRef<"User", 'DateTime'>
   }
     
 
@@ -4686,30 +4686,6 @@ export namespace Prisma {
   }
 
   /**
-   * User.sessions
-   */
-  export type User$sessionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Session
-     */
-    select?: SessionSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Session
-     */
-    omit?: SessionOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SessionInclude<ExtArgs> | null
-    where?: SessionWhereInput
-    orderBy?: SessionOrderByWithRelationInput | SessionOrderByWithRelationInput[]
-    cursor?: SessionWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: SessionScalarFieldEnum | SessionScalarFieldEnum[]
-  }
-
-  /**
    * User.demoRequests
    */
   export type User$demoRequestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4731,6 +4707,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: DemoRequestScalarFieldEnum | DemoRequestScalarFieldEnum[]
+  }
+
+  /**
+   * User.sessions
+   */
+  export type User$sessionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Session
+     */
+    select?: SessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Session
+     */
+    omit?: SessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SessionInclude<ExtArgs> | null
+    where?: SessionWhereInput
+    orderBy?: SessionOrderByWithRelationInput | SessionOrderByWithRelationInput[]
+    cursor?: SessionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SessionScalarFieldEnum | SessionScalarFieldEnum[]
   }
 
   /**
@@ -6924,15 +6924,15 @@ export namespace Prisma {
     email: 'email',
     emailVerified: 'emailVerified',
     password: 'password',
+    image: 'image',
+    company: 'company',
+    createdAt: 'createdAt',
+    demoBookingTime: 'demoBookingTime',
+    demoBookingUri: 'demoBookingUri',
     firstName: 'firstName',
     lastName: 'lastName',
-    company: 'company',
     needsDescription: 'needsDescription',
-    image: 'image',
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt',
-    demoBookingTime: 'demoBookingTime',
-    demoBookingUri: 'demoBookingUri'
+    updatedAt: 'updatedAt'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -7204,18 +7204,18 @@ export namespace Prisma {
     email?: StringFilter<"User"> | string
     emailVerified?: DateTimeNullableFilter<"User"> | Date | string | null
     password?: StringNullableFilter<"User"> | string | null
-    firstName?: StringFilter<"User"> | string
-    lastName?: StringFilter<"User"> | string
-    company?: StringFilter<"User"> | string
-    needsDescription?: StringNullableFilter<"User"> | string | null
     image?: StringNullableFilter<"User"> | string | null
+    company?: StringFilter<"User"> | string
     createdAt?: DateTimeFilter<"User"> | Date | string
-    updatedAt?: DateTimeFilter<"User"> | Date | string
     demoBookingTime?: DateTimeNullableFilter<"User"> | Date | string | null
     demoBookingUri?: StringNullableFilter<"User"> | string | null
+    firstName?: StringFilter<"User"> | string
+    lastName?: StringFilter<"User"> | string
+    needsDescription?: StringNullableFilter<"User"> | string | null
+    updatedAt?: DateTimeFilter<"User"> | Date | string
     accounts?: AccountListRelationFilter
-    sessions?: SessionListRelationFilter
     demoRequests?: DemoRequestListRelationFilter
+    sessions?: SessionListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -7224,18 +7224,18 @@ export namespace Prisma {
     email?: SortOrder
     emailVerified?: SortOrderInput | SortOrder
     password?: SortOrderInput | SortOrder
-    firstName?: SortOrder
-    lastName?: SortOrder
-    company?: SortOrder
-    needsDescription?: SortOrderInput | SortOrder
     image?: SortOrderInput | SortOrder
+    company?: SortOrder
     createdAt?: SortOrder
-    updatedAt?: SortOrder
     demoBookingTime?: SortOrderInput | SortOrder
     demoBookingUri?: SortOrderInput | SortOrder
+    firstName?: SortOrder
+    lastName?: SortOrder
+    needsDescription?: SortOrderInput | SortOrder
+    updatedAt?: SortOrder
     accounts?: AccountOrderByRelationAggregateInput
-    sessions?: SessionOrderByRelationAggregateInput
     demoRequests?: DemoRequestOrderByRelationAggregateInput
+    sessions?: SessionOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -7247,18 +7247,18 @@ export namespace Prisma {
     name?: StringNullableFilter<"User"> | string | null
     emailVerified?: DateTimeNullableFilter<"User"> | Date | string | null
     password?: StringNullableFilter<"User"> | string | null
-    firstName?: StringFilter<"User"> | string
-    lastName?: StringFilter<"User"> | string
-    company?: StringFilter<"User"> | string
-    needsDescription?: StringNullableFilter<"User"> | string | null
     image?: StringNullableFilter<"User"> | string | null
+    company?: StringFilter<"User"> | string
     createdAt?: DateTimeFilter<"User"> | Date | string
-    updatedAt?: DateTimeFilter<"User"> | Date | string
     demoBookingTime?: DateTimeNullableFilter<"User"> | Date | string | null
     demoBookingUri?: StringNullableFilter<"User"> | string | null
+    firstName?: StringFilter<"User"> | string
+    lastName?: StringFilter<"User"> | string
+    needsDescription?: StringNullableFilter<"User"> | string | null
+    updatedAt?: DateTimeFilter<"User"> | Date | string
     accounts?: AccountListRelationFilter
-    sessions?: SessionListRelationFilter
     demoRequests?: DemoRequestListRelationFilter
+    sessions?: SessionListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -7267,15 +7267,15 @@ export namespace Prisma {
     email?: SortOrder
     emailVerified?: SortOrderInput | SortOrder
     password?: SortOrderInput | SortOrder
-    firstName?: SortOrder
-    lastName?: SortOrder
-    company?: SortOrder
-    needsDescription?: SortOrderInput | SortOrder
     image?: SortOrderInput | SortOrder
+    company?: SortOrder
     createdAt?: SortOrder
-    updatedAt?: SortOrder
     demoBookingTime?: SortOrderInput | SortOrder
     demoBookingUri?: SortOrderInput | SortOrder
+    firstName?: SortOrder
+    lastName?: SortOrder
+    needsDescription?: SortOrderInput | SortOrder
+    updatedAt?: SortOrder
     _count?: UserCountOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
     _min?: UserMinOrderByAggregateInput
@@ -7290,15 +7290,15 @@ export namespace Prisma {
     email?: StringWithAggregatesFilter<"User"> | string
     emailVerified?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     password?: StringNullableWithAggregatesFilter<"User"> | string | null
-    firstName?: StringWithAggregatesFilter<"User"> | string
-    lastName?: StringWithAggregatesFilter<"User"> | string
-    company?: StringWithAggregatesFilter<"User"> | string
-    needsDescription?: StringNullableWithAggregatesFilter<"User"> | string | null
     image?: StringNullableWithAggregatesFilter<"User"> | string | null
+    company?: StringWithAggregatesFilter<"User"> | string
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     demoBookingTime?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     demoBookingUri?: StringNullableWithAggregatesFilter<"User"> | string | null
+    firstName?: StringWithAggregatesFilter<"User"> | string
+    lastName?: StringWithAggregatesFilter<"User"> | string
+    needsDescription?: StringNullableWithAggregatesFilter<"User"> | string | null
+    updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
   }
 
   export type VerificationTokenWhereInput = {
@@ -7587,18 +7587,18 @@ export namespace Prisma {
     email: string
     emailVerified?: Date | string | null
     password?: string | null
-    firstName: string
-    lastName: string
-    company: string
-    needsDescription?: string | null
     image?: string | null
+    company: string
     createdAt?: Date | string
-    updatedAt?: Date | string
     demoBookingTime?: Date | string | null
     demoBookingUri?: string | null
+    firstName: string
+    lastName: string
+    needsDescription?: string | null
+    updatedAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
-    sessions?: SessionCreateNestedManyWithoutUserInput
     demoRequests?: DemoRequestCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -7607,18 +7607,18 @@ export namespace Prisma {
     email: string
     emailVerified?: Date | string | null
     password?: string | null
-    firstName: string
-    lastName: string
-    company: string
-    needsDescription?: string | null
     image?: string | null
+    company: string
     createdAt?: Date | string
-    updatedAt?: Date | string
     demoBookingTime?: Date | string | null
     demoBookingUri?: string | null
+    firstName: string
+    lastName: string
+    needsDescription?: string | null
+    updatedAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     demoRequests?: DemoRequestUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -7627,18 +7627,18 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
-    firstName?: StringFieldUpdateOperationsInput | string
-    lastName?: StringFieldUpdateOperationsInput | string
-    company?: StringFieldUpdateOperationsInput | string
-    needsDescription?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    company?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     demoBookingTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     demoBookingUri?: NullableStringFieldUpdateOperationsInput | string | null
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    needsDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
-    sessions?: SessionUpdateManyWithoutUserNestedInput
     demoRequests?: DemoRequestUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -7647,18 +7647,18 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
-    firstName?: StringFieldUpdateOperationsInput | string
-    lastName?: StringFieldUpdateOperationsInput | string
-    company?: StringFieldUpdateOperationsInput | string
-    needsDescription?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    company?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     demoBookingTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     demoBookingUri?: NullableStringFieldUpdateOperationsInput | string | null
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    needsDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     demoRequests?: DemoRequestUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -7667,15 +7667,15 @@ export namespace Prisma {
     email: string
     emailVerified?: Date | string | null
     password?: string | null
-    firstName: string
-    lastName: string
-    company: string
-    needsDescription?: string | null
     image?: string | null
+    company: string
     createdAt?: Date | string
-    updatedAt?: Date | string
     demoBookingTime?: Date | string | null
     demoBookingUri?: string | null
+    firstName: string
+    lastName: string
+    needsDescription?: string | null
+    updatedAt?: Date | string
   }
 
   export type UserUpdateManyMutationInput = {
@@ -7684,15 +7684,15 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
-    firstName?: StringFieldUpdateOperationsInput | string
-    lastName?: StringFieldUpdateOperationsInput | string
-    company?: StringFieldUpdateOperationsInput | string
-    needsDescription?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    company?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     demoBookingTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     demoBookingUri?: NullableStringFieldUpdateOperationsInput | string | null
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    needsDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -7701,15 +7701,15 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
-    firstName?: StringFieldUpdateOperationsInput | string
-    lastName?: StringFieldUpdateOperationsInput | string
-    company?: StringFieldUpdateOperationsInput | string
-    needsDescription?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    company?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     demoBookingTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     demoBookingUri?: NullableStringFieldUpdateOperationsInput | string | null
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    needsDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type VerificationTokenCreateInput = {
@@ -8075,27 +8075,27 @@ export namespace Prisma {
     none?: AccountWhereInput
   }
 
-  export type SessionListRelationFilter = {
-    every?: SessionWhereInput
-    some?: SessionWhereInput
-    none?: SessionWhereInput
-  }
-
   export type DemoRequestListRelationFilter = {
     every?: DemoRequestWhereInput
     some?: DemoRequestWhereInput
     none?: DemoRequestWhereInput
   }
 
+  export type SessionListRelationFilter = {
+    every?: SessionWhereInput
+    some?: SessionWhereInput
+    none?: SessionWhereInput
+  }
+
   export type AccountOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
-  export type SessionOrderByRelationAggregateInput = {
+  export type DemoRequestOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
-  export type DemoRequestOrderByRelationAggregateInput = {
+  export type SessionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -8105,15 +8105,15 @@ export namespace Prisma {
     email?: SortOrder
     emailVerified?: SortOrder
     password?: SortOrder
-    firstName?: SortOrder
-    lastName?: SortOrder
-    company?: SortOrder
-    needsDescription?: SortOrder
     image?: SortOrder
+    company?: SortOrder
     createdAt?: SortOrder
-    updatedAt?: SortOrder
     demoBookingTime?: SortOrder
     demoBookingUri?: SortOrder
+    firstName?: SortOrder
+    lastName?: SortOrder
+    needsDescription?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
@@ -8122,15 +8122,15 @@ export namespace Prisma {
     email?: SortOrder
     emailVerified?: SortOrder
     password?: SortOrder
-    firstName?: SortOrder
-    lastName?: SortOrder
-    company?: SortOrder
-    needsDescription?: SortOrder
     image?: SortOrder
+    company?: SortOrder
     createdAt?: SortOrder
-    updatedAt?: SortOrder
     demoBookingTime?: SortOrder
     demoBookingUri?: SortOrder
+    firstName?: SortOrder
+    lastName?: SortOrder
+    needsDescription?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -8139,15 +8139,15 @@ export namespace Prisma {
     email?: SortOrder
     emailVerified?: SortOrder
     password?: SortOrder
-    firstName?: SortOrder
-    lastName?: SortOrder
-    company?: SortOrder
-    needsDescription?: SortOrder
     image?: SortOrder
+    company?: SortOrder
     createdAt?: SortOrder
-    updatedAt?: SortOrder
     demoBookingTime?: SortOrder
     demoBookingUri?: SortOrder
+    firstName?: SortOrder
+    lastName?: SortOrder
+    needsDescription?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -8289,18 +8289,18 @@ export namespace Prisma {
     connect?: AccountWhereUniqueInput | AccountWhereUniqueInput[]
   }
 
-  export type SessionCreateNestedManyWithoutUserInput = {
-    create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
-    createMany?: SessionCreateManyUserInputEnvelope
-    connect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
-  }
-
   export type DemoRequestCreateNestedManyWithoutUserInput = {
     create?: XOR<DemoRequestCreateWithoutUserInput, DemoRequestUncheckedCreateWithoutUserInput> | DemoRequestCreateWithoutUserInput[] | DemoRequestUncheckedCreateWithoutUserInput[]
     connectOrCreate?: DemoRequestCreateOrConnectWithoutUserInput | DemoRequestCreateOrConnectWithoutUserInput[]
     createMany?: DemoRequestCreateManyUserInputEnvelope
     connect?: DemoRequestWhereUniqueInput | DemoRequestWhereUniqueInput[]
+  }
+
+  export type SessionCreateNestedManyWithoutUserInput = {
+    create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
+    createMany?: SessionCreateManyUserInputEnvelope
+    connect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
   }
 
   export type AccountUncheckedCreateNestedManyWithoutUserInput = {
@@ -8310,18 +8310,18 @@ export namespace Prisma {
     connect?: AccountWhereUniqueInput | AccountWhereUniqueInput[]
   }
 
-  export type SessionUncheckedCreateNestedManyWithoutUserInput = {
-    create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
-    createMany?: SessionCreateManyUserInputEnvelope
-    connect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
-  }
-
   export type DemoRequestUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<DemoRequestCreateWithoutUserInput, DemoRequestUncheckedCreateWithoutUserInput> | DemoRequestCreateWithoutUserInput[] | DemoRequestUncheckedCreateWithoutUserInput[]
     connectOrCreate?: DemoRequestCreateOrConnectWithoutUserInput | DemoRequestCreateOrConnectWithoutUserInput[]
     createMany?: DemoRequestCreateManyUserInputEnvelope
     connect?: DemoRequestWhereUniqueInput | DemoRequestWhereUniqueInput[]
+  }
+
+  export type SessionUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
+    createMany?: SessionCreateManyUserInputEnvelope
+    connect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
   }
 
   export type NullableDateTimeFieldUpdateOperationsInput = {
@@ -8342,20 +8342,6 @@ export namespace Prisma {
     deleteMany?: AccountScalarWhereInput | AccountScalarWhereInput[]
   }
 
-  export type SessionUpdateManyWithoutUserNestedInput = {
-    create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
-    upsert?: SessionUpsertWithWhereUniqueWithoutUserInput | SessionUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: SessionCreateManyUserInputEnvelope
-    set?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
-    disconnect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
-    delete?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
-    connect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
-    update?: SessionUpdateWithWhereUniqueWithoutUserInput | SessionUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: SessionUpdateManyWithWhereWithoutUserInput | SessionUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: SessionScalarWhereInput | SessionScalarWhereInput[]
-  }
-
   export type DemoRequestUpdateManyWithoutUserNestedInput = {
     create?: XOR<DemoRequestCreateWithoutUserInput, DemoRequestUncheckedCreateWithoutUserInput> | DemoRequestCreateWithoutUserInput[] | DemoRequestUncheckedCreateWithoutUserInput[]
     connectOrCreate?: DemoRequestCreateOrConnectWithoutUserInput | DemoRequestCreateOrConnectWithoutUserInput[]
@@ -8368,6 +8354,20 @@ export namespace Prisma {
     update?: DemoRequestUpdateWithWhereUniqueWithoutUserInput | DemoRequestUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: DemoRequestUpdateManyWithWhereWithoutUserInput | DemoRequestUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: DemoRequestScalarWhereInput | DemoRequestScalarWhereInput[]
+  }
+
+  export type SessionUpdateManyWithoutUserNestedInput = {
+    create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
+    upsert?: SessionUpsertWithWhereUniqueWithoutUserInput | SessionUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: SessionCreateManyUserInputEnvelope
+    set?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
+    disconnect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
+    delete?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
+    connect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
+    update?: SessionUpdateWithWhereUniqueWithoutUserInput | SessionUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: SessionUpdateManyWithWhereWithoutUserInput | SessionUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: SessionScalarWhereInput | SessionScalarWhereInput[]
   }
 
   export type AccountUncheckedUpdateManyWithoutUserNestedInput = {
@@ -8384,20 +8384,6 @@ export namespace Prisma {
     deleteMany?: AccountScalarWhereInput | AccountScalarWhereInput[]
   }
 
-  export type SessionUncheckedUpdateManyWithoutUserNestedInput = {
-    create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
-    upsert?: SessionUpsertWithWhereUniqueWithoutUserInput | SessionUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: SessionCreateManyUserInputEnvelope
-    set?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
-    disconnect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
-    delete?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
-    connect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
-    update?: SessionUpdateWithWhereUniqueWithoutUserInput | SessionUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: SessionUpdateManyWithWhereWithoutUserInput | SessionUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: SessionScalarWhereInput | SessionScalarWhereInput[]
-  }
-
   export type DemoRequestUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<DemoRequestCreateWithoutUserInput, DemoRequestUncheckedCreateWithoutUserInput> | DemoRequestCreateWithoutUserInput[] | DemoRequestUncheckedCreateWithoutUserInput[]
     connectOrCreate?: DemoRequestCreateOrConnectWithoutUserInput | DemoRequestCreateOrConnectWithoutUserInput[]
@@ -8410,6 +8396,20 @@ export namespace Prisma {
     update?: DemoRequestUpdateWithWhereUniqueWithoutUserInput | DemoRequestUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: DemoRequestUpdateManyWithWhereWithoutUserInput | DemoRequestUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: DemoRequestScalarWhereInput | DemoRequestScalarWhereInput[]
+  }
+
+  export type SessionUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
+    upsert?: SessionUpsertWithWhereUniqueWithoutUserInput | SessionUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: SessionCreateManyUserInputEnvelope
+    set?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
+    disconnect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
+    delete?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
+    connect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
+    update?: SessionUpdateWithWhereUniqueWithoutUserInput | SessionUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: SessionUpdateManyWithWhereWithoutUserInput | SessionUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: SessionScalarWhereInput | SessionScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutDemoRequestsInput = {
@@ -8595,17 +8595,17 @@ export namespace Prisma {
     email: string
     emailVerified?: Date | string | null
     password?: string | null
-    firstName: string
-    lastName: string
-    company: string
-    needsDescription?: string | null
     image?: string | null
+    company: string
     createdAt?: Date | string
-    updatedAt?: Date | string
     demoBookingTime?: Date | string | null
     demoBookingUri?: string | null
-    sessions?: SessionCreateNestedManyWithoutUserInput
+    firstName: string
+    lastName: string
+    needsDescription?: string | null
+    updatedAt?: Date | string
     demoRequests?: DemoRequestCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
@@ -8614,17 +8614,17 @@ export namespace Prisma {
     email: string
     emailVerified?: Date | string | null
     password?: string | null
-    firstName: string
-    lastName: string
-    company: string
-    needsDescription?: string | null
     image?: string | null
+    company: string
     createdAt?: Date | string
-    updatedAt?: Date | string
     demoBookingTime?: Date | string | null
     demoBookingUri?: string | null
-    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    firstName: string
+    lastName: string
+    needsDescription?: string | null
+    updatedAt?: Date | string
     demoRequests?: DemoRequestUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAccountsInput = {
@@ -8649,17 +8649,17 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
-    firstName?: StringFieldUpdateOperationsInput | string
-    lastName?: StringFieldUpdateOperationsInput | string
-    company?: StringFieldUpdateOperationsInput | string
-    needsDescription?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    company?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     demoBookingTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     demoBookingUri?: NullableStringFieldUpdateOperationsInput | string | null
-    sessions?: SessionUpdateManyWithoutUserNestedInput
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    needsDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     demoRequests?: DemoRequestUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -8668,17 +8668,17 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
-    firstName?: StringFieldUpdateOperationsInput | string
-    lastName?: StringFieldUpdateOperationsInput | string
-    company?: StringFieldUpdateOperationsInput | string
-    needsDescription?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    company?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     demoBookingTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     demoBookingUri?: NullableStringFieldUpdateOperationsInput | string | null
-    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    needsDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     demoRequests?: DemoRequestUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutSessionsInput = {
@@ -8687,15 +8687,15 @@ export namespace Prisma {
     email: string
     emailVerified?: Date | string | null
     password?: string | null
-    firstName: string
-    lastName: string
-    company: string
-    needsDescription?: string | null
     image?: string | null
+    company: string
     createdAt?: Date | string
-    updatedAt?: Date | string
     demoBookingTime?: Date | string | null
     demoBookingUri?: string | null
+    firstName: string
+    lastName: string
+    needsDescription?: string | null
+    updatedAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
     demoRequests?: DemoRequestCreateNestedManyWithoutUserInput
   }
@@ -8706,15 +8706,15 @@ export namespace Prisma {
     email: string
     emailVerified?: Date | string | null
     password?: string | null
-    firstName: string
-    lastName: string
-    company: string
-    needsDescription?: string | null
     image?: string | null
+    company: string
     createdAt?: Date | string
-    updatedAt?: Date | string
     demoBookingTime?: Date | string | null
     demoBookingUri?: string | null
+    firstName: string
+    lastName: string
+    needsDescription?: string | null
+    updatedAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     demoRequests?: DemoRequestUncheckedCreateNestedManyWithoutUserInput
   }
@@ -8741,15 +8741,15 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
-    firstName?: StringFieldUpdateOperationsInput | string
-    lastName?: StringFieldUpdateOperationsInput | string
-    company?: StringFieldUpdateOperationsInput | string
-    needsDescription?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    company?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     demoBookingTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     demoBookingUri?: NullableStringFieldUpdateOperationsInput | string | null
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    needsDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
     demoRequests?: DemoRequestUpdateManyWithoutUserNestedInput
   }
@@ -8760,15 +8760,15 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
-    firstName?: StringFieldUpdateOperationsInput | string
-    lastName?: StringFieldUpdateOperationsInput | string
-    company?: StringFieldUpdateOperationsInput | string
-    needsDescription?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    company?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     demoBookingTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     demoBookingUri?: NullableStringFieldUpdateOperationsInput | string | null
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    needsDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     demoRequests?: DemoRequestUncheckedUpdateManyWithoutUserNestedInput
   }
@@ -8811,28 +8811,6 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type SessionCreateWithoutUserInput = {
-    id?: string
-    sessionToken: string
-    expires: Date | string
-  }
-
-  export type SessionUncheckedCreateWithoutUserInput = {
-    id?: string
-    sessionToken: string
-    expires: Date | string
-  }
-
-  export type SessionCreateOrConnectWithoutUserInput = {
-    where: SessionWhereUniqueInput
-    create: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput>
-  }
-
-  export type SessionCreateManyUserInputEnvelope = {
-    data: SessionCreateManyUserInput | SessionCreateManyUserInput[]
-    skipDuplicates?: boolean
-  }
-
   export type DemoRequestCreateWithoutUserInput = {
     id?: string
     createdAt?: Date | string
@@ -8866,6 +8844,28 @@ export namespace Prisma {
 
   export type DemoRequestCreateManyUserInputEnvelope = {
     data: DemoRequestCreateManyUserInput | DemoRequestCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type SessionCreateWithoutUserInput = {
+    id?: string
+    sessionToken: string
+    expires: Date | string
+  }
+
+  export type SessionUncheckedCreateWithoutUserInput = {
+    id?: string
+    sessionToken: string
+    expires: Date | string
+  }
+
+  export type SessionCreateOrConnectWithoutUserInput = {
+    where: SessionWhereUniqueInput
+    create: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput>
+  }
+
+  export type SessionCreateManyUserInputEnvelope = {
+    data: SessionCreateManyUserInput | SessionCreateManyUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -8903,32 +8903,6 @@ export namespace Prisma {
     session_state?: StringNullableFilter<"Account"> | string | null
   }
 
-  export type SessionUpsertWithWhereUniqueWithoutUserInput = {
-    where: SessionWhereUniqueInput
-    update: XOR<SessionUpdateWithoutUserInput, SessionUncheckedUpdateWithoutUserInput>
-    create: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput>
-  }
-
-  export type SessionUpdateWithWhereUniqueWithoutUserInput = {
-    where: SessionWhereUniqueInput
-    data: XOR<SessionUpdateWithoutUserInput, SessionUncheckedUpdateWithoutUserInput>
-  }
-
-  export type SessionUpdateManyWithWhereWithoutUserInput = {
-    where: SessionScalarWhereInput
-    data: XOR<SessionUpdateManyMutationInput, SessionUncheckedUpdateManyWithoutUserInput>
-  }
-
-  export type SessionScalarWhereInput = {
-    AND?: SessionScalarWhereInput | SessionScalarWhereInput[]
-    OR?: SessionScalarWhereInput[]
-    NOT?: SessionScalarWhereInput | SessionScalarWhereInput[]
-    id?: StringFilter<"Session"> | string
-    sessionToken?: StringFilter<"Session"> | string
-    userId?: StringFilter<"Session"> | string
-    expires?: DateTimeFilter<"Session"> | Date | string
-  }
-
   export type DemoRequestUpsertWithWhereUniqueWithoutUserInput = {
     where: DemoRequestWhereUniqueInput
     update: XOR<DemoRequestUpdateWithoutUserInput, DemoRequestUncheckedUpdateWithoutUserInput>
@@ -8962,21 +8936,47 @@ export namespace Prisma {
     userId?: StringNullableFilter<"DemoRequest"> | string | null
   }
 
+  export type SessionUpsertWithWhereUniqueWithoutUserInput = {
+    where: SessionWhereUniqueInput
+    update: XOR<SessionUpdateWithoutUserInput, SessionUncheckedUpdateWithoutUserInput>
+    create: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput>
+  }
+
+  export type SessionUpdateWithWhereUniqueWithoutUserInput = {
+    where: SessionWhereUniqueInput
+    data: XOR<SessionUpdateWithoutUserInput, SessionUncheckedUpdateWithoutUserInput>
+  }
+
+  export type SessionUpdateManyWithWhereWithoutUserInput = {
+    where: SessionScalarWhereInput
+    data: XOR<SessionUpdateManyMutationInput, SessionUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type SessionScalarWhereInput = {
+    AND?: SessionScalarWhereInput | SessionScalarWhereInput[]
+    OR?: SessionScalarWhereInput[]
+    NOT?: SessionScalarWhereInput | SessionScalarWhereInput[]
+    id?: StringFilter<"Session"> | string
+    sessionToken?: StringFilter<"Session"> | string
+    userId?: StringFilter<"Session"> | string
+    expires?: DateTimeFilter<"Session"> | Date | string
+  }
+
   export type UserCreateWithoutDemoRequestsInput = {
     id?: string
     name?: string | null
     email: string
     emailVerified?: Date | string | null
     password?: string | null
-    firstName: string
-    lastName: string
-    company: string
-    needsDescription?: string | null
     image?: string | null
+    company: string
     createdAt?: Date | string
-    updatedAt?: Date | string
     demoBookingTime?: Date | string | null
     demoBookingUri?: string | null
+    firstName: string
+    lastName: string
+    needsDescription?: string | null
+    updatedAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
   }
@@ -8987,15 +8987,15 @@ export namespace Prisma {
     email: string
     emailVerified?: Date | string | null
     password?: string | null
-    firstName: string
-    lastName: string
-    company: string
-    needsDescription?: string | null
     image?: string | null
+    company: string
     createdAt?: Date | string
-    updatedAt?: Date | string
     demoBookingTime?: Date | string | null
     demoBookingUri?: string | null
+    firstName: string
+    lastName: string
+    needsDescription?: string | null
+    updatedAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
   }
@@ -9022,15 +9022,15 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
-    firstName?: StringFieldUpdateOperationsInput | string
-    lastName?: StringFieldUpdateOperationsInput | string
-    company?: StringFieldUpdateOperationsInput | string
-    needsDescription?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    company?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     demoBookingTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     demoBookingUri?: NullableStringFieldUpdateOperationsInput | string | null
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    needsDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
   }
@@ -9041,15 +9041,15 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
-    firstName?: StringFieldUpdateOperationsInput | string
-    lastName?: StringFieldUpdateOperationsInput | string
-    company?: StringFieldUpdateOperationsInput | string
-    needsDescription?: NullableStringFieldUpdateOperationsInput | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    company?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     demoBookingTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     demoBookingUri?: NullableStringFieldUpdateOperationsInput | string | null
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    needsDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
   }
@@ -9068,12 +9068,6 @@ export namespace Prisma {
     session_state?: string | null
   }
 
-  export type SessionCreateManyUserInput = {
-    id?: string
-    sessionToken: string
-    expires: Date | string
-  }
-
   export type DemoRequestCreateManyUserInput = {
     id?: string
     createdAt?: Date | string
@@ -9085,6 +9079,12 @@ export namespace Prisma {
     message: string
     bookedTime?: Date | string | null
     meetingLink?: string | null
+  }
+
+  export type SessionCreateManyUserInput = {
+    id?: string
+    sessionToken: string
+    expires: Date | string
   }
 
   export type AccountUpdateWithoutUserInput = {
@@ -9129,24 +9129,6 @@ export namespace Prisma {
     session_state?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
-  export type SessionUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    sessionToken?: StringFieldUpdateOperationsInput | string
-    expires?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type SessionUncheckedUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    sessionToken?: StringFieldUpdateOperationsInput | string
-    expires?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type SessionUncheckedUpdateManyWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    sessionToken?: StringFieldUpdateOperationsInput | string
-    expires?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
   export type DemoRequestUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -9184,6 +9166,24 @@ export namespace Prisma {
     message?: StringFieldUpdateOperationsInput | string
     bookedTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     meetingLink?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type SessionUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sessionToken?: StringFieldUpdateOperationsInput | string
+    expires?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SessionUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sessionToken?: StringFieldUpdateOperationsInput | string
+    expires?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SessionUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sessionToken?: StringFieldUpdateOperationsInput | string
+    expires?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 

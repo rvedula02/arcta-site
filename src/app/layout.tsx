@@ -1,11 +1,16 @@
 import type { Metadata } from "next";
 import { Inter } from 'next/font/google';
 import "./globals.css";
-import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
+import Navbar from "../components/layout/Navbar";
+import Footer from "../components/layout/Footer";
 import AuthProvider from "./providers";
 
-const font = Inter({ subsets: ['latin'] });
+// Configure Inter font with better fallback
+const font = Inter({ 
+  subsets: ['latin'],
+  display: 'swap',
+  fallback: ['system-ui', 'arial', 'sans-serif']
+});
 
 export const metadata: Metadata = {
   title: "Arcta - Transforming Investment Office Intelligence",

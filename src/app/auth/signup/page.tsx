@@ -1,211 +1,240 @@
 'use client'; // Sign up page needs client-side interactivity
 
-import { useState, FormEvent } from 'react';
+import { useState, Suspense } from 'react';
 import { useRouter } from 'next/navigation'; // Use navigation hooks for App Router
 import Link from 'next/link';
+import Image from 'next/image';
 
-export default function SignUpPage() {
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [company, setCompany] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [needsDescription, setNeedsDescription] = useState('');
+// Inner component with the form
+function SignUpForm() {
+  const router = useRouter();
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    company: '',
+    email: '',
+    password: '',
+    needsDescription: '',
+  });
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
 
-  const handleSubmit = async (e: FormEvent) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     setError(null);
-
-    if (!firstName || !lastName || !company || !email || !password) {
-      setError('Please fill in all required fields.');
-      setIsLoading(false);
-      return;
-    }
 
     try {
       const response = await fetch('/api/auth/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          firstName,
-          lastName,
-          company,
-          email,
-          password,
-          needsDescription, // Include optional field
-        }),
+        body: JSON.stringify(formData),
       });
 
       if (response.ok) {
-        // Redirect to sign-in page upon successful signup
-        router.push('/auth/signin?message=Signup successful! Please sign in.');
+        router.push('/auth/signin?message=Account created successfully! Please sign in.');
       } else {
         const data = await response.json();
-        setError(data.message || 'Sign up failed. Please try again.');
+        setError(data.message || 'Failed to create account. Please try again.');
       }
     } catch (err) {
-      console.error(err);
-      setError('An unexpected error occurred.');
+      setError('An error occurred. Please try again later.');
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-        {/* Logo or Header */}
-        <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
+    <div className="bg-gradient-to-b from-gray-950 via-dark-green to-gray-950 min-h-screen flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8">
+      <div className="sm:mx-auto sm:w-full sm:max-w-md">
+        <Link href="/" className="flex justify-center">
+          <Image 
+            src="/arcta-logo.png" 
+            alt="Arcta Logo" 
+            width={70} 
+            height={70}
+            className="mb-6"
+          />
+        </Link>
+        <h2 className="text-center text-3xl font-extrabold text-white">
           Create your account
         </h2>
-      </div>
-
-      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form className="space-y-6" onSubmit={handleSubmit} method="POST">
-          {/* First Name Input */}
-          <div>
-            <label htmlFor="firstName" className="block text-sm font-medium leading-6 text-gray-900">
-              First Name <span className="text-red-600">*</span>
-            </label>
-            <div className="mt-2">
-              <input
-                id="firstName"
-                name="firstName"
-                type="text"
-                autoComplete="given-name"
-                required
-                value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              />
-            </div>
-          </div>
-
-          {/* Last Name Input */}
-          <div>
-            <label htmlFor="lastName" className="block text-sm font-medium leading-6 text-gray-900">
-              Last Name <span className="text-red-600">*</span>
-            </label>
-            <div className="mt-2">
-              <input
-                id="lastName"
-                name="lastName"
-                type="text"
-                autoComplete="family-name"
-                required
-                value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              />
-            </div>
-          </div>
-
-           {/* Company Input */}
-          <div>
-            <label htmlFor="company" className="block text-sm font-medium leading-6 text-gray-900">
-              Company <span className="text-red-600">*</span>
-            </label>
-            <div className="mt-2">
-              <input
-                id="company"
-                name="company"
-                type="text"
-                autoComplete="organization"
-                required
-                value={company}
-                onChange={(e) => setCompany(e.target.value)}
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              />
-            </div>
-          </div>
-
-          {/* Email Input */}
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
-              Email address <span className="text-red-600">*</span>
-            </label>
-            <div className="mt-2">
-              <input
-                id="email"
-                name="email"
-                type="email"
-                autoComplete="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              />
-            </div>
-          </div>
-
-          {/* Password Input */}
-          <div>
-            <div className="flex items-center justify-between">
-              <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
-                Password <span className="text-red-600">*</span>
-              </label>
-            </div>
-            <div className="mt-2">
-              <input
-                id="password"
-                name="password"
-                type="password"
-                autoComplete="new-password"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              />
-            </div>
-          </div>
-
-           {/* Needs Description Textarea (Optional) */}
-          <div>
-            <label htmlFor="needsDescription" className="block text-sm font-medium leading-6 text-gray-900">
-              Tell us about your needs (Optional)
-            </label>
-            <div className="mt-2">
-              <textarea
-                id="needsDescription"
-                name="needsDescription"
-                rows={3}
-                value={needsDescription}
-                onChange={(e) => setNeedsDescription(e.target.value)}
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              />
-            </div>
-          </div>
-
-          {/* Error Message */}
-          {error && (
-            <div className="text-sm text-red-600">
-              {error}
-            </div>
-          )}
-
-          {/* Submit Button */}
-          <div>
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:opacity-50"
-            >
-              {isLoading ? 'Creating Account...' : 'Create Account'}
-            </button>
-          </div>
-        </form>
-
-        <p className="mt-10 text-center text-sm text-gray-500">
-          Already a member?{' '}
-          <Link href="/auth/signin" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
+        <p className="mt-2 text-center text-sm text-gray-300">
+          Already have an account?{" "}
+          <Link href="/auth/signin" className="font-medium text-emerald-400 hover:text-emerald-300">
             Sign in
           </Link>
         </p>
       </div>
+
+      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+        <div className="bg-gray-900 py-8 px-4 shadow-lg sm:rounded-lg sm:px-10 border border-gray-800">
+          {error && (
+            <div className="mb-4 rounded-md bg-red-50 p-4">
+              <p className="text-sm font-medium text-red-800">{error}</p>
+            </div>
+          )}
+          
+          <form className="space-y-6" onSubmit={handleSubmit}>
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+              <div>
+                <label htmlFor="firstName" className="block text-sm font-medium text-gray-300">
+                  First Name <span className="text-red-500">*</span>
+                </label>
+                <input
+                  id="firstName"
+                  name="firstName"
+                  type="text"
+                  value={formData.firstName}
+                  onChange={handleChange}
+                  required
+                  className="mt-1 block w-full px-3 py-2 border border-gray-700 rounded-md bg-gray-800 text-white focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
+                />
+              </div>
+
+              <div>
+                <label htmlFor="lastName" className="block text-sm font-medium text-gray-300">
+                  Last Name <span className="text-red-500">*</span>
+                </label>
+                <input
+                  id="lastName"
+                  name="lastName"
+                  type="text"
+                  value={formData.lastName}
+                  onChange={handleChange}
+                  required
+                  className="mt-1 block w-full px-3 py-2 border border-gray-700 rounded-md bg-gray-800 text-white focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label htmlFor="company" className="block text-sm font-medium text-gray-300">
+                Company <span className="text-red-500">*</span>
+              </label>
+              <input
+                id="company"
+                name="company"
+                type="text"
+                value={formData.company}
+                onChange={handleChange}
+                required
+                className="mt-1 block w-full px-3 py-2 border border-gray-700 rounded-md bg-gray-800 text-white focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium text-gray-300">
+                Email address <span className="text-red-500">*</span>
+              </label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+                className="mt-1 block w-full px-3 py-2 border border-gray-700 rounded-md bg-gray-800 text-white focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="password" className="block text-sm font-medium text-gray-300">
+                Password <span className="text-red-500">*</span>
+              </label>
+              <input
+                id="password"
+                name="password"
+                type="password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+                className="mt-1 block w-full px-3 py-2 border border-gray-700 rounded-md bg-gray-800 text-white focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
+              />
+              <p className="mt-1 text-xs text-gray-400">Password must be at least 8 characters long</p>
+            </div>
+
+            <div>
+              <label htmlFor="needsDescription" className="block text-sm font-medium text-gray-300">
+                Tell us about your needs (Optional)
+              </label>
+              <textarea
+                id="needsDescription"
+                name="needsDescription"
+                rows={3}
+                value={formData.needsDescription}
+                onChange={handleChange}
+                className="mt-1 block w-full px-3 py-2 border border-gray-700 rounded-md bg-gray-800 text-white focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
+                placeholder="Tell us how we can help your organization"
+              />
+            </div>
+
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 disabled:opacity-50"
+            >
+              {isLoading ? 'Creating account...' : 'Create account'}
+            </button>
+          </form>
+        </div>
+      </div>
+      
+      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md text-center">
+        <p className="text-xs text-gray-400">
+          By creating an account, you agree to our Terms of Service and Privacy Policy.
+        </p>
+      </div>
     </div>
+  );
+}
+
+// Loading fallback for suspense
+function SignUpLoading() {
+  return (
+    <div className="bg-gradient-to-b from-gray-950 via-dark-green to-gray-950 min-h-screen flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8">
+      <div className="sm:mx-auto sm:w-full sm:max-w-md">
+        <div className="flex justify-center">
+          <div className="animate-pulse w-[70px] h-[70px] rounded-full bg-gray-700 mb-6" />
+        </div>
+        <div className="h-8 bg-gray-700 rounded w-3/4 mx-auto animate-pulse mb-4"></div>
+        <div className="h-4 bg-gray-700 rounded w-1/2 mx-auto animate-pulse"></div>
+      </div>
+      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+        <div className="bg-gray-900 py-8 px-4 shadow-lg sm:rounded-lg sm:px-10 border border-gray-800">
+          <div className="space-y-6 animate-pulse">
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+              <div className="space-y-2">
+                <div className="h-4 bg-gray-700 rounded w-1/2"></div>
+                <div className="h-10 bg-gray-700 rounded w-full"></div>
+              </div>
+              <div className="space-y-2">
+                <div className="h-4 bg-gray-700 rounded w-1/2"></div>
+                <div className="h-10 bg-gray-700 rounded w-full"></div>
+              </div>
+            </div>
+            <div className="space-y-2">
+              <div className="h-4 bg-gray-700 rounded w-1/4"></div>
+              <div className="h-10 bg-gray-700 rounded w-full"></div>
+            </div>
+            <div className="h-10 bg-gray-700 rounded w-full"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Main component with Suspense wrapper
+export default function SignUpPage() {
+  return (
+    <Suspense fallback={<SignUpLoading />}>
+      <SignUpForm />
+    </Suspense>
   );
 } 
