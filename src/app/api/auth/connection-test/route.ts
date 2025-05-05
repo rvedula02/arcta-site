@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';  // Use shared prisma client
 
 // Test connection using the shared prisma client
-export async function GET() {
+export async function GET(): Promise<NextResponse> {
   try {
     // Log the DATABASE_URL (safely masked) for debugging
     const dbUrl = process.env.DATABASE_URL || '[not set]';

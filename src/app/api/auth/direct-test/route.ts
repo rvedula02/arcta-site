@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
-import { PrismaClient, Prisma } from '../../../generated/prisma';
+import { PrismaClient, Prisma } from '@/generated/prisma';
 
-export async function GET() {
+export async function GET(): Promise<NextResponse> {
   try {
     // Get the database URL
     const originalUrl = process.env.DATABASE_URL || '';

@@ -17,7 +17,7 @@ interface DbUrlInfo {
   masked?: string;
 }
 
-export async function GET() {
+export async function GET(): Promise<NextResponse> {
   try {
     // Check runtime environment
     const isVercel = process.env.VERCEL === '1';

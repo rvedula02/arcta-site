@@ -3,7 +3,7 @@
  * for better performance in serverless environments.
  */
 
-import { PrismaClient, Prisma } from '../generated/prisma';
+import { PrismaClient, Prisma } from '@/generated/prisma';
 import { neonConfig } from '@neondatabase/serverless';
 import { getNeonUrl } from './neon-adapter';
 
