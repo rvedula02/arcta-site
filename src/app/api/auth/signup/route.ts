@@ -1,5 +1,5 @@
 // Use the shared Prisma client
-import { prisma } from '@/lib/prisma';
+import { prismaNeon as prisma } from '@/lib/prisma-neon';
 import { NextResponse } from 'next/server';
 import bcrypt from 'bcrypt';
 

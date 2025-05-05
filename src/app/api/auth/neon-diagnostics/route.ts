@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma';
+import { prismaNeon as prisma } from '@/lib/prisma-neon';
 
 // Mask sensitive information in database URLs
 function maskUrl(url: string): string {

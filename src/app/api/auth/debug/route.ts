@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma';
+import { prismaNeon as prisma } from '@/lib/prisma-neon';
+import { testNeonConnection } from '@/lib/neon-adapter';
 import bcrypt from 'bcrypt';
 
 interface DbStatus {
@@ -17,44 +18,91 @@ interface EnvInfo {
   HAS_SSL: string;
 }
 
-export async function GET() {
+export async function GET(request: Request) {
+  const url = new URL(request.url);
+  const email = url.searchParams.get('email');
+  const testAuth = url.searchParams.get('auth') === 'true';
+  
   try {
-    // Check database connection
-    let dbStatus: DbStatus;
+    // Basic environment info
+    const envInfo = {
+      nodeEnv: process.env.NODE_ENV,
+      vercel: process.env.VERCEL === '1',
+      nextAuthUrl: process.env.NEXTAUTH_URL || '[NOT SET]',
+      hasSecret: !!process.env.NEXTAUTH_SECRET,
+      cookies: {
+        secure: process.env.NEXTAUTH_URL?.startsWith('https://') || false,
+        domain: process.env.NEXTAUTH_URL ? new URL(process.env.NEXTAUTH_URL).hostname : undefined,
+      }
+    };
+    
+    // Test direct database connection
+    const directTest = await testNeonConnection();
+    
+    // Test Prisma connection
+    let prismaTest;
     try {
-      const userCount = await prisma.user.count();
-      dbStatus = {
-        connected: true,
-        userCount
+      const startTime = Date.now();
+      const count = await prisma.user.count();
+      const duration = Date.now() - startTime;
+      prismaTest = {
+        success: true,
+        count,
+        duration: `${duration}ms`
       };
-    } catch (dbError: any) {
-      dbStatus = {
-        connected: false,
-        error: dbError.message,
-        stack: dbError.stack?.split('\n').slice(0, 3).join('\n')
+    } catch (error: any) {
+      prismaTest = {
+        success: false,
+        error: error.message,
+        stack: error.stack?.split('\n').slice(0, 3).join('\n')
       };
     }
     
-    // Environment info
-    const envInfo: EnvInfo = {
-      NODE_ENV: process.env.NODE_ENV,
-      NEXTAUTH_URL: process.env.NEXTAUTH_URL,
-      DATABASE_URL: process.env.DATABASE_URL 
-        ? `${process.env.DATABASE_URL.substring(0, 10)}...` 
-        : '[NOT SET]',
-      NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET ? '[SET]' : '[NOT SET]',
-      HAS_SSL: process.env.DATABASE_URL?.includes('sslmode=') ? 'Yes' : 'No'
-    };
+    // Test auth if email is provided
+    let authTest = null;
+    if (email && testAuth) {
+      try {
+        const user = await prisma.user.findUnique({
+          where: { email }
+        });
+        
+        if (user) {
+          authTest = {
+            success: true,
+            userFound: true,
+            hasPassword: !!user.password,
+            id: user.id,
+            email: user.email,
+            name: user.name || `${user.firstName} ${user.lastName}`,
+          };
+        } else {
+          authTest = {
+            success: false,
+            userFound: false,
+            message: 'User not found'
+          };
+        }
+      } catch (error: any) {
+        authTest = {
+          success: false,
+          error: error.message,
+          stack: error.stack?.split('\n').slice(0, 3).join('\n')
+        };
+      }
+    }
     
+    // Response with all info
     return NextResponse.json({
       timestamp: new Date().toISOString(),
-      database: dbStatus,
-      env: envInfo,
-      prismaVersion: '5.9.1'
+      environment: envInfo,
+      directConnection: directTest,
+      prismaConnection: prismaTest,
+      authTest
     });
   } catch (error: any) {
     return NextResponse.json({
-      error: 'Debug endpoint error',
+      timestamp: new Date().toISOString(),
+      error: 'Debug failed',
       message: error.message,
       stack: error.stack?.split('\n').slice(0, 3).join('\n')
     }, { status: 500 });

@@ -48,7 +48,7 @@ console.log(`Using optimized Neon Prisma client`);
 
 // Determine if we should use secure cookies (https)
 const useSecureCookies = NEXTAUTH_URL.startsWith('https://');
-const cookieDomain = isProduction ? new URL(NEXTAUTH_URL).hostname : undefined;
+const cookieDomain = isProduction ? (new URL(NEXTAUTH_URL).hostname.includes('.') ? new URL(NEXTAUTH_URL).hostname : undefined) : undefined;
 
 // Define authOptions as a constant, not as an export
 const authOptions: NextAuthOptions = {
