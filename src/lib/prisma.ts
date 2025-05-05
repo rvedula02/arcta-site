@@ -1,4 +1,4 @@
-import { PrismaClient, Prisma } from '@/generated/prisma';
+import { PrismaClient, Prisma } from '../generated/prisma';
 
 // Declare global variable for PrismaClient instance
 declare global {
