@@ -1,6 +1,12 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
+interface DbTestResult {
+  success: boolean;
+  error: string | null;
+  count: number | null;
+}
+
 export async function GET() {
   try {
     // Check runtime environment
@@ -9,7 +15,7 @@ export async function GET() {
     const region = process.env.VERCEL_REGION || 'unknown';
     
     // Check database connection basics
-    let dbTest = { success: false, error: null, count: null };
+    let dbTest: DbTestResult = { success: false, error: null, count: null };
     try {
       const count = await prisma.user.count();
       dbTest = {
