@@ -18,9 +18,20 @@ const authOptions: NextAuthOptions = {
       },
       async authorize(credentials, req) {
         try {
+          console.log("Login attempt for:", credentials?.email);
+          
           if (!credentials?.email || !credentials?.password) {
-            console.error("Missing credentials");
+            console.error("Missing credentials - email or password is undefined");
             return null;
+          }
+          
+          // Check database connection by counting users
+          try {
+            const userCount = await prisma.user.count();
+            console.log("Database connection successful, found users:", userCount);
+          } catch (dbError) {
+            console.error("Database connection error:", dbError);
+            throw new Error("Database connection failed");
           }
           
           const user = await prisma.user.findUnique({
@@ -32,10 +43,25 @@ const authOptions: NextAuthOptions = {
             return null;
           }
           
-          if (user.password) {
+          console.log("User found:", { 
+            id: user.id, 
+            email: user.email,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            hasPassword: !!user.password 
+          });
+          
+          if (!user.password) {
+            console.error("User has no password set");
+            return null;
+          }
+          
+          try {
             const isValid = await bcrypt.compare(credentials.password, user.password);
+            console.log("Password check result:", isValid);
+            
             if (isValid) {
-              console.log("Password valid for user:", user.email);
+              console.log("Login successful for user:", user.email);
               return {
                 id: user.id,
                 email: user.email,
@@ -49,13 +75,13 @@ const authOptions: NextAuthOptions = {
               console.error("Invalid password for user:", user.email);
               return null;
             }
-          } else {
-            console.error("User found but password check not implemented or user has no password set.");
-            return null;
+          } catch (passwordError) {
+            console.error("Error comparing passwords:", passwordError);
+            throw new Error("Password comparison failed");
           }
         } catch (error) {
           console.error("Error in authorize function:", error);
-          return null;
+          throw error; // Let NextAuth handle the error properly
         }
       }
     })
@@ -74,6 +100,7 @@ const authOptions: NextAuthOptions = {
       try {
         // Persist the user id and other fields from the database user record to the token right after sign in
         if (user) {
+          console.log("JWT callback - creating token for user:", user.email);
           token.id = user.id;
           token.email = user.email;
           token.firstName = user.firstName;
@@ -106,6 +133,7 @@ const authOptions: NextAuthOptions = {
     async session({ session, token }) {
       try {
         if (token && session.user) {
+          console.log("Session callback - creating session for token with email:", token.email);
           session.user.id = token.id as string;
           session.user.email = token.email as string;
           session.user.firstName = token.firstName as string;
@@ -122,7 +150,7 @@ const authOptions: NextAuthOptions = {
       }
     },
   },
-  debug: process.env.NODE_ENV === 'development',
+  debug: true, // Enable full debug output
 };
 
 // In the App Router, we export the handlers directly
