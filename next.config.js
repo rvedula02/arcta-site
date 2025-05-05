@@ -18,8 +18,12 @@ const nextConfig = {
   reactStrictMode: true,
   experimental: {
     // Reduce potential for route conflicts
-    scrollRestoration: true
-  }
+    scrollRestoration: true,
+    // esmExternals: true, // Added to improve module resolution
+    optimizeCss: true, // Added to optimize CSS
+    swcMinify: true // Added to use SWC minifier for better performance
+  },
+  poweredByHeader: false, // Remove X-Powered-By header for security
 };
 
 module.exports = nextConfig; 
