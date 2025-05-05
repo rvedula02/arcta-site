@@ -1,5 +1,8 @@
 import { NextResponse } from 'next/server';
 
+// Explicitly set Node.js runtime for this API route  
+export const runtime = 'nodejs';
+
 export async function GET(request: Request) {
   const cookies = request.headers.get('cookie') || '';
   

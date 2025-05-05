@@ -4,8 +4,20 @@
  */
 
 import { PrismaClient, Prisma } from '@/generated/prisma';
-import { neonConfig } from '@neondatabase/serverless';
 import { getNeonUrl } from './neon-adapter';
+
+// Import neonConfig safely with fallback
+let neonConfig: any;
+try {
+  const neonServerless = require('@neondatabase/serverless');
+  neonConfig = neonServerless.neonConfig;
+} catch (error) {
+  console.warn('Failed to load @neondatabase/serverless for PrismaNeon client', error);
+  neonConfig = {
+    fetchConnectionCache: false,
+    useSecureWebSocket: false
+  };
+}
 
 // Declare global variable for PrismaClient instance
 declare global {
@@ -17,13 +29,18 @@ declare global {
  */
 function getPrismaNeonClient(): PrismaClient {
   try {
-    // Configure Neon for serverless environments
-    neonConfig.fetchConnectionCache = true;
-    neonConfig.useSecureWebSocket = true;
+    // Configure Neon for serverless environments if available
+    try {
+      neonConfig.fetchConnectionCache = true;
+      neonConfig.useSecureWebSocket = true;
+      console.log('Configured Neon for serverless environment');
+    } catch (neonConfigError) {
+      console.warn('Could not configure Neon serverless options', neonConfigError);
+    }
 
     // Get the best URL
     const neonUrl = getNeonUrl();
-    console.log('Using Neon serverless connection for Prisma');
+    console.log('Using Neon connection URL for Prisma');
     
     // Define log levels based on environment
     const isProduction = process.env.NODE_ENV === 'production';
@@ -41,7 +58,7 @@ function getPrismaNeonClient(): PrismaClient {
     // Initialize and return the client
     return new PrismaClient(options);
   } catch (error) {
-    console.error('Failed to initialize Prisma with Neon serverless:', error);
+    console.error('Failed to initialize Prisma with Neon:', error);
     throw error;
   }
 }

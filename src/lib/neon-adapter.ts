@@ -5,7 +5,36 @@
  * database connectivity in serverless environments like Vercel.
  */
 
-import { neon, neonConfig } from '@neondatabase/serverless';
+// Try to import @neondatabase/serverless with fallback if not available
+let neon: any;
+let neonConfig: any;
+
+// Wrap the import in a try/catch to handle missing package
+try {
+  // Dynamic import to avoid build errors if package is missing
+  const neonServerless = require('@neondatabase/serverless');
+  neon = neonServerless.neon;
+  neonConfig = neonServerless.neonConfig;
+  console.log('Successfully loaded @neondatabase/serverless');
+} catch (error) {
+  console.warn('Failed to load @neondatabase/serverless, using fallback implementation', error);
+  
+  // Create fallback implementations
+  neonConfig = {
+    fetchConnectionCache: false,
+    useSecureWebSocket: false
+  };
+  
+  // Simple fallback that just warns and returns URL
+  neon = (url: string) => {
+    console.warn('Using fallback neon() implementation - direct SQL execution will not work');
+    // Return a mock SQL tagged template function
+    return (strings: TemplateStringsArray, ...values: any[]) => {
+      console.error('Cannot execute SQL: @neondatabase/serverless is not available');
+      throw new Error('Cannot execute SQL: @neondatabase/serverless package is not available');
+    };
+  };
+}
 
 // Get the best URL to use from various environment variables
 export function getNeonUrl(): string {

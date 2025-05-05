@@ -3,6 +3,9 @@ import { prismaNeon as prisma } from '@/lib/prisma-neon';
 import { testNeonConnection } from '@/lib/neon-adapter';
 import bcrypt from 'bcrypt';
 
+// Explicitly set Node.js runtime for this API route
+export const runtime = 'nodejs';
+
 interface DbStatus {
   connected: boolean;
   userCount?: number;

@@ -5,6 +5,9 @@ import bcrypt from "bcrypt";
 import { prismaNeon as prisma } from "@/lib/prisma-neon"; // Use Neon-optimized client
 import ensureNextAuthUrl from "../helpers/next-auth-url"; // Import helper
 
+// Explicitly set Node.js runtime for this API route
+export const runtime = 'nodejs';
+
 // Define a fallback secret for development
 const NEXTAUTH_SECRET = process.env.NEXTAUTH_SECRET || "arcta_site_dev_secret_key_change_in_production";
 

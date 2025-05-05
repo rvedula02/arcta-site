@@ -1,6 +1,9 @@
 import { NextResponse } from 'next/server';
 import { prismaNeon as prisma } from '@/lib/prisma-neon';
 
+// Explicitly set Node.js runtime for this API route
+export const runtime = 'nodejs';
+
 // Mask sensitive information in database URLs
 function maskUrl(url: string): string {
   if (!url) return '[NOT SET]';

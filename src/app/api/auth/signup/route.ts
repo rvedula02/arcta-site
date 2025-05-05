@@ -3,6 +3,9 @@ import { prismaNeon as prisma } from '@/lib/prisma-neon';
 import { NextResponse } from 'next/server';
 import bcrypt from 'bcrypt';
 
+// Explicitly set Node.js runtime for this API route
+export const runtime = 'nodejs';
+
 const SALT_ROUNDS = 10;
 
 // Helper function to check database connection
