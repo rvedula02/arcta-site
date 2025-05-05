@@ -2,10 +2,25 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import bcrypt from 'bcrypt';
 
+interface DbStatus {
+  connected: boolean;
+  userCount?: number;
+  error?: string;
+  stack?: string;
+}
+
+interface EnvInfo {
+  NODE_ENV: string | undefined;
+  NEXTAUTH_URL: string | undefined;
+  DATABASE_URL: string;
+  NEXTAUTH_SECRET: string;
+  HAS_SSL: string;
+}
+
 export async function GET() {
   try {
     // Check database connection
-    let dbStatus;
+    let dbStatus: DbStatus;
     try {
       const userCount = await prisma.user.count();
       dbStatus = {
@@ -21,10 +36,12 @@ export async function GET() {
     }
     
     // Environment info
-    const envInfo = {
+    const envInfo: EnvInfo = {
       NODE_ENV: process.env.NODE_ENV,
       NEXTAUTH_URL: process.env.NEXTAUTH_URL,
-      DATABASE_URL: process.env.DATABASE_URL ? `${process.env.DATABASE_URL.substring(0, 10)}...` : '[NOT SET]',
+      DATABASE_URL: process.env.DATABASE_URL 
+        ? `${process.env.DATABASE_URL.substring(0, 10)}...` 
+        : '[NOT SET]',
       NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET ? '[SET]' : '[NOT SET]',
       HAS_SSL: process.env.DATABASE_URL?.includes('sslmode=') ? 'Yes' : 'No'
     };
@@ -32,7 +49,8 @@ export async function GET() {
     return NextResponse.json({
       timestamp: new Date().toISOString(),
       database: dbStatus,
-      env: envInfo
+      env: envInfo,
+      prismaVersion: '5.9.1'
     });
   } catch (error: any) {
     return NextResponse.json({
@@ -43,12 +61,20 @@ export async function GET() {
   }
 }
 
+interface LoginCredentials {
+  email: string;
+  password: string;
+}
+
 export async function POST(request: Request) {
   try {
-    const { email, password } = await request.json();
+    const credentials = await request.json() as Partial<LoginCredentials>;
+    const { email, password } = credentials;
     
     if (!email || !password) {
-      return NextResponse.json({ error: 'Email and password are required' }, { status: 400 });
+      return NextResponse.json({ 
+        error: 'Email and password are required' 
+      }, { status: 400 });
     }
     
     // Test DB connection

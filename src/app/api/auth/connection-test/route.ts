@@ -29,11 +29,12 @@ export async function GET() {
     // Extra environment info
     const envInfo = {
       NODE_ENV: process.env.NODE_ENV,
-      VERCEL: process.env.VERCEL,
+      VERCEL: process.env.VERCEL === '1' ? 'true' : 'false',
       VERCEL_URL: process.env.VERCEL_URL,
       VERCEL_ENV: process.env.VERCEL_ENV,
       NEXTAUTH_URL: process.env.NEXTAUTH_URL,
-      DATABASE_URL_PREFIX: dbUrl.split(':')[0]
+      DATABASE_URL_PREFIX: dbUrl.split(':')[0],
+      PRISMA_VERSION: '5.9.1'
     };
 
     return NextResponse.json({

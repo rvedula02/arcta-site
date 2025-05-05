@@ -3,12 +3,16 @@ import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcrypt";
 import { prisma } from "@/lib/prisma"; // Use shared client
+import ensureNextAuthUrl from "../helpers/next-auth-url"; // Import helper
 
 // Define a fallback secret for development
 const NEXTAUTH_SECRET = process.env.NEXTAUTH_SECRET || "arcta_site_dev_secret_key_change_in_production";
 
+// Make sure we have a URL for NextAuth
+const NEXTAUTH_URL = ensureNextAuthUrl();
+
 // Helper function to ensure database connection with retries
-async function ensureDatabaseConnection(retries = 3, delay = 1000) {
+async function ensureDatabaseConnection(retries = 5, delay = 1000) {
   let lastError;
   for (let attempt = 1; attempt <= retries; attempt++) {
     try {
@@ -31,6 +35,13 @@ async function ensureDatabaseConnection(retries = 3, delay = 1000) {
   throw new Error(`Database connection failed after ${retries} attempts: ${lastError instanceof Error ? lastError.message : String(lastError)}`);
 }
 
+// Check if we're running on Vercel
+const isVercel = process.env.VERCEL === '1';
+// Log environment settings for debugging
+console.log(`NextAuth environment: ${process.env.NODE_ENV}, Vercel: ${isVercel}`);
+console.log(`NEXTAUTH_URL: ${NEXTAUTH_URL || '[not set]'}`);
+console.log(`Secret set: ${!!NEXTAUTH_SECRET}`);
+
 // Define authOptions as a constant, not as an export
 const authOptions: NextAuthOptions = {
   providers: [
@@ -46,7 +57,7 @@ const authOptions: NextAuthOptions = {
           
           if (!credentials?.email || !credentials?.password) {
             console.error("Missing credentials - email or password is undefined");
-            return null;
+            throw new Error("Missing credentials");
           }
           
           // Check database connection with retries
@@ -54,16 +65,19 @@ const authOptions: NextAuthOptions = {
             await ensureDatabaseConnection();
           } catch (dbError) {
             console.error("Database connection failed:", dbError);
-            throw dbError; // Rethrow to let NextAuth handle it properly
+            throw new Error(`Database connection failed: ${dbError instanceof Error ? dbError.message : String(dbError)}`);
           }
           
           // Find and validate user
-          const user = await prisma.user.findUnique({
-            where: { email: credentials.email }
-          }).catch(err => {
+          let user;
+          try {
+            user = await prisma.user.findUnique({
+              where: { email: credentials.email }
+            });
+          } catch (err) {
             console.error("Error finding user:", err);
-            throw new Error("Database query failed");
-          });
+            throw new Error(`Database query failed: ${err instanceof Error ? err.message : String(err)}`);
+          }
           
           if (!user) {
             console.error("No user found with email:", credentials.email);
@@ -104,7 +118,7 @@ const authOptions: NextAuthOptions = {
             }
           } catch (passwordError) {
             console.error("Error comparing passwords:", passwordError);
-            throw new Error("Password comparison failed");
+            throw new Error(`Password comparison failed: ${passwordError instanceof Error ? passwordError.message : String(passwordError)}`);
           }
         } catch (error) {
           console.error("Error in authorize function:", error);
@@ -182,7 +196,7 @@ const authOptions: NextAuthOptions = {
       }
     },
   },
-  debug: true, // Enable full debug output
+  debug: process.env.NODE_ENV !== 'production', // Only enable debug in non-production
 };
 
 // In the App Router, we export the handlers directly

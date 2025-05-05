@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, Prisma } from '../../../generated/prisma';
 
 export async function GET() {
   try {
@@ -9,7 +9,7 @@ export async function GET() {
     // Create a direct client without URL overrides
     // Prisma 5.x handles the URL better through environment variables
     const directClient = new PrismaClient({
-      log: ['error' as const, 'info' as const]
+      log: ['error' as Prisma.LogLevel, 'info' as Prisma.LogLevel]
     });
 
     // Try a simple query
