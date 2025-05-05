@@ -61,47 +61,76 @@ async function checkDatabaseConnection(maxRetries = 3) {
   };
 }
 
+// Define the runtime for this API route
+export const runtime = 'nodejs';
+
+/**
+ * Health check endpoint that also validates environment configuration
+ */
 export async function GET() {
   try {
-    // Check database connection with retry logic
-    const databaseStatus = await checkDatabaseConnection();
-    
-    // Extract database URL for diagnostic purposes (masked for security)
-    let dbUrlInfo: DbUrlInfo = { configured: false };
-    if (process.env.DATABASE_URL) {
-      const url = process.env.DATABASE_URL;
-      const masked = url.replace(/:([^@]*)@/, ':****@');
-      const hasSSL = url.includes('sslmode=');
-      dbUrlInfo = {
-        configured: true,
-        protocol: url.split(':')[0],
-        host: masked.split('@')[1]?.split('/')[0] || 'unknown',
-        hasSSL,
-        pooled: masked.includes('-pooler'),
-      };
-    }
-
-    // Check environment variables (mask sensitive values)
-    const envCheck = {
-      NODE_ENV: process.env.NODE_ENV,
-      NEXTAUTH_URL: process.env.NEXTAUTH_URL,
-      DATABASE_URL: process.env.DATABASE_URL ? '[SET]' : '[NOT SET]',
-      NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET ? '[SET]' : '[NOT SET]',
+    // Check environment variables
+    const envStatus = {
+      databaseUrl: !!process.env.DATABASE_URL,
+      postgresUrl: !!process.env.POSTGRES_URL,
+      postgresUrlNonPooling: !!process.env.POSTGRES_URL_NON_POOLING,
+      nextAuthUrl: !!process.env.NEXTAUTH_URL,
+      nextAuthSecret: !!process.env.NEXTAUTH_SECRET,
+      vercel: process.env.VERCEL === '1',
+      environment: process.env.NODE_ENV,
     };
 
-    return NextResponse.json({
-      status: databaseStatus.connected ? 'ok' : 'database_error',
+    // Check for Tailwind CSS
+    let tailwindStatus = 'unknown';
+    try {
+      // Attempt to load tailwindcss
+      require('tailwindcss');
+      tailwindStatus = 'available';
+    } catch (e) {
+      tailwindStatus = 'error: ' + (e instanceof Error ? e.message : String(e));
+    }
+
+    // Check for Tailwind Forms plugin
+    let tailwindFormsStatus = 'unknown';
+    try {
+      // Attempt to load @tailwindcss/forms
+      require('@tailwindcss/forms');
+      tailwindFormsStatus = 'available';
+    } catch (e) {
+      tailwindFormsStatus = 'error: ' + (e instanceof Error ? e.message : String(e));
+    }
+
+    // Verify NextAuth dependencies
+    let nextAuthStatus = 'unknown';
+    try {
+      require('next-auth');
+      nextAuthStatus = 'available';
+    } catch (e) {
+      nextAuthStatus = 'error: ' + (e instanceof Error ? e.message : String(e));
+    }
+
+    // Create a clean response object
+    const healthStatus = {
+      status: 'ok',
       timestamp: new Date().toISOString(),
-      database: databaseStatus,
-      databaseUrlInfo: dbUrlInfo,
-      environment: envCheck,
-    });
-  } catch (error: any) {
-    console.error('Health check error:', error);
-    return NextResponse.json({
-      status: 'error',
-      message: error.message,
-      stack: error.stack?.split('\n').slice(0, 3).join('\n'),
-    }, { status: 500 });
+      environment: envStatus,
+      dependencies: {
+        tailwind: tailwindStatus,
+        tailwindForms: tailwindFormsStatus,
+        nextAuth: nextAuthStatus,
+      },
+    };
+
+    return NextResponse.json(healthStatus);
+  } catch (error) {
+    console.error('Health check failed:', error);
+    return NextResponse.json(
+      {
+        status: 'error',
+        message: error instanceof Error ? error.message : String(error),
+        timestamp: new Date().toISOString(),
+      },
+      { status: 500 }
+    );
   }
 } 
