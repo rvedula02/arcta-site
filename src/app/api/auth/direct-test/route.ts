@@ -9,7 +9,7 @@ export async function GET() {
     // Create a direct client without URL overrides
     // Prisma 5.x handles the URL better through environment variables
     const directClient = new PrismaClient({
-      log: ['error', 'info']
+      log: ['error' as const, 'info' as const]
     });
 
     // Try a simple query

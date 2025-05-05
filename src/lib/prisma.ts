@@ -1,4 +1,4 @@
-import { PrismaClient } from '../generated/prisma';
+import { PrismaClient, Prisma } from '../generated/prisma';
 
 // Declare global variable for PrismaClient instance
 declare global {
@@ -64,10 +64,11 @@ function getFixedDatabaseUrl() {
 function getPrismaClient() {
   const isProduction = process.env.NODE_ENV === 'production';
   
-  const options = {
+  // Use proper type-safe log levels for Prisma 5.x
+  const options: Prisma.PrismaClientOptions = {
     log: isProduction 
-      ? ['error'] 
-      : ['query', 'error', 'warn'],
+      ? ['error' as const] 
+      : ['query' as const, 'error' as const, 'warn' as const],
   };
 
   // Create a new client with basic options
