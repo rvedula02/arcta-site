@@ -55,7 +55,23 @@ export function getNeonUrl(): string {
  * ```
  */
 export function createNeonQueryExecutor() {
-  const url = getNeonUrl();
+  // For the direct Neon connection, we need to use one of the unpooled URLs
+  // and ensure it's in the postgresql:// format
+  let url = process.env.POSTGRES_URL_NON_POOLING || 
+            process.env.DATABASE_URL_UNPOOLED || 
+            process.env.DATABASE_URL || 
+            process.env.POSTGRES_URL;
+  
+  if (!url) {
+    throw new Error('No database URL found for Neon connection');
+  }
+  
+  // Ensure we have postgresql:// protocol for neon()
+  if (url.startsWith('postgres://')) {
+    url = url.replace(/^postgres:\/\//, 'postgresql://');
+  } else if (url.startsWith('prisma://')) {
+    url = url.replace(/^prisma:\/\//, 'postgresql://');
+  }
   
   // Configure for serverless environment
   neonConfig.fetchConnectionCache = true;
@@ -78,7 +94,33 @@ export async function testNeonConnection(): Promise<{
   stack?: string;
 }> {
   try {
-    const sql = createNeonQueryExecutor();
+    // Get an unpooled URL for direct connection
+    let directUrl = process.env.POSTGRES_URL_NON_POOLING || 
+                   process.env.DATABASE_URL_UNPOOLED;
+    
+    // Fall back to pooled URL if unpooled not available
+    if (!directUrl) {
+      directUrl = process.env.DATABASE_URL || process.env.POSTGRES_URL;
+    }
+    
+    if (!directUrl) {
+      throw new Error('No database URL found for direct connection test');
+    }
+    
+    // Ensure we have the right protocol
+    if (directUrl.startsWith('postgres://')) {
+      directUrl = directUrl.replace(/^postgres:\/\//, 'postgresql://');
+    } else if (directUrl.startsWith('prisma://')) {
+      directUrl = directUrl.replace(/^prisma:\/\//, 'postgresql://');
+    }
+
+    // Configure neon
+    neonConfig.fetchConnectionCache = true;
+    neonConfig.useSecureWebSocket = true;
+    
+    // Create a direct SQL executor
+    const sql = neon(directUrl);
+    
     const startTime = Date.now();
     const result = await sql`SELECT count(*) FROM "User"`;
     const duration = Date.now() - startTime;

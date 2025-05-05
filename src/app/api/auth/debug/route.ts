@@ -33,6 +33,15 @@ export async function GET(request: Request) {
       cookies: {
         secure: process.env.NEXTAUTH_URL?.startsWith('https://') || false,
         domain: process.env.NEXTAUTH_URL ? new URL(process.env.NEXTAUTH_URL).hostname : undefined,
+      },
+      databaseUrls: {
+        // Mask sensitive parts of the URLs
+        POSTGRES_PRISMA_URL: process.env.POSTGRES_PRISMA_URL ? 
+          process.env.POSTGRES_PRISMA_URL.replace(/\/\/([^:]+):([^@]+)@/, '//[user]:[password]@') : '[NOT SET]',
+        POSTGRES_URL_NON_POOLING: process.env.POSTGRES_URL_NON_POOLING ? 
+          process.env.POSTGRES_URL_NON_POOLING.replace(/\/\/([^:]+):([^@]+)@/, '//[user]:[password]@') : '[NOT SET]',
+        DATABASE_URL: process.env.DATABASE_URL ? 
+          process.env.DATABASE_URL.replace(/\/\/([^:]+):([^@]+)@/, '//[user]:[password]@') : '[NOT SET]',
       }
     };
     
