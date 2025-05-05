@@ -2,28 +2,11 @@
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcrypt";
-import { PrismaClient } from "../../../../generated/prisma"; // Path relative to src directory
+import { prisma } from "../../../../lib/prisma"; // Import centralized Prisma client
 import ensureNextAuthUrl from "../helpers/next-auth-url"; // Import helper
 
 // Explicitly set Node.js runtime for this API route
 export const runtime = 'nodejs';
-
-// Create a local Prisma client with explicit database URL configuration
-let dbUrl = process.env.DATABASE_URL || process.env.POSTGRES_PRISMA_URL || process.env.POSTGRES_URL;
-// Fix protocol if needed (Vercel provides postgres:// but Prisma expects postgresql://)
-if (dbUrl && dbUrl.startsWith('postgres://')) {
-  dbUrl = dbUrl.replace(/^postgres:\/\//, 'postgresql://');
-}
-
-console.log(`Using database URL with protocol: ${dbUrl?.split(':')[0]}`);
-
-const prisma = new PrismaClient({
-  datasources: {
-    db: {
-      url: dbUrl
-    }
-  }
-});
 
 // Define a fallback secret for development
 const NEXTAUTH_SECRET = process.env.NEXTAUTH_SECRET || "arcta_site_dev_secret_key_change_in_production";
@@ -66,7 +49,6 @@ console.log(`NextAuth environment: ${process.env.NODE_ENV}, Vercel: ${isVercel}`
 console.log(`NEXTAUTH_URL: ${NEXTAUTH_URL || '[not set]'}`);
 console.log(`Secret set: ${!!NEXTAUTH_SECRET}`);
 console.log(`Domain for auth: ${new URL(NEXTAUTH_URL).hostname}`);
-console.log(`Using optimized Neon Prisma client`);
 
 // Determine if we should use secure cookies (https)
 const useSecureCookies = NEXTAUTH_URL.startsWith('https://');

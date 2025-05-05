@@ -5,9 +5,8 @@ import Link from "next/link";
 
 export default function AuthButtons() {
   const { data: session, status } = useSession();
-  const isLoading = status === "loading";
-
-  if (isLoading) {
+  
+  if (status === "loading") {
     return (
       <div className="absolute top-4 right-4 z-50">
         <span className="text-sm text-gray-400">Loading...</span>

@@ -1,11 +1,12 @@
 'use client'; // Sign up page needs client-side interactivity
 
-import { useState } from 'react';
+import { useState, Suspense } from 'react';
 import { useRouter } from 'next/navigation'; // Use navigation hooks for App Router
 import Link from 'next/link';
 import Image from 'next/image';
 
-export default function SignUpPage() {
+// Inner component with the form
+function SignUpForm() {
   const router = useRouter();
   const [formData, setFormData] = useState({
     firstName: '',
@@ -20,21 +21,13 @@ export default function SignUpPage() {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     setError(null);
-
-    const { firstName, lastName, company, email, password } = formData;
-
-    if (!firstName || !lastName || !company || !email || !password) {
-      setError('Please fill in all required fields');
-      setIsLoading(false);
-      return;
-    }
 
     try {
       const response = await fetch('/api/auth/signup', {
@@ -198,5 +191,50 @@ export default function SignUpPage() {
         </p>
       </div>
     </div>
+  );
+}
+
+// Loading fallback for suspense
+function SignUpLoading() {
+  return (
+    <div className="bg-gradient-to-b from-gray-950 via-dark-green to-gray-950 min-h-screen flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8">
+      <div className="sm:mx-auto sm:w-full sm:max-w-md">
+        <div className="flex justify-center">
+          <div className="animate-pulse w-[70px] h-[70px] rounded-full bg-gray-700 mb-6" />
+        </div>
+        <div className="h-8 bg-gray-700 rounded w-3/4 mx-auto animate-pulse mb-4"></div>
+        <div className="h-4 bg-gray-700 rounded w-1/2 mx-auto animate-pulse"></div>
+      </div>
+      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+        <div className="bg-gray-900 py-8 px-4 shadow-lg sm:rounded-lg sm:px-10 border border-gray-800">
+          <div className="space-y-6 animate-pulse">
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+              <div className="space-y-2">
+                <div className="h-4 bg-gray-700 rounded w-1/2"></div>
+                <div className="h-10 bg-gray-700 rounded w-full"></div>
+              </div>
+              <div className="space-y-2">
+                <div className="h-4 bg-gray-700 rounded w-1/2"></div>
+                <div className="h-10 bg-gray-700 rounded w-full"></div>
+              </div>
+            </div>
+            <div className="space-y-2">
+              <div className="h-4 bg-gray-700 rounded w-1/4"></div>
+              <div className="h-10 bg-gray-700 rounded w-full"></div>
+            </div>
+            <div className="h-10 bg-gray-700 rounded w-full"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Main component with Suspense wrapper
+export default function SignUpPage() {
+  return (
+    <Suspense fallback={<SignUpLoading />}>
+      <SignUpForm />
+    </Suspense>
   );
 } 

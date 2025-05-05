@@ -1,23 +1,5 @@
 import { NextResponse } from 'next/server';
-import { PrismaClient } from '../../../generated/prisma';
-
-// Create a Prisma client with explicit database URL
-let dbUrl = process.env.DATABASE_URL || 
-          process.env.POSTGRES_PRISMA_URL || 
-          process.env.POSTGRES_URL;
-
-// Fix protocol if needed
-if (dbUrl && dbUrl.startsWith('postgres://')) {
-  dbUrl = dbUrl.replace(/^postgres:\/\//, 'postgresql://');
-}
-
-const prisma = new PrismaClient({
-  datasources: {
-    db: {
-      url: dbUrl
-    }
-  }
-});
+import { prisma } from '../../../lib/prisma';
 
 // Define types for database URL info
 interface DbUrlInfo {
