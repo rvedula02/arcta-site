@@ -91,9 +91,10 @@ const authOptions: NextAuthOptions = {
           });
           
           if (dbUser) {
-            token.needsDescription = dbUser.needsDescription;
+            // Convert null to undefined to match the JWT type definition
+            token.needsDescription = dbUser.needsDescription ?? undefined;
             token.demoBookingTime = dbUser.demoBookingTime?.toISOString();
-            token.demoBookingUri = dbUser.demoBookingUri;
+            token.demoBookingUri = dbUser.demoBookingUri ?? undefined;
           }
         }
         return token;

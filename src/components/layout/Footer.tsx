@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import ArctaLogo from '../ArctaLogo';
 
 const navigation = {
   social: [
@@ -35,13 +36,8 @@ export default function Footer() {
       </h2>
       <div className="mx-auto max-w-7xl px-6 pb-8 pt-16 sm:pt-24 lg:px-8 lg:pt-32">
         <div className="space-y-8">
-          <div className="flex items-center">
-            <img
-              className="h-12 w-auto mr-3"
-              src="/arcta-logo.png"
-              alt="Arcta"
-            />
-            <span className="text-2xl font-semibold text-white">Arcta</span>
+          <div>
+            <ArctaLogo variant="footer" imageSize={48} />
           </div>
           <p className="text-sm leading-6 text-gray-300">
             Transforming investment office workflows with unified intelligence and automation.

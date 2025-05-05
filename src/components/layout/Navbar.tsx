@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { Dialog } from '@headlessui/react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
+import ArctaLogo from '../ArctaLogo';
 
 const navigation: { name: string; href: string }[] = [
   { name: 'Home', href: '/' },
@@ -17,14 +18,9 @@ export default function Navbar() {
     <header className="absolute inset-x-0 top-0 z-50">
       <nav className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
         <div className="flex lg:flex-1 items-center">
-          <Link href="/" className="-m-1.5 p-1.5 flex items-center">
+          <Link href="/" className="-m-1.5 p-1.5">
             <span className="sr-only">Arcta</span>
-            <img
-              className="h-12 w-auto mr-3"
-              src="/arcta-logo.png"
-              alt="Arcta"
-            />
-            <span className="text-2xl font-semibold text-white">ARCTA</span>
+            <ArctaLogo variant="default" imageSize={48} />
           </Link>
         </div>
         <div className="hidden lg:flex lg:gap-x-12">
@@ -61,14 +57,9 @@ export default function Navbar() {
         <div className="fixed inset-0 z-50" />
         <Dialog.Panel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
           <div className="flex items-center justify-between">
-            <Link href="/" className="-m-1.5 p-1.5 flex items-center">
+            <Link href="/" className="-m-1.5 p-1.5">
               <span className="sr-only">Arcta</span>
-              <img
-                className="h-12 w-auto mr-3"
-                src="/arcta-logo.png"
-                alt="Arcta"
-              />
-              <span className="text-2xl font-semibold text-gray-900">Arcta</span>
+              <ArctaLogo variant="mobile" imageSize={48} />
             </Link>
             <button
               type="button"
