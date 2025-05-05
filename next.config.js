@@ -30,12 +30,6 @@ const nextConfig = {
   experimental: {
     scrollRestoration: true,
     // Remove optimizeCss as it might cause issues
-  },
-  // Better error handling
-  onError: (err) => {
-    console.error('Next.js build error:', err);
-    // Don't fail the build due to warnings
-    return err.code === 'ENOENT' ? null : err;
   }
 };
 

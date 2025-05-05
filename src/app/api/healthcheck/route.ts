@@ -69,6 +69,9 @@ export const runtime = 'nodejs';
  */
 export async function GET() {
   try {
+    // Check database connection
+    const dbStatus = await checkDatabaseConnection();
+    
     // Check environment variables
     const envStatus = {
       databaseUrl: !!process.env.DATABASE_URL,
@@ -78,47 +81,24 @@ export async function GET() {
       nextAuthSecret: !!process.env.NEXTAUTH_SECRET,
       vercel: process.env.VERCEL === '1',
       environment: process.env.NODE_ENV,
+      nodeVersion: process.version,
     };
 
-    // Check for Tailwind CSS
-    let tailwindStatus = 'unknown';
-    try {
-      // Attempt to load tailwindcss
-      require('tailwindcss');
-      tailwindStatus = 'available';
-    } catch (e) {
-      tailwindStatus = 'error: ' + (e instanceof Error ? e.message : String(e));
-    }
-
-    // Check for Tailwind Forms plugin
-    let tailwindFormsStatus = 'unknown';
-    try {
-      // Attempt to load @tailwindcss/forms
-      require('@tailwindcss/forms');
-      tailwindFormsStatus = 'available';
-    } catch (e) {
-      tailwindFormsStatus = 'error: ' + (e instanceof Error ? e.message : String(e));
-    }
-
-    // Verify NextAuth dependencies
-    let nextAuthStatus = 'unknown';
-    try {
-      require('next-auth');
-      nextAuthStatus = 'available';
-    } catch (e) {
-      nextAuthStatus = 'error: ' + (e instanceof Error ? e.message : String(e));
-    }
+    // Check for packages without actually loading them
+    const packageStatus = {
+      tailwind: checkPackageExists('tailwindcss'),
+      tailwindForms: checkPackageExists('@tailwindcss/forms'),
+      nextAuth: checkPackageExists('next-auth'),
+      neonServerless: checkPackageExists('@neondatabase/serverless'),
+    };
 
     // Create a clean response object
     const healthStatus = {
-      status: 'ok',
+      status: dbStatus.connected ? 'ok' : 'database_error',
       timestamp: new Date().toISOString(),
+      database: dbStatus,
       environment: envStatus,
-      dependencies: {
-        tailwind: tailwindStatus,
-        tailwindForms: tailwindFormsStatus,
-        nextAuth: nextAuthStatus,
-      },
+      packages: packageStatus,
     };
 
     return NextResponse.json(healthStatus);
@@ -132,5 +112,24 @@ export async function GET() {
       },
       { status: 500 }
     );
+  }
+}
+
+// Helper function to check if a package exists without loading it
+function checkPackageExists(packageName: string): string {
+  try {
+    // Check if package.json exists in node_modules
+    const fs = require('fs');
+    const path = require('path');
+    const packagePath = path.resolve('node_modules', packageName, 'package.json');
+    
+    if (fs.existsSync(packagePath)) {
+      // Read package.json to get version without loading the actual module
+      const packageJson = JSON.parse(fs.readFileSync(packagePath, 'utf8'));
+      return `installed (${packageJson.version})`;
+    }
+    return 'not found';
+  } catch (error) {
+    return `error: ${error instanceof Error ? error.message : String(error)}`;
   }
 } 
