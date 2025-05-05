@@ -9,10 +9,8 @@ import { neon, neonConfig } from '@neondatabase/serverless';
 
 // Get the best URL to use from various environment variables
 export function getNeonUrl(): string {
-  // Check if we need to use Prisma Data Proxy format
-  const useDataProxy = process.env.PRISMA_PROXY === 'true' || 
-                     process.env.DATABASE_URL?.startsWith('prisma://') ||
-                     process.env.POSTGRES_PRISMA_URL?.startsWith('prisma://');
+  // We're NOT using Prisma Data Proxy
+  const useDataProxy = false;
 
   // Check all possible Neon database URLs
   const possibleUrls = [
@@ -25,10 +23,10 @@ export function getNeonUrl(): string {
   if (possibleUrls.length > 0) {
     const url = possibleUrls[0] as string;
     
-    // If using a standard Postgres URL but we need Data Proxy format
-    if (useDataProxy && (url.startsWith('postgres://') || url.startsWith('postgresql://'))) {
-      console.log('Converting standard Postgres URL to Prisma Data Proxy format');
-      return url.replace(/^(postgres|postgresql):\/\//, 'prisma://');
+    // Ensure we're using postgresql:// protocol (not postgres://)
+    if (url.startsWith('postgres://')) {
+      console.log('Converting postgres:// URL to postgresql:// for Prisma compatibility');
+      return url.replace(/^postgres:\/\//, 'postgresql://');
     }
     
     return url;
@@ -36,14 +34,7 @@ export function getNeonUrl(): string {
   
   // Try to construct from components if available
   if (process.env.PGHOST && process.env.PGUSER && process.env.PGPASSWORD && process.env.PGDATABASE) {
-    const url = `postgresql://${process.env.PGUSER}:${process.env.PGPASSWORD}@${process.env.PGHOST}/${process.env.PGDATABASE}?sslmode=require`;
-    
-    // Convert to Prisma format if needed
-    if (useDataProxy) {
-      return url.replace(/^postgresql:\/\//, 'prisma://');
-    }
-    
-    return url;
+    return `postgresql://${process.env.PGUSER}:${process.env.PGPASSWORD}@${process.env.PGHOST}/${process.env.PGDATABASE}?sslmode=require`;
   }
   
   throw new Error('No valid Neon database URL found in environment variables');

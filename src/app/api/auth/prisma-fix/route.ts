@@ -1,10 +1,10 @@
 import { NextResponse } from 'next/server';
 import { PrismaClient } from '@/generated/prisma';
 
-// This endpoint tests Prisma with explicit Data Proxy URL format
+// This endpoint tests Prisma with direct Postgres URLs
 export async function GET() {
   try {
-    // Get database URL and convert to Prisma format if needed
+    // Get database URL and convert if needed
     let dbUrl = process.env.POSTGRES_PRISMA_URL || 
                 process.env.DATABASE_URL || 
                 process.env.POSTGRES_URL;
@@ -15,9 +15,9 @@ export async function GET() {
       }, { status: 500 });
     }
     
-    // Convert to prisma:// protocol if needed
-    if (dbUrl.startsWith('postgres://') || dbUrl.startsWith('postgresql://')) {
-      dbUrl = dbUrl.replace(/^(postgres|postgresql):\/\//, 'prisma://');
+    // Convert postgres:// to postgresql:// if needed
+    if (dbUrl.startsWith('postgres://')) {
+      dbUrl = dbUrl.replace(/^postgres:\/\//, 'postgresql://');
     }
     
     // Create a new PrismaClient with this URL
@@ -39,7 +39,7 @@ export async function GET() {
       userCount,
       duration: `${duration}ms`,
       urlProtocol: dbUrl.split('://')[0],
-      message: 'Successfully connected using Prisma Data Proxy URL'
+      message: 'Successfully connected using direct PostgreSQL URL'
     });
   } catch (error: any) {
     return NextResponse.json({
