@@ -2,17 +2,22 @@
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcrypt";
-import { prismaNeon as prisma } from "@/lib/prisma-neon"; // Use Neon-optimized client
+import { PrismaClient } from '@/generated/prisma'; // Using regular Prisma client as fallback
 import ensureNextAuthUrl from "../helpers/next-auth-url"; // Import helper
 
 // Explicitly set Node.js runtime for this API route
 export const runtime = 'nodejs';
 
+// Create a local Prisma client since the import is failing
+const prisma = new PrismaClient();
+
 // Define a fallback secret for development
 const NEXTAUTH_SECRET = process.env.NEXTAUTH_SECRET || "arcta_site_dev_secret_key_change_in_production";
 
-// Make sure we have a URL for NextAuth
-const NEXTAUTH_URL = ensureNextAuthUrl();
+// Ensure NEXTAUTH_URL is available with a fallback
+const NEXTAUTH_URL = process.env.NEXTAUTH_URL || 
+                    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 
+                    'http://localhost:3002');
 
 // Helper function to ensure database connection with retries
 async function ensureDatabaseConnection(retries = 5, delay = 1000) {

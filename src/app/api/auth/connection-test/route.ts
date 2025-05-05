@@ -1,5 +1,8 @@
 import { NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma';  // Use shared prisma client
+import { PrismaClient } from '@/generated/prisma';  // Use direct prisma client
+
+// Create a prisma client for this route
+const prisma = new PrismaClient();
 
 // Test connection using the shared prisma client
 export async function GET(): Promise<NextResponse> {
@@ -12,7 +15,7 @@ export async function GET(): Promise<NextResponse> {
     // Try a simple query using the shared client
     let result;
     try {
-      // Use the prisma instance from lib/prisma.ts
+      // Use the prisma instance created above
       const count = await prisma.user.count();
       result = { success: true, userCount: count };
     } catch (queryError: any) {
