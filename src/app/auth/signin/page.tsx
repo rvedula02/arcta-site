@@ -51,27 +51,33 @@ function SignInForm() {
       password: { value: string };
     };
     
-    // No need for CSRF token input, NextAuth handles it
-    const result = await signIn("credentials", {
-      redirect: false, // Keep handling redirect manually
-      email: target.email.value,
-      password: target.password.value,
-      callbackUrl: callbackUrl, // Pass the callbackUrl
-    });
+    try {
+      // No need for CSRF token input, NextAuth handles it
+      const result = await signIn("credentials", {
+        redirect: false, // Keep handling redirect manually
+        email: target.email.value,
+        password: target.password.value,
+        callbackUrl: callbackUrl, // Pass the callbackUrl
+      });
 
-    if (result?.error) {
-      // Error handling remains similar, using setError
-      if (result.error === "CredentialsSignin") {
-        setError("Invalid email or password.");
-      } else {
-        setError(`Sign in failed: ${result.error}`);
+      if (result?.error) {
+        // Error handling remains similar, using setError
+        if (result.error === "CredentialsSignin") {
+          setError("Invalid email or password.");
+        } else {
+          setError(`Sign in failed: ${result.error}`);
+        }
+      } else if (result?.url) {
+        // Sign-in successful, redirect using App Router's router
+        // Use result.url provided by signIn instead of the initial callbackUrl
+        router.push(result.url);
+        router.refresh(); // Optional: Refresh server components
       }
+    } catch (err) {
+      console.error("Authentication error:", err);
+      setError("An unexpected error occurred. Please try again.");
+    } finally {
       setIsLoading(false);
-    } else if (result?.url) {
-      // Sign-in successful, redirect using App Router's router
-      // Use result.url provided by signIn instead of the initial callbackUrl
-      router.push(result.url); 
-      router.refresh(); // Optional: Refresh server components
     }
   };
 

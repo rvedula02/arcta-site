@@ -9,11 +9,11 @@ declare module "next-auth" {
       /** The user's id */
       id: string;
       /** The user's first name */
-      firstName?: string;
+      firstName: string;
       /** The user's last name */
-      lastName?: string;
+      lastName: string;
       /** The user's company */
-      company?: string;
+      company: string;
       /** Optional description of user needs */
       needsDescription?: string;
       /** When the demo is booked for */
@@ -24,9 +24,25 @@ declare module "next-auth" {
   }
 
   interface User {
+    id: string;
     firstName: string;
     lastName: string;
     company: string;
     needsDescription?: string;
+    demoBookingTime?: Date;
+    demoBookingUri?: string;
+  }
+}
+
+declare module "next-auth/jwt" {
+  /** Returned by the `jwt` callback and `getToken`, when using JWT sessions */
+  interface JWT {
+    id: string;
+    firstName: string;
+    lastName: string;
+    company: string;
+    needsDescription?: string;
+    demoBookingTime?: string;
+    demoBookingUri?: string;
   }
 } 

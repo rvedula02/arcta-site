@@ -1,19 +1,18 @@
 import { PrismaClient } from '../generated/prisma';
 
-// Declare a global variable to hold the Prisma client instance.
-// This prevents creating multiple instances in development due to hot reloading.
+// Declare global variable for PrismaClient instance
 declare global {
-  // eslint-disable-next-line no-var
   var prisma: PrismaClient | undefined;
 }
 
-export const prisma =
-  global.prisma ||
-  new PrismaClient({
-    // Optional: Log Prisma queries
-    log: process.env.NODE_ENV === "development" ? ["query", "error", "warn"] : ["error"],
-  });
+// Prevent multiple instances of Prisma Client in development
+const prismaClient = global.prisma || new PrismaClient({
+  log: process.env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
+});
 
+// Set global prisma for development
 if (process.env.NODE_ENV !== 'production') {
-  global.prisma = prisma;
-} 
+  global.prisma = prismaClient;
+}
+
+export const prisma = prismaClient; 
