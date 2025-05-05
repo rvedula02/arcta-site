@@ -2,7 +2,7 @@
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcrypt";
-import { prisma } from "@/lib/prisma"; // Use shared client
+import { prismaNeon as prisma } from "@/lib/prisma-neon"; // Use Neon-optimized client
 import ensureNextAuthUrl from "../helpers/next-auth-url"; // Import helper
 
 // Define a fallback secret for development
@@ -37,10 +37,18 @@ async function ensureDatabaseConnection(retries = 5, delay = 1000) {
 
 // Check if we're running on Vercel
 const isVercel = process.env.VERCEL === '1';
+const isProduction = process.env.NODE_ENV === 'production';
+
 // Log environment settings for debugging
 console.log(`NextAuth environment: ${process.env.NODE_ENV}, Vercel: ${isVercel}`);
 console.log(`NEXTAUTH_URL: ${NEXTAUTH_URL || '[not set]'}`);
 console.log(`Secret set: ${!!NEXTAUTH_SECRET}`);
+console.log(`Domain for auth: ${new URL(NEXTAUTH_URL).hostname}`);
+console.log(`Using optimized Neon Prisma client`);
+
+// Determine if we should use secure cookies (https)
+const useSecureCookies = NEXTAUTH_URL.startsWith('https://');
+const cookieDomain = isProduction ? new URL(NEXTAUTH_URL).hostname : undefined;
 
 // Define authOptions as a constant, not as an export
 const authOptions: NextAuthOptions = {
@@ -135,6 +143,38 @@ const authOptions: NextAuthOptions = {
   pages: {
     signIn: '/auth/signin', // Ensure this path matches your App Router sign-in page
     error: '/auth/error', // Error page
+  },
+  cookies: {
+    sessionToken: {
+      name: `${useSecureCookies ? "__Secure-" : ""}next-auth.session-token`,
+      options: {
+        httpOnly: true,
+        sameSite: "lax",
+        path: "/",
+        secure: useSecureCookies,
+        domain: cookieDomain
+      }
+    },
+    callbackUrl: {
+      name: `${useSecureCookies ? "__Secure-" : ""}next-auth.callback-url`,
+      options: {
+        httpOnly: true,
+        sameSite: "lax",
+        path: "/",
+        secure: useSecureCookies,
+        domain: cookieDomain
+      }
+    },
+    csrfToken: {
+      name: `${useSecureCookies ? "__Secure-" : ""}next-auth.csrf-token`,
+      options: {
+        httpOnly: true,
+        sameSite: "lax",
+        path: "/",
+        secure: useSecureCookies,
+        domain: cookieDomain
+      }
+    }
   },
   callbacks: {
     async jwt({ token, user }) {
