@@ -7,6 +7,30 @@ import { prisma } from "@/lib/prisma"; // Use shared client
 // Define a fallback secret for development
 const NEXTAUTH_SECRET = process.env.NEXTAUTH_SECRET || "arcta_site_dev_secret_key_change_in_production";
 
+// Helper function to ensure database connection with retries
+async function ensureDatabaseConnection(retries = 3, delay = 1000) {
+  let lastError;
+  for (let attempt = 1; attempt <= retries; attempt++) {
+    try {
+      const count = await prisma.user.count();
+      console.log(`Database connection successful (attempt ${attempt}). User count: ${count}`);
+      return true;
+    } catch (error) {
+      lastError = error;
+      console.error(`Database connection attempt ${attempt} failed:`, error);
+      // Wait before retrying
+      if (attempt < retries) {
+        console.log(`Retrying in ${delay}ms...`);
+        await new Promise(resolve => setTimeout(resolve, delay));
+        // Increase delay for next attempt (exponential backoff)
+        delay *= 1.5;
+      }
+    }
+  }
+  console.error(`Failed to connect to database after ${retries} attempts. Last error:`, lastError);
+  throw new Error(`Database connection failed after ${retries} attempts: ${lastError instanceof Error ? lastError.message : String(lastError)}`);
+}
+
 // Define authOptions as a constant, not as an export
 const authOptions: NextAuthOptions = {
   providers: [
@@ -25,17 +49,20 @@ const authOptions: NextAuthOptions = {
             return null;
           }
           
-          // Check database connection by counting users
+          // Check database connection with retries
           try {
-            const userCount = await prisma.user.count();
-            console.log("Database connection successful, found users:", userCount);
+            await ensureDatabaseConnection();
           } catch (dbError) {
-            console.error("Database connection error:", dbError);
-            throw new Error("Database connection failed");
+            console.error("Database connection failed:", dbError);
+            throw dbError; // Rethrow to let NextAuth handle it properly
           }
           
+          // Find and validate user
           const user = await prisma.user.findUnique({
             where: { email: credentials.email }
+          }).catch(err => {
+            console.error("Error finding user:", err);
+            throw new Error("Database query failed");
           });
           
           if (!user) {
@@ -108,20 +135,25 @@ const authOptions: NextAuthOptions = {
           token.company = user.company;
           
           // Fetch additional user data from the database
-          const dbUser = await prisma.user.findUnique({ 
-            where: { id: user.id },
-            select: {
-              needsDescription: true,
-              demoBookingTime: true,
-              demoBookingUri: true
+          try {
+            const dbUser = await prisma.user.findUnique({ 
+              where: { id: user.id },
+              select: {
+                needsDescription: true,
+                demoBookingTime: true,
+                demoBookingUri: true
+              }
+            });
+            
+            if (dbUser) {
+              // Convert null to undefined to match the JWT type definition
+              token.needsDescription = dbUser.needsDescription ?? undefined;
+              token.demoBookingTime = dbUser.demoBookingTime?.toISOString();
+              token.demoBookingUri = dbUser.demoBookingUri ?? undefined;
             }
-          });
-          
-          if (dbUser) {
-            // Convert null to undefined to match the JWT type definition
-            token.needsDescription = dbUser.needsDescription ?? undefined;
-            token.demoBookingTime = dbUser.demoBookingTime?.toISOString();
-            token.demoBookingUri = dbUser.demoBookingUri ?? undefined;
+          } catch (dbError) {
+            console.error("Error fetching additional user data:", dbError);
+            // Continue with the token we have
           }
         }
         return token;

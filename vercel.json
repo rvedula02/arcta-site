@@ -9,5 +9,16 @@
     "env": {
       "PRISMA_GENERATE_DATAPROXY": "false"
     }
-  }
+  },
+  "env": {
+    "NEXT_PUBLIC_VERCEL_ENV": "production"
+  },
+  "headers": [
+    {
+      "source": "/api/auth/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-store, max-age=0" }
+      ]
+    }
+  ]
 } 

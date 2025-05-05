@@ -1,21 +1,56 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
+// Forced database connection check with retries
+async function checkDatabaseConnection(maxRetries = 3) {
+  let lastError;
+  let connected = false;
+  let userCount = 0;
+  let retryCount = 0;
+  
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      retryCount = attempt;
+      userCount = await prisma.user.count();
+      connected = true;
+      break;
+    } catch (err: any) {
+      lastError = err;
+      console.error(`Database connection attempt ${attempt} failed:`, err);
+      // Wait before retrying
+      if (attempt < maxRetries) {
+        await new Promise(resolve => setTimeout(resolve, 500 * attempt)); // Increasing delay
+      }
+    }
+  }
+  
+  return {
+    connected,
+    retries: retryCount,
+    userCount: connected ? userCount : null,
+    error: connected ? null : lastError?.message,
+    errorName: connected ? null : lastError?.name,
+    errorStack: connected ? null : lastError?.stack?.split('\n').slice(0, 3).join('\n')
+  };
+}
+
 export async function GET() {
   try {
-    // Check database connection
-    let databaseStatus;
-    try {
-      const userCount = await prisma.user.count();
-      databaseStatus = {
-        connected: true,
-        userCount,
-      };
-    } catch (dbError: any) {
-      console.error('Database connection error:', dbError);
-      databaseStatus = {
-        connected: false,
-        error: dbError.message,
+    // Check database connection with retry logic
+    const databaseStatus = await checkDatabaseConnection();
+    
+    // Extract database URL for diagnostic purposes (masked for security)
+    let dbUrlInfo = 'Not configured';
+    if (process.env.DATABASE_URL) {
+      const url = process.env.DATABASE_URL;
+      const masked = url.replace(/:([^@]*)@/, ':****@');
+      const hasSSL = url.includes('sslmode=');
+      dbUrlInfo = {
+        configured: true,
+        protocol: url.split(':')[0],
+        host: masked.split('@')[1]?.split('/')[0] || 'unknown',
+        hasSSL,
+        pooled: masked.includes('-pooler'),
       };
     }
 
@@ -28,9 +63,10 @@ export async function GET() {
     };
 
     return NextResponse.json({
-      status: 'ok',
+      status: databaseStatus.connected ? 'ok' : 'database_error',
       timestamp: new Date().toISOString(),
       database: databaseStatus,
+      databaseUrlInfo: dbUrlInfo,
       environment: envCheck,
     });
   } catch (error: any) {
@@ -38,6 +74,7 @@ export async function GET() {
     return NextResponse.json({
       status: 'error',
       message: error.message,
+      stack: error.stack?.split('\n').slice(0, 3).join('\n'),
     }, { status: 500 });
   }
 } 

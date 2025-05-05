@@ -2,6 +2,47 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import bcrypt from 'bcrypt';
 
+export async function GET() {
+  try {
+    // Check database connection
+    let dbStatus;
+    try {
+      const userCount = await prisma.user.count();
+      dbStatus = {
+        connected: true,
+        userCount
+      };
+    } catch (dbError: any) {
+      dbStatus = {
+        connected: false,
+        error: dbError.message,
+        stack: dbError.stack?.split('\n').slice(0, 3).join('\n')
+      };
+    }
+    
+    // Environment info
+    const envInfo = {
+      NODE_ENV: process.env.NODE_ENV,
+      NEXTAUTH_URL: process.env.NEXTAUTH_URL,
+      DATABASE_URL: process.env.DATABASE_URL ? `${process.env.DATABASE_URL.substring(0, 10)}...` : '[NOT SET]',
+      NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET ? '[SET]' : '[NOT SET]',
+      HAS_SSL: process.env.DATABASE_URL?.includes('sslmode=') ? 'Yes' : 'No'
+    };
+    
+    return NextResponse.json({
+      timestamp: new Date().toISOString(),
+      database: dbStatus,
+      env: envInfo
+    });
+  } catch (error: any) {
+    return NextResponse.json({
+      error: 'Debug endpoint error',
+      message: error.message,
+      stack: error.stack?.split('\n').slice(0, 3).join('\n')
+    }, { status: 500 });
+  }
+}
+
 export async function POST(request: Request) {
   try {
     const { email, password } = await request.json();
@@ -42,40 +83,23 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'User has no password set' }, { status: 400 });
     }
     
-    // Check password
-    try {
-      const isValid = await bcrypt.compare(password, user.password);
-      if (isValid) {
-        return NextResponse.json({ 
-          success: true, 
-          message: 'Credentials valid',
-          user: {
-            id: user.id,
-            email: user.email,
-            firstName: user.firstName,
-            lastName: user.lastName
-          },
-          dbStats: { userCount }
-        });
-      } else {
-        return NextResponse.json({ 
-          error: 'Invalid password',
-          passwordLength: password.length,
-          hashedPasswordLength: user.password.length
-        }, { status: 401 });
-      }
-    } catch (bcryptError: any) {
-      console.error('bcrypt error:', bcryptError);
-      return NextResponse.json({ 
-        error: 'Password verification error', 
-        details: bcryptError.message 
-      }, { status: 500 });
-    }
+    // Validate password
+    const isValidPassword = await bcrypt.compare(password, user.password);
+    
+    return NextResponse.json({
+      success: isValidPassword,
+      message: isValidPassword ? 'Authentication successful' : 'Invalid password',
+      userExists: true,
+      hasPassword: true,
+      databaseConnected: true,
+      userCount
+    });
   } catch (error: any) {
-    console.error('Debug API error:', error);
-    return NextResponse.json({ 
-      error: 'Internal server error', 
-      details: error.message 
+    console.error('Auth debug error:', error);
+    return NextResponse.json({
+      error: 'Auth debug endpoint error',
+      message: error.message,
+      stack: error.stack?.split('\n').slice(0, 3).join('\n')
     }, { status: 500 });
   }
 } 
