@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev -p 3002",
     "prebuild": "npm install @neondatabase/serverless prisma tailwindcss postcss autoprefixer @tailwindcss/forms",
-    "build": "npx prisma generate && next build || (echo 'Build failed with detailed error:' && cat .next/build-error.log && exit 1)",
+    "build": "npx prisma generate && next build",
     "start": "next start -p 3002",
     "lint": "next lint",
     "postinstall": "npx prisma generate"
