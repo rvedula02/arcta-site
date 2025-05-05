@@ -77,11 +77,6 @@ if (process.env.NODE_ENV !== 'production') {
   global.prisma = prismaClient;
 }
 
-// Add error listener for better diagnostics
-prismaClient.$on('error', (e) => {
-  console.error('Prisma Client error:', e);
-});
-
 // For clean process shutdown (using process directly instead of Prisma's beforeExit)
 if (typeof process !== 'undefined') {
   process.on('beforeExit', async () => {
