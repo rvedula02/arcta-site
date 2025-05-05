@@ -1,10 +1,20 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
+// Define types for better TypeScript support
 interface DbTestResult {
   success: boolean;
   error: string | null;
   count: number | null;
+}
+
+interface DbUrlInfo {
+  set: boolean;
+  protocol?: string;
+  hasSSL?: boolean;
+  isPgBouncer?: boolean;
+  host?: string;
+  masked?: string;
 }
 
 export async function GET() {
@@ -32,7 +42,7 @@ export async function GET() {
     }
     
     // Check database URL configuration (masked)
-    let dbUrlInfo = null;
+    let dbUrlInfo: DbUrlInfo = { set: false };
     if (process.env.DATABASE_URL) {
       const url = process.env.DATABASE_URL;
       const maskedUrl = url.replace(/:([^@]*)@/, ':****@');
@@ -44,8 +54,6 @@ export async function GET() {
         host: maskedUrl.split('@')[1]?.split('/')[0] || 'unknown',
         masked: `${maskedUrl.substring(0, 15)}...${maskedUrl.substring(maskedUrl.indexOf('@'))}`,
       };
-    } else {
-      dbUrlInfo = { set: false };
     }
     
     // Check auth configuration

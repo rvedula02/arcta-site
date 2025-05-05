@@ -1,6 +1,15 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
+// Define types for database URL info
+interface DbUrlInfo {
+  configured: boolean;
+  protocol?: string;
+  host?: string;
+  hasSSL?: boolean;
+  pooled?: boolean;
+}
+
 // Forced database connection check with retries
 async function checkDatabaseConnection(maxRetries = 3) {
   let lastError;
@@ -40,7 +49,7 @@ export async function GET() {
     const databaseStatus = await checkDatabaseConnection();
     
     // Extract database URL for diagnostic purposes (masked for security)
-    let dbUrlInfo = 'Not configured';
+    let dbUrlInfo: DbUrlInfo = { configured: false };
     if (process.env.DATABASE_URL) {
       const url = process.env.DATABASE_URL;
       const masked = url.replace(/:([^@]*)@/, ':****@');
