@@ -9,6 +9,11 @@ import { neon, neonConfig } from '@neondatabase/serverless';
 
 // Get the best URL to use from various environment variables
 export function getNeonUrl(): string {
+  // Check if we need to use Prisma Data Proxy format
+  const useDataProxy = process.env.PRISMA_PROXY === 'true' || 
+                     process.env.DATABASE_URL?.startsWith('prisma://') ||
+                     process.env.POSTGRES_PRISMA_URL?.startsWith('prisma://');
+
   // Check all possible Neon database URLs
   const possibleUrls = [
     process.env.POSTGRES_PRISMA_URL,
@@ -18,12 +23,27 @@ export function getNeonUrl(): string {
   ].filter(Boolean);
   
   if (possibleUrls.length > 0) {
-    return possibleUrls[0] as string;
+    const url = possibleUrls[0] as string;
+    
+    // If using a standard Postgres URL but we need Data Proxy format
+    if (useDataProxy && (url.startsWith('postgres://') || url.startsWith('postgresql://'))) {
+      console.log('Converting standard Postgres URL to Prisma Data Proxy format');
+      return url.replace(/^(postgres|postgresql):\/\//, 'prisma://');
+    }
+    
+    return url;
   }
   
   // Try to construct from components if available
   if (process.env.PGHOST && process.env.PGUSER && process.env.PGPASSWORD && process.env.PGDATABASE) {
-    return `postgresql://${process.env.PGUSER}:${process.env.PGPASSWORD}@${process.env.PGHOST}/${process.env.PGDATABASE}?sslmode=require`;
+    const url = `postgresql://${process.env.PGUSER}:${process.env.PGPASSWORD}@${process.env.PGHOST}/${process.env.PGDATABASE}?sslmode=require`;
+    
+    // Convert to Prisma format if needed
+    if (useDataProxy) {
+      return url.replace(/^postgresql:\/\//, 'prisma://');
+    }
+    
+    return url;
   }
   
   throw new Error('No valid Neon database URL found in environment variables');

@@ -38,6 +38,12 @@ function getPrismaNeonClient(): PrismaClient {
       }
     };
 
+    // Enable Data Proxy explicitly for production
+    if (isProduction) {
+      // Set an environment variable that prisma will use
+      process.env.PRISMA_PROXY = 'true';
+    }
+
     // Initialize and return the client
     return new PrismaClient(options);
   } catch (error) {

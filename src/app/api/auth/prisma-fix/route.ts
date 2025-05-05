@@ -1,0 +1,51 @@
+import { NextResponse } from 'next/server';
+import { PrismaClient } from '@/generated/prisma';
+
+// This endpoint tests Prisma with explicit Data Proxy URL format
+export async function GET() {
+  try {
+    // Get database URL and convert to Prisma format if needed
+    let dbUrl = process.env.POSTGRES_PRISMA_URL || 
+                process.env.DATABASE_URL || 
+                process.env.POSTGRES_URL;
+    
+    if (!dbUrl) {
+      return NextResponse.json({
+        error: 'No database URL found in environment variables'
+      }, { status: 500 });
+    }
+    
+    // Convert to prisma:// protocol if needed
+    if (dbUrl.startsWith('postgres://') || dbUrl.startsWith('postgresql://')) {
+      dbUrl = dbUrl.replace(/^(postgres|postgresql):\/\//, 'prisma://');
+    }
+    
+    // Create a new PrismaClient with this URL
+    const prisma = new PrismaClient({
+      datasources: {
+        db: {
+          url: dbUrl
+        }
+      }
+    });
+    
+    // Test the connection
+    const startTime = Date.now();
+    const userCount = await prisma.user.count();
+    const duration = Date.now() - startTime;
+    
+    return NextResponse.json({
+      success: true,
+      userCount,
+      duration: `${duration}ms`,
+      urlProtocol: dbUrl.split('://')[0],
+      message: 'Successfully connected using Prisma Data Proxy URL'
+    });
+  } catch (error: any) {
+    return NextResponse.json({
+      error: 'Prisma connection failed',
+      message: error.message,
+      stack: error.stack?.split('\n').slice(0, 3).join('\n')
+    }, { status: 500 });
+  }
+} 
