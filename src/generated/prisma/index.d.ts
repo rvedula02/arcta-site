@@ -38,6 +38,11 @@ export type VerificationToken = $Result.DefaultSelection<Prisma.$VerificationTok
  * 
  */
 export type DemoRequest = $Result.DefaultSelection<Prisma.$DemoRequestPayload>
+/**
+ * Model UserFile
+ * 
+ */
+export type UserFile = $Result.DefaultSelection<Prisma.$UserFilePayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -210,6 +215,16 @@ export class PrismaClient<
     * ```
     */
   get demoRequest(): Prisma.DemoRequestDelegate<ExtArgs>;
+
+  /**
+   * `prisma.userFile`: Exposes CRUD operations for the **UserFile** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more UserFiles
+    * const userFiles = await prisma.userFile.findMany()
+    * ```
+    */
+  get userFile(): Prisma.UserFileDelegate<ExtArgs>;
 }
 
 export namespace Prisma {
@@ -684,7 +699,8 @@ export namespace Prisma {
     Session: 'Session',
     User: 'User',
     VerificationToken: 'VerificationToken',
-    DemoRequest: 'DemoRequest'
+    DemoRequest: 'DemoRequest',
+    UserFile: 'UserFile'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -701,7 +717,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     meta: {
-      modelProps: 'account' | 'session' | 'user' | 'verificationToken' | 'demoRequest'
+      modelProps: 'account' | 'session' | 'user' | 'verificationToken' | 'demoRequest' | 'userFile'
       txIsolationLevel: Prisma.TransactionIsolationLevel
     },
     model: {
@@ -1035,6 +1051,72 @@ export namespace Prisma {
           }
         }
       }
+      UserFile: {
+        payload: Prisma.$UserFilePayload<ExtArgs>
+        fields: Prisma.UserFileFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.UserFileFindUniqueArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$UserFilePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.UserFileFindUniqueOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$UserFilePayload>
+          }
+          findFirst: {
+            args: Prisma.UserFileFindFirstArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$UserFilePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.UserFileFindFirstOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$UserFilePayload>
+          }
+          findMany: {
+            args: Prisma.UserFileFindManyArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$UserFilePayload>[]
+          }
+          create: {
+            args: Prisma.UserFileCreateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$UserFilePayload>
+          }
+          createMany: {
+            args: Prisma.UserFileCreateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          delete: {
+            args: Prisma.UserFileDeleteArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$UserFilePayload>
+          }
+          update: {
+            args: Prisma.UserFileUpdateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$UserFilePayload>
+          }
+          deleteMany: {
+            args: Prisma.UserFileDeleteManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          updateMany: {
+            args: Prisma.UserFileUpdateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          upsert: {
+            args: Prisma.UserFileUpsertArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$UserFilePayload>
+          }
+          aggregate: {
+            args: Prisma.UserFileAggregateArgs<ExtArgs>,
+            result: $Utils.Optional<AggregateUserFile>
+          }
+          groupBy: {
+            args: Prisma.UserFileGroupByArgs<ExtArgs>,
+            result: $Utils.Optional<UserFileGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.UserFileCountArgs<ExtArgs>,
+            result: $Utils.Optional<UserFileCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1187,12 +1269,14 @@ export namespace Prisma {
     accounts: number
     demoRequests: number
     sessions: number
+    files: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     accounts?: boolean | UserCountOutputTypeCountAccountsArgs
     demoRequests?: boolean | UserCountOutputTypeCountDemoRequestsArgs
     sessions?: boolean | UserCountOutputTypeCountSessionsArgs
+    files?: boolean | UserCountOutputTypeCountFilesArgs
   }
 
   // Custom InputTypes
@@ -1229,6 +1313,14 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountSessionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: SessionWhereInput
+  }
+
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountFilesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserFileWhereInput
   }
 
 
@@ -3412,6 +3504,7 @@ export namespace Prisma {
     accounts?: boolean | User$accountsArgs<ExtArgs>
     demoRequests?: boolean | User$demoRequestsArgs<ExtArgs>
     sessions?: boolean | User$sessionsArgs<ExtArgs>
+    files?: boolean | User$filesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -3436,6 +3529,7 @@ export namespace Prisma {
     accounts?: boolean | User$accountsArgs<ExtArgs>
     demoRequests?: boolean | User$demoRequestsArgs<ExtArgs>
     sessions?: boolean | User$sessionsArgs<ExtArgs>
+    files?: boolean | User$filesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -3446,6 +3540,7 @@ export namespace Prisma {
       accounts: Prisma.$AccountPayload<ExtArgs>[]
       demoRequests: Prisma.$DemoRequestPayload<ExtArgs>[]
       sessions: Prisma.$SessionPayload<ExtArgs>[]
+      files: Prisma.$UserFilePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3832,6 +3927,8 @@ export namespace Prisma {
     demoRequests<T extends User$demoRequestsArgs<ExtArgs> = {}>(args?: Subset<T, User$demoRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DemoRequestPayload<ExtArgs>, T, 'findMany'> | Null>;
 
     sessions<T extends User$sessionsArgs<ExtArgs> = {}>(args?: Subset<T, User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, 'findMany'> | Null>;
+
+    files<T extends User$filesArgs<ExtArgs> = {}>(args?: Subset<T, User$filesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserFilePayload<ExtArgs>, T, 'findMany'> | Null>;
 
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -4246,6 +4343,27 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: SessionScalarFieldEnum | SessionScalarFieldEnum[]
+  }
+
+
+  /**
+   * User.files
+   */
+  export type User$filesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserFile
+     */
+    select?: UserFileSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserFileInclude<ExtArgs> | null
+    where?: UserFileWhereInput
+    orderBy?: UserFileOrderByWithRelationInput | UserFileOrderByWithRelationInput[]
+    cursor?: UserFileWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UserFileScalarFieldEnum | UserFileScalarFieldEnum[]
   }
 
 
@@ -6114,6 +6232,1002 @@ export namespace Prisma {
 
 
   /**
+   * Model UserFile
+   */
+
+  export type AggregateUserFile = {
+    _count: UserFileCountAggregateOutputType | null
+    _avg: UserFileAvgAggregateOutputType | null
+    _sum: UserFileSumAggregateOutputType | null
+    _min: UserFileMinAggregateOutputType | null
+    _max: UserFileMaxAggregateOutputType | null
+  }
+
+  export type UserFileAvgAggregateOutputType = {
+    fileSize: number | null
+  }
+
+  export type UserFileSumAggregateOutputType = {
+    fileSize: number | null
+  }
+
+  export type UserFileMinAggregateOutputType = {
+    id: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    fileName: string | null
+    fileSize: number | null
+    fileType: string | null
+    storagePath: string | null
+    description: string | null
+    userId: string | null
+  }
+
+  export type UserFileMaxAggregateOutputType = {
+    id: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    fileName: string | null
+    fileSize: number | null
+    fileType: string | null
+    storagePath: string | null
+    description: string | null
+    userId: string | null
+  }
+
+  export type UserFileCountAggregateOutputType = {
+    id: number
+    createdAt: number
+    updatedAt: number
+    fileName: number
+    fileSize: number
+    fileType: number
+    storagePath: number
+    description: number
+    userId: number
+    _all: number
+  }
+
+
+  export type UserFileAvgAggregateInputType = {
+    fileSize?: true
+  }
+
+  export type UserFileSumAggregateInputType = {
+    fileSize?: true
+  }
+
+  export type UserFileMinAggregateInputType = {
+    id?: true
+    createdAt?: true
+    updatedAt?: true
+    fileName?: true
+    fileSize?: true
+    fileType?: true
+    storagePath?: true
+    description?: true
+    userId?: true
+  }
+
+  export type UserFileMaxAggregateInputType = {
+    id?: true
+    createdAt?: true
+    updatedAt?: true
+    fileName?: true
+    fileSize?: true
+    fileType?: true
+    storagePath?: true
+    description?: true
+    userId?: true
+  }
+
+  export type UserFileCountAggregateInputType = {
+    id?: true
+    createdAt?: true
+    updatedAt?: true
+    fileName?: true
+    fileSize?: true
+    fileType?: true
+    storagePath?: true
+    description?: true
+    userId?: true
+    _all?: true
+  }
+
+  export type UserFileAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserFile to aggregate.
+     */
+    where?: UserFileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserFiles to fetch.
+     */
+    orderBy?: UserFileOrderByWithRelationInput | UserFileOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: UserFileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserFiles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserFiles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned UserFiles
+    **/
+    _count?: true | UserFileCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: UserFileAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: UserFileSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: UserFileMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: UserFileMaxAggregateInputType
+  }
+
+  export type GetUserFileAggregateType<T extends UserFileAggregateArgs> = {
+        [P in keyof T & keyof AggregateUserFile]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateUserFile[P]>
+      : GetScalarType<T[P], AggregateUserFile[P]>
+  }
+
+
+
+
+  export type UserFileGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserFileWhereInput
+    orderBy?: UserFileOrderByWithAggregationInput | UserFileOrderByWithAggregationInput[]
+    by: UserFileScalarFieldEnum[] | UserFileScalarFieldEnum
+    having?: UserFileScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: UserFileCountAggregateInputType | true
+    _avg?: UserFileAvgAggregateInputType
+    _sum?: UserFileSumAggregateInputType
+    _min?: UserFileMinAggregateInputType
+    _max?: UserFileMaxAggregateInputType
+  }
+
+  export type UserFileGroupByOutputType = {
+    id: string
+    createdAt: Date
+    updatedAt: Date
+    fileName: string
+    fileSize: number
+    fileType: string
+    storagePath: string
+    description: string | null
+    userId: string
+    _count: UserFileCountAggregateOutputType | null
+    _avg: UserFileAvgAggregateOutputType | null
+    _sum: UserFileSumAggregateOutputType | null
+    _min: UserFileMinAggregateOutputType | null
+    _max: UserFileMaxAggregateOutputType | null
+  }
+
+  type GetUserFileGroupByPayload<T extends UserFileGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<UserFileGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof UserFileGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], UserFileGroupByOutputType[P]>
+            : GetScalarType<T[P], UserFileGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type UserFileSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    fileName?: boolean
+    fileSize?: boolean
+    fileType?: boolean
+    storagePath?: boolean
+    description?: boolean
+    userId?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userFile"]>
+
+  export type UserFileSelectScalar = {
+    id?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    fileName?: boolean
+    fileSize?: boolean
+    fileType?: boolean
+    storagePath?: boolean
+    description?: boolean
+    userId?: boolean
+  }
+
+  export type UserFileInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+
+  export type $UserFilePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "UserFile"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      createdAt: Date
+      updatedAt: Date
+      fileName: string
+      fileSize: number
+      fileType: string
+      storagePath: string
+      description: string | null
+      userId: string
+    }, ExtArgs["result"]["userFile"]>
+    composites: {}
+  }
+
+
+  type UserFileGetPayload<S extends boolean | null | undefined | UserFileDefaultArgs> = $Result.GetResult<Prisma.$UserFilePayload, S>
+
+  type UserFileCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<UserFileFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: UserFileCountAggregateInputType | true
+    }
+
+  export interface UserFileDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['UserFile'], meta: { name: 'UserFile' } }
+    /**
+     * Find zero or one UserFile that matches the filter.
+     * @param {UserFileFindUniqueArgs} args - Arguments to find a UserFile
+     * @example
+     * // Get one UserFile
+     * const userFile = await prisma.userFile.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends UserFileFindUniqueArgs<ExtArgs>>(
+      args: SelectSubset<T, UserFileFindUniqueArgs<ExtArgs>>
+    ): Prisma__UserFileClient<$Result.GetResult<Prisma.$UserFilePayload<ExtArgs>, T, 'findUnique'> | null, null, ExtArgs>
+
+    /**
+     * Find one UserFile that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {UserFileFindUniqueOrThrowArgs} args - Arguments to find a UserFile
+     * @example
+     * // Get one UserFile
+     * const userFile = await prisma.userFile.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends UserFileFindUniqueOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, UserFileFindUniqueOrThrowArgs<ExtArgs>>
+    ): Prisma__UserFileClient<$Result.GetResult<Prisma.$UserFilePayload<ExtArgs>, T, 'findUniqueOrThrow'>, never, ExtArgs>
+
+    /**
+     * Find the first UserFile that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserFileFindFirstArgs} args - Arguments to find a UserFile
+     * @example
+     * // Get one UserFile
+     * const userFile = await prisma.userFile.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends UserFileFindFirstArgs<ExtArgs>>(
+      args?: SelectSubset<T, UserFileFindFirstArgs<ExtArgs>>
+    ): Prisma__UserFileClient<$Result.GetResult<Prisma.$UserFilePayload<ExtArgs>, T, 'findFirst'> | null, null, ExtArgs>
+
+    /**
+     * Find the first UserFile that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserFileFindFirstOrThrowArgs} args - Arguments to find a UserFile
+     * @example
+     * // Get one UserFile
+     * const userFile = await prisma.userFile.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends UserFileFindFirstOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, UserFileFindFirstOrThrowArgs<ExtArgs>>
+    ): Prisma__UserFileClient<$Result.GetResult<Prisma.$UserFilePayload<ExtArgs>, T, 'findFirstOrThrow'>, never, ExtArgs>
+
+    /**
+     * Find zero or more UserFiles that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserFileFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all UserFiles
+     * const userFiles = await prisma.userFile.findMany()
+     * 
+     * // Get first 10 UserFiles
+     * const userFiles = await prisma.userFile.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const userFileWithIdOnly = await prisma.userFile.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends UserFileFindManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, UserFileFindManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserFilePayload<ExtArgs>, T, 'findMany'>>
+
+    /**
+     * Create a UserFile.
+     * @param {UserFileCreateArgs} args - Arguments to create a UserFile.
+     * @example
+     * // Create one UserFile
+     * const UserFile = await prisma.userFile.create({
+     *   data: {
+     *     // ... data to create a UserFile
+     *   }
+     * })
+     * 
+    **/
+    create<T extends UserFileCreateArgs<ExtArgs>>(
+      args: SelectSubset<T, UserFileCreateArgs<ExtArgs>>
+    ): Prisma__UserFileClient<$Result.GetResult<Prisma.$UserFilePayload<ExtArgs>, T, 'create'>, never, ExtArgs>
+
+    /**
+     * Create many UserFiles.
+     *     @param {UserFileCreateManyArgs} args - Arguments to create many UserFiles.
+     *     @example
+     *     // Create many UserFiles
+     *     const userFile = await prisma.userFile.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends UserFileCreateManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, UserFileCreateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a UserFile.
+     * @param {UserFileDeleteArgs} args - Arguments to delete one UserFile.
+     * @example
+     * // Delete one UserFile
+     * const UserFile = await prisma.userFile.delete({
+     *   where: {
+     *     // ... filter to delete one UserFile
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends UserFileDeleteArgs<ExtArgs>>(
+      args: SelectSubset<T, UserFileDeleteArgs<ExtArgs>>
+    ): Prisma__UserFileClient<$Result.GetResult<Prisma.$UserFilePayload<ExtArgs>, T, 'delete'>, never, ExtArgs>
+
+    /**
+     * Update one UserFile.
+     * @param {UserFileUpdateArgs} args - Arguments to update one UserFile.
+     * @example
+     * // Update one UserFile
+     * const userFile = await prisma.userFile.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends UserFileUpdateArgs<ExtArgs>>(
+      args: SelectSubset<T, UserFileUpdateArgs<ExtArgs>>
+    ): Prisma__UserFileClient<$Result.GetResult<Prisma.$UserFilePayload<ExtArgs>, T, 'update'>, never, ExtArgs>
+
+    /**
+     * Delete zero or more UserFiles.
+     * @param {UserFileDeleteManyArgs} args - Arguments to filter UserFiles to delete.
+     * @example
+     * // Delete a few UserFiles
+     * const { count } = await prisma.userFile.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends UserFileDeleteManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, UserFileDeleteManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserFiles.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserFileUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many UserFiles
+     * const userFile = await prisma.userFile.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends UserFileUpdateManyArgs<ExtArgs>>(
+      args: SelectSubset<T, UserFileUpdateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one UserFile.
+     * @param {UserFileUpsertArgs} args - Arguments to update or create a UserFile.
+     * @example
+     * // Update or create a UserFile
+     * const userFile = await prisma.userFile.upsert({
+     *   create: {
+     *     // ... data to create a UserFile
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the UserFile we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends UserFileUpsertArgs<ExtArgs>>(
+      args: SelectSubset<T, UserFileUpsertArgs<ExtArgs>>
+    ): Prisma__UserFileClient<$Result.GetResult<Prisma.$UserFilePayload<ExtArgs>, T, 'upsert'>, never, ExtArgs>
+
+    /**
+     * Count the number of UserFiles.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserFileCountArgs} args - Arguments to filter UserFiles to count.
+     * @example
+     * // Count the number of UserFiles
+     * const count = await prisma.userFile.count({
+     *   where: {
+     *     // ... the filter for the UserFiles we want to count
+     *   }
+     * })
+    **/
+    count<T extends UserFileCountArgs>(
+      args?: Subset<T, UserFileCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], UserFileCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a UserFile.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserFileAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends UserFileAggregateArgs>(args: Subset<T, UserFileAggregateArgs>): Prisma.PrismaPromise<GetUserFileAggregateType<T>>
+
+    /**
+     * Group by UserFile.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserFileGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends UserFileGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: UserFileGroupByArgs['orderBy'] }
+        : { orderBy?: UserFileGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, UserFileGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUserFileGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the UserFile model
+   */
+  readonly fields: UserFileFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for UserFile.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__UserFileClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, 'findUniqueOrThrow'> | Null, Null, ExtArgs>;
+
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>;
+  }
+
+
+
+  /**
+   * Fields of the UserFile model
+   */ 
+  interface UserFileFieldRefs {
+    readonly id: FieldRef<"UserFile", 'String'>
+    readonly createdAt: FieldRef<"UserFile", 'DateTime'>
+    readonly updatedAt: FieldRef<"UserFile", 'DateTime'>
+    readonly fileName: FieldRef<"UserFile", 'String'>
+    readonly fileSize: FieldRef<"UserFile", 'Int'>
+    readonly fileType: FieldRef<"UserFile", 'String'>
+    readonly storagePath: FieldRef<"UserFile", 'String'>
+    readonly description: FieldRef<"UserFile", 'String'>
+    readonly userId: FieldRef<"UserFile", 'String'>
+  }
+    
+
+  // Custom InputTypes
+
+  /**
+   * UserFile findUnique
+   */
+  export type UserFileFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserFile
+     */
+    select?: UserFileSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserFileInclude<ExtArgs> | null
+    /**
+     * Filter, which UserFile to fetch.
+     */
+    where: UserFileWhereUniqueInput
+  }
+
+
+  /**
+   * UserFile findUniqueOrThrow
+   */
+  export type UserFileFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserFile
+     */
+    select?: UserFileSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserFileInclude<ExtArgs> | null
+    /**
+     * Filter, which UserFile to fetch.
+     */
+    where: UserFileWhereUniqueInput
+  }
+
+
+  /**
+   * UserFile findFirst
+   */
+  export type UserFileFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserFile
+     */
+    select?: UserFileSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserFileInclude<ExtArgs> | null
+    /**
+     * Filter, which UserFile to fetch.
+     */
+    where?: UserFileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserFiles to fetch.
+     */
+    orderBy?: UserFileOrderByWithRelationInput | UserFileOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserFiles.
+     */
+    cursor?: UserFileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserFiles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserFiles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserFiles.
+     */
+    distinct?: UserFileScalarFieldEnum | UserFileScalarFieldEnum[]
+  }
+
+
+  /**
+   * UserFile findFirstOrThrow
+   */
+  export type UserFileFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserFile
+     */
+    select?: UserFileSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserFileInclude<ExtArgs> | null
+    /**
+     * Filter, which UserFile to fetch.
+     */
+    where?: UserFileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserFiles to fetch.
+     */
+    orderBy?: UserFileOrderByWithRelationInput | UserFileOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserFiles.
+     */
+    cursor?: UserFileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserFiles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserFiles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserFiles.
+     */
+    distinct?: UserFileScalarFieldEnum | UserFileScalarFieldEnum[]
+  }
+
+
+  /**
+   * UserFile findMany
+   */
+  export type UserFileFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserFile
+     */
+    select?: UserFileSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserFileInclude<ExtArgs> | null
+    /**
+     * Filter, which UserFiles to fetch.
+     */
+    where?: UserFileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserFiles to fetch.
+     */
+    orderBy?: UserFileOrderByWithRelationInput | UserFileOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing UserFiles.
+     */
+    cursor?: UserFileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserFiles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserFiles.
+     */
+    skip?: number
+    distinct?: UserFileScalarFieldEnum | UserFileScalarFieldEnum[]
+  }
+
+
+  /**
+   * UserFile create
+   */
+  export type UserFileCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserFile
+     */
+    select?: UserFileSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserFileInclude<ExtArgs> | null
+    /**
+     * The data needed to create a UserFile.
+     */
+    data: XOR<UserFileCreateInput, UserFileUncheckedCreateInput>
+  }
+
+
+  /**
+   * UserFile createMany
+   */
+  export type UserFileCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many UserFiles.
+     */
+    data: UserFileCreateManyInput | UserFileCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * UserFile update
+   */
+  export type UserFileUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserFile
+     */
+    select?: UserFileSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserFileInclude<ExtArgs> | null
+    /**
+     * The data needed to update a UserFile.
+     */
+    data: XOR<UserFileUpdateInput, UserFileUncheckedUpdateInput>
+    /**
+     * Choose, which UserFile to update.
+     */
+    where: UserFileWhereUniqueInput
+  }
+
+
+  /**
+   * UserFile updateMany
+   */
+  export type UserFileUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update UserFiles.
+     */
+    data: XOR<UserFileUpdateManyMutationInput, UserFileUncheckedUpdateManyInput>
+    /**
+     * Filter which UserFiles to update
+     */
+    where?: UserFileWhereInput
+  }
+
+
+  /**
+   * UserFile upsert
+   */
+  export type UserFileUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserFile
+     */
+    select?: UserFileSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserFileInclude<ExtArgs> | null
+    /**
+     * The filter to search for the UserFile to update in case it exists.
+     */
+    where: UserFileWhereUniqueInput
+    /**
+     * In case the UserFile found by the `where` argument doesn't exist, create a new UserFile with this data.
+     */
+    create: XOR<UserFileCreateInput, UserFileUncheckedCreateInput>
+    /**
+     * In case the UserFile was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<UserFileUpdateInput, UserFileUncheckedUpdateInput>
+  }
+
+
+  /**
+   * UserFile delete
+   */
+  export type UserFileDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserFile
+     */
+    select?: UserFileSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserFileInclude<ExtArgs> | null
+    /**
+     * Filter which UserFile to delete.
+     */
+    where: UserFileWhereUniqueInput
+  }
+
+
+  /**
+   * UserFile deleteMany
+   */
+  export type UserFileDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserFiles to delete
+     */
+    where?: UserFileWhereInput
+  }
+
+
+  /**
+   * UserFile without action
+   */
+  export type UserFileDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserFile
+     */
+    select?: UserFileSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserFileInclude<ExtArgs> | null
+  }
+
+
+
+  /**
    * Enums
    */
 
@@ -6199,6 +7313,21 @@ export namespace Prisma {
   };
 
   export type DemoRequestScalarFieldEnum = (typeof DemoRequestScalarFieldEnum)[keyof typeof DemoRequestScalarFieldEnum]
+
+
+  export const UserFileScalarFieldEnum: {
+    id: 'id',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    fileName: 'fileName',
+    fileSize: 'fileSize',
+    fileType: 'fileType',
+    storagePath: 'storagePath',
+    description: 'description',
+    userId: 'userId'
+  };
+
+  export type UserFileScalarFieldEnum = (typeof UserFileScalarFieldEnum)[keyof typeof UserFileScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -6453,6 +7582,7 @@ export namespace Prisma {
     accounts?: AccountListRelationFilter
     demoRequests?: DemoRequestListRelationFilter
     sessions?: SessionListRelationFilter
+    files?: UserFileListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -6473,6 +7603,7 @@ export namespace Prisma {
     accounts?: AccountOrderByRelationAggregateInput
     demoRequests?: DemoRequestOrderByRelationAggregateInput
     sessions?: SessionOrderByRelationAggregateInput
+    files?: UserFileOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -6496,6 +7627,7 @@ export namespace Prisma {
     accounts?: AccountListRelationFilter
     demoRequests?: DemoRequestListRelationFilter
     sessions?: SessionListRelationFilter
+    files?: UserFileListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -6664,6 +7796,83 @@ export namespace Prisma {
     bookedTime?: DateTimeNullableWithAggregatesFilter<"DemoRequest"> | Date | string | null
     meetingLink?: StringNullableWithAggregatesFilter<"DemoRequest"> | string | null
     userId?: StringNullableWithAggregatesFilter<"DemoRequest"> | string | null
+  }
+
+  export type UserFileWhereInput = {
+    AND?: UserFileWhereInput | UserFileWhereInput[]
+    OR?: UserFileWhereInput[]
+    NOT?: UserFileWhereInput | UserFileWhereInput[]
+    id?: StringFilter<"UserFile"> | string
+    createdAt?: DateTimeFilter<"UserFile"> | Date | string
+    updatedAt?: DateTimeFilter<"UserFile"> | Date | string
+    fileName?: StringFilter<"UserFile"> | string
+    fileSize?: IntFilter<"UserFile"> | number
+    fileType?: StringFilter<"UserFile"> | string
+    storagePath?: StringFilter<"UserFile"> | string
+    description?: StringNullableFilter<"UserFile"> | string | null
+    userId?: StringFilter<"UserFile"> | string
+    user?: XOR<UserRelationFilter, UserWhereInput>
+  }
+
+  export type UserFileOrderByWithRelationInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    fileName?: SortOrder
+    fileSize?: SortOrder
+    fileType?: SortOrder
+    storagePath?: SortOrder
+    description?: SortOrderInput | SortOrder
+    userId?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type UserFileWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: UserFileWhereInput | UserFileWhereInput[]
+    OR?: UserFileWhereInput[]
+    NOT?: UserFileWhereInput | UserFileWhereInput[]
+    createdAt?: DateTimeFilter<"UserFile"> | Date | string
+    updatedAt?: DateTimeFilter<"UserFile"> | Date | string
+    fileName?: StringFilter<"UserFile"> | string
+    fileSize?: IntFilter<"UserFile"> | number
+    fileType?: StringFilter<"UserFile"> | string
+    storagePath?: StringFilter<"UserFile"> | string
+    description?: StringNullableFilter<"UserFile"> | string | null
+    userId?: StringFilter<"UserFile"> | string
+    user?: XOR<UserRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type UserFileOrderByWithAggregationInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    fileName?: SortOrder
+    fileSize?: SortOrder
+    fileType?: SortOrder
+    storagePath?: SortOrder
+    description?: SortOrderInput | SortOrder
+    userId?: SortOrder
+    _count?: UserFileCountOrderByAggregateInput
+    _avg?: UserFileAvgOrderByAggregateInput
+    _max?: UserFileMaxOrderByAggregateInput
+    _min?: UserFileMinOrderByAggregateInput
+    _sum?: UserFileSumOrderByAggregateInput
+  }
+
+  export type UserFileScalarWhereWithAggregatesInput = {
+    AND?: UserFileScalarWhereWithAggregatesInput | UserFileScalarWhereWithAggregatesInput[]
+    OR?: UserFileScalarWhereWithAggregatesInput[]
+    NOT?: UserFileScalarWhereWithAggregatesInput | UserFileScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"UserFile"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"UserFile"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"UserFile"> | Date | string
+    fileName?: StringWithAggregatesFilter<"UserFile"> | string
+    fileSize?: IntWithAggregatesFilter<"UserFile"> | number
+    fileType?: StringWithAggregatesFilter<"UserFile"> | string
+    storagePath?: StringWithAggregatesFilter<"UserFile"> | string
+    description?: StringNullableWithAggregatesFilter<"UserFile"> | string | null
+    userId?: StringWithAggregatesFilter<"UserFile"> | string
   }
 
   export type AccountCreateInput = {
@@ -6836,6 +8045,7 @@ export namespace Prisma {
     accounts?: AccountCreateNestedManyWithoutUserInput
     demoRequests?: DemoRequestCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
+    files?: UserFileCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -6856,6 +8066,7 @@ export namespace Prisma {
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     demoRequests?: DemoRequestUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    files?: UserFileUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -6876,6 +8087,7 @@ export namespace Prisma {
     accounts?: AccountUpdateManyWithoutUserNestedInput
     demoRequests?: DemoRequestUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
+    files?: UserFileUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -6896,6 +8108,7 @@ export namespace Prisma {
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     demoRequests?: DemoRequestUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    files?: UserFileUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -7086,6 +8299,89 @@ export namespace Prisma {
     bookedTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     meetingLink?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type UserFileCreateInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    fileName: string
+    fileSize: number
+    fileType: string
+    storagePath: string
+    description?: string | null
+    user: UserCreateNestedOneWithoutFilesInput
+  }
+
+  export type UserFileUncheckedCreateInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    fileName: string
+    fileSize: number
+    fileType: string
+    storagePath: string
+    description?: string | null
+    userId: string
+  }
+
+  export type UserFileUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    fileSize?: IntFieldUpdateOperationsInput | number
+    fileType?: StringFieldUpdateOperationsInput | string
+    storagePath?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    user?: UserUpdateOneRequiredWithoutFilesNestedInput
+  }
+
+  export type UserFileUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    fileSize?: IntFieldUpdateOperationsInput | number
+    fileType?: StringFieldUpdateOperationsInput | string
+    storagePath?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    userId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type UserFileCreateManyInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    fileName: string
+    fileSize: number
+    fileType: string
+    storagePath: string
+    description?: string | null
+    userId: string
+  }
+
+  export type UserFileUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    fileSize?: IntFieldUpdateOperationsInput | number
+    fileType?: StringFieldUpdateOperationsInput | string
+    storagePath?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type UserFileUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    fileSize?: IntFieldUpdateOperationsInput | number
+    fileType?: StringFieldUpdateOperationsInput | string
+    storagePath?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    userId?: StringFieldUpdateOperationsInput | string
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -7324,6 +8620,12 @@ export namespace Prisma {
     none?: SessionWhereInput
   }
 
+  export type UserFileListRelationFilter = {
+    every?: UserFileWhereInput
+    some?: UserFileWhereInput
+    none?: UserFileWhereInput
+  }
+
   export type AccountOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -7333,6 +8635,10 @@ export namespace Prisma {
   }
 
   export type SessionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type UserFileOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -7471,6 +8777,77 @@ export namespace Prisma {
     userId?: SortOrder
   }
 
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
+  export type UserFileCountOrderByAggregateInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    fileName?: SortOrder
+    fileSize?: SortOrder
+    fileType?: SortOrder
+    storagePath?: SortOrder
+    description?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type UserFileAvgOrderByAggregateInput = {
+    fileSize?: SortOrder
+  }
+
+  export type UserFileMaxOrderByAggregateInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    fileName?: SortOrder
+    fileSize?: SortOrder
+    fileType?: SortOrder
+    storagePath?: SortOrder
+    description?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type UserFileMinOrderByAggregateInput = {
+    id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    fileName?: SortOrder
+    fileSize?: SortOrder
+    fileType?: SortOrder
+    storagePath?: SortOrder
+    description?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type UserFileSumOrderByAggregateInput = {
+    fileSize?: SortOrder
+  }
+
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
   export type UserCreateNestedOneWithoutAccountsInput = {
     create?: XOR<UserCreateWithoutAccountsInput, UserUncheckedCreateWithoutAccountsInput>
     connectOrCreate?: UserCreateOrConnectWithoutAccountsInput
@@ -7540,6 +8917,13 @@ export namespace Prisma {
     connect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
   }
 
+  export type UserFileCreateNestedManyWithoutUserInput = {
+    create?: XOR<UserFileCreateWithoutUserInput, UserFileUncheckedCreateWithoutUserInput> | UserFileCreateWithoutUserInput[] | UserFileUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserFileCreateOrConnectWithoutUserInput | UserFileCreateOrConnectWithoutUserInput[]
+    createMany?: UserFileCreateManyUserInputEnvelope
+    connect?: UserFileWhereUniqueInput | UserFileWhereUniqueInput[]
+  }
+
   export type AccountUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
@@ -7559,6 +8943,13 @@ export namespace Prisma {
     connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
     createMany?: SessionCreateManyUserInputEnvelope
     connect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
+  }
+
+  export type UserFileUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<UserFileCreateWithoutUserInput, UserFileUncheckedCreateWithoutUserInput> | UserFileCreateWithoutUserInput[] | UserFileUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserFileCreateOrConnectWithoutUserInput | UserFileCreateOrConnectWithoutUserInput[]
+    createMany?: UserFileCreateManyUserInputEnvelope
+    connect?: UserFileWhereUniqueInput | UserFileWhereUniqueInput[]
   }
 
   export type NullableDateTimeFieldUpdateOperationsInput = {
@@ -7607,6 +8998,20 @@ export namespace Prisma {
     deleteMany?: SessionScalarWhereInput | SessionScalarWhereInput[]
   }
 
+  export type UserFileUpdateManyWithoutUserNestedInput = {
+    create?: XOR<UserFileCreateWithoutUserInput, UserFileUncheckedCreateWithoutUserInput> | UserFileCreateWithoutUserInput[] | UserFileUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserFileCreateOrConnectWithoutUserInput | UserFileCreateOrConnectWithoutUserInput[]
+    upsert?: UserFileUpsertWithWhereUniqueWithoutUserInput | UserFileUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: UserFileCreateManyUserInputEnvelope
+    set?: UserFileWhereUniqueInput | UserFileWhereUniqueInput[]
+    disconnect?: UserFileWhereUniqueInput | UserFileWhereUniqueInput[]
+    delete?: UserFileWhereUniqueInput | UserFileWhereUniqueInput[]
+    connect?: UserFileWhereUniqueInput | UserFileWhereUniqueInput[]
+    update?: UserFileUpdateWithWhereUniqueWithoutUserInput | UserFileUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: UserFileUpdateManyWithWhereWithoutUserInput | UserFileUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: UserFileScalarWhereInput | UserFileScalarWhereInput[]
+  }
+
   export type AccountUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
@@ -7649,6 +9054,20 @@ export namespace Prisma {
     deleteMany?: SessionScalarWhereInput | SessionScalarWhereInput[]
   }
 
+  export type UserFileUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<UserFileCreateWithoutUserInput, UserFileUncheckedCreateWithoutUserInput> | UserFileCreateWithoutUserInput[] | UserFileUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserFileCreateOrConnectWithoutUserInput | UserFileCreateOrConnectWithoutUserInput[]
+    upsert?: UserFileUpsertWithWhereUniqueWithoutUserInput | UserFileUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: UserFileCreateManyUserInputEnvelope
+    set?: UserFileWhereUniqueInput | UserFileWhereUniqueInput[]
+    disconnect?: UserFileWhereUniqueInput | UserFileWhereUniqueInput[]
+    delete?: UserFileWhereUniqueInput | UserFileWhereUniqueInput[]
+    connect?: UserFileWhereUniqueInput | UserFileWhereUniqueInput[]
+    update?: UserFileUpdateWithWhereUniqueWithoutUserInput | UserFileUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: UserFileUpdateManyWithWhereWithoutUserInput | UserFileUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: UserFileScalarWhereInput | UserFileScalarWhereInput[]
+  }
+
   export type UserCreateNestedOneWithoutDemoRequestsInput = {
     create?: XOR<UserCreateWithoutDemoRequestsInput, UserUncheckedCreateWithoutDemoRequestsInput>
     connectOrCreate?: UserCreateOrConnectWithoutDemoRequestsInput
@@ -7663,6 +9082,28 @@ export namespace Prisma {
     delete?: UserWhereInput | boolean
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutDemoRequestsInput, UserUpdateWithoutDemoRequestsInput>, UserUncheckedUpdateWithoutDemoRequestsInput>
+  }
+
+  export type UserCreateNestedOneWithoutFilesInput = {
+    create?: XOR<UserCreateWithoutFilesInput, UserUncheckedCreateWithoutFilesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutFilesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type UserUpdateOneRequiredWithoutFilesNestedInput = {
+    create?: XOR<UserCreateWithoutFilesInput, UserUncheckedCreateWithoutFilesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutFilesInput
+    upsert?: UserUpsertWithoutFilesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutFilesInput, UserUpdateWithoutFilesInput>, UserUncheckedUpdateWithoutFilesInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -7826,6 +9267,33 @@ export namespace Prisma {
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
+  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type NestedFloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
   export type UserCreateWithoutAccountsInput = {
     id?: string
     name?: string | null
@@ -7843,6 +9311,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     demoRequests?: DemoRequestCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
+    files?: UserFileCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
@@ -7862,6 +9331,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     demoRequests?: DemoRequestUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    files?: UserFileUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAccountsInput = {
@@ -7897,6 +9367,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     demoRequests?: DemoRequestUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
+    files?: UserFileUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -7916,6 +9387,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     demoRequests?: DemoRequestUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    files?: UserFileUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutSessionsInput = {
@@ -7935,6 +9407,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
     demoRequests?: DemoRequestCreateNestedManyWithoutUserInput
+    files?: UserFileCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSessionsInput = {
@@ -7954,6 +9427,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     demoRequests?: DemoRequestUncheckedCreateNestedManyWithoutUserInput
+    files?: UserFileUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSessionsInput = {
@@ -7989,6 +9463,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
     demoRequests?: DemoRequestUpdateManyWithoutUserNestedInput
+    files?: UserFileUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -8008,6 +9483,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     demoRequests?: DemoRequestUncheckedUpdateManyWithoutUserNestedInput
+    files?: UserFileUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type AccountCreateWithoutUserInput = {
@@ -8106,6 +9582,38 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type UserFileCreateWithoutUserInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    fileName: string
+    fileSize: number
+    fileType: string
+    storagePath: string
+    description?: string | null
+  }
+
+  export type UserFileUncheckedCreateWithoutUserInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    fileName: string
+    fileSize: number
+    fileType: string
+    storagePath: string
+    description?: string | null
+  }
+
+  export type UserFileCreateOrConnectWithoutUserInput = {
+    where: UserFileWhereUniqueInput
+    create: XOR<UserFileCreateWithoutUserInput, UserFileUncheckedCreateWithoutUserInput>
+  }
+
+  export type UserFileCreateManyUserInputEnvelope = {
+    data: UserFileCreateManyUserInput | UserFileCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type AccountUpsertWithWhereUniqueWithoutUserInput = {
     where: AccountWhereUniqueInput
     update: XOR<AccountUpdateWithoutUserInput, AccountUncheckedUpdateWithoutUserInput>
@@ -8199,6 +9707,37 @@ export namespace Prisma {
     expires?: DateTimeFilter<"Session"> | Date | string
   }
 
+  export type UserFileUpsertWithWhereUniqueWithoutUserInput = {
+    where: UserFileWhereUniqueInput
+    update: XOR<UserFileUpdateWithoutUserInput, UserFileUncheckedUpdateWithoutUserInput>
+    create: XOR<UserFileCreateWithoutUserInput, UserFileUncheckedCreateWithoutUserInput>
+  }
+
+  export type UserFileUpdateWithWhereUniqueWithoutUserInput = {
+    where: UserFileWhereUniqueInput
+    data: XOR<UserFileUpdateWithoutUserInput, UserFileUncheckedUpdateWithoutUserInput>
+  }
+
+  export type UserFileUpdateManyWithWhereWithoutUserInput = {
+    where: UserFileScalarWhereInput
+    data: XOR<UserFileUpdateManyMutationInput, UserFileUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type UserFileScalarWhereInput = {
+    AND?: UserFileScalarWhereInput | UserFileScalarWhereInput[]
+    OR?: UserFileScalarWhereInput[]
+    NOT?: UserFileScalarWhereInput | UserFileScalarWhereInput[]
+    id?: StringFilter<"UserFile"> | string
+    createdAt?: DateTimeFilter<"UserFile"> | Date | string
+    updatedAt?: DateTimeFilter<"UserFile"> | Date | string
+    fileName?: StringFilter<"UserFile"> | string
+    fileSize?: IntFilter<"UserFile"> | number
+    fileType?: StringFilter<"UserFile"> | string
+    storagePath?: StringFilter<"UserFile"> | string
+    description?: StringNullableFilter<"UserFile"> | string | null
+    userId?: StringFilter<"UserFile"> | string
+  }
+
   export type UserCreateWithoutDemoRequestsInput = {
     id?: string
     name?: string | null
@@ -8216,6 +9755,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
+    files?: UserFileCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutDemoRequestsInput = {
@@ -8235,6 +9775,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    files?: UserFileUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutDemoRequestsInput = {
@@ -8270,6 +9811,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
+    files?: UserFileUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutDemoRequestsInput = {
@@ -8288,6 +9830,103 @@ export namespace Prisma {
     needsDescription?: NullableStringFieldUpdateOperationsInput | string | null
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    files?: UserFileUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutFilesInput = {
+    id?: string
+    name?: string | null
+    email: string
+    emailVerified?: Date | string | null
+    password?: string | null
+    image?: string | null
+    company: string
+    createdAt?: Date | string
+    demoBookingTime?: Date | string | null
+    demoBookingUri?: string | null
+    firstName: string
+    lastName: string
+    needsDescription?: string | null
+    updatedAt?: Date | string
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    demoRequests?: DemoRequestCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutFilesInput = {
+    id?: string
+    name?: string | null
+    email: string
+    emailVerified?: Date | string | null
+    password?: string | null
+    image?: string | null
+    company: string
+    createdAt?: Date | string
+    demoBookingTime?: Date | string | null
+    demoBookingUri?: string | null
+    firstName: string
+    lastName: string
+    needsDescription?: string | null
+    updatedAt?: Date | string
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    demoRequests?: DemoRequestUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutFilesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutFilesInput, UserUncheckedCreateWithoutFilesInput>
+  }
+
+  export type UserUpsertWithoutFilesInput = {
+    update: XOR<UserUpdateWithoutFilesInput, UserUncheckedUpdateWithoutFilesInput>
+    create: XOR<UserCreateWithoutFilesInput, UserUncheckedCreateWithoutFilesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutFilesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutFilesInput, UserUncheckedUpdateWithoutFilesInput>
+  }
+
+  export type UserUpdateWithoutFilesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    company?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    demoBookingTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    demoBookingUri?: NullableStringFieldUpdateOperationsInput | string | null
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    needsDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    demoRequests?: DemoRequestUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutFilesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    company?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    demoBookingTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    demoBookingUri?: NullableStringFieldUpdateOperationsInput | string | null
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    needsDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    demoRequests?: DemoRequestUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -8322,6 +9961,17 @@ export namespace Prisma {
     id?: string
     sessionToken: string
     expires: Date | string
+  }
+
+  export type UserFileCreateManyUserInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    fileName: string
+    fileSize: number
+    fileType: string
+    storagePath: string
+    description?: string | null
   }
 
   export type AccountUpdateWithoutUserInput = {
@@ -8423,6 +10073,39 @@ export namespace Prisma {
     expires?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type UserFileUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    fileSize?: IntFieldUpdateOperationsInput | number
+    fileType?: StringFieldUpdateOperationsInput | string
+    storagePath?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type UserFileUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    fileSize?: IntFieldUpdateOperationsInput | number
+    fileType?: StringFieldUpdateOperationsInput | string
+    storagePath?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type UserFileUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    fileSize?: IntFieldUpdateOperationsInput | number
+    fileType?: StringFieldUpdateOperationsInput | string
+    storagePath?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
 
 
   /**
@@ -8452,6 +10135,10 @@ export namespace Prisma {
      * @deprecated Use DemoRequestDefaultArgs instead
      */
     export type DemoRequestArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = DemoRequestDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use UserFileDefaultArgs instead
+     */
+    export type UserFileArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = UserFileDefaultArgs<ExtArgs>
 
   /**
    * Batch Payload for updateMany & deleteMany & createMany

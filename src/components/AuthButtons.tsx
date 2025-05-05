@@ -35,9 +35,14 @@ export default function AuthButtons() {
 
   return (
     <div className="absolute top-4 right-4 z-50 flex items-center gap-x-3">
-      <span className="text-sm text-gray-300">
-        {session.user?.firstName || session.user?.email}
-      </span>
+      <Link
+        href="/profile"
+        className="text-sm text-gray-300 hover:text-white transition-colors"
+      >
+        <span className="underline">
+          {session.user?.firstName || session.user?.email}
+        </span>
+      </Link>
       <button
         onClick={() => signOut()}
         className="rounded-md bg-gray-700/50 px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-gray-600/50 transition-colors"

@@ -166,6 +166,18 @@ exports.Prisma.DemoRequestScalarFieldEnum = {
   userId: 'userId'
 };
 
+exports.Prisma.UserFileScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  fileName: 'fileName',
+  fileSize: 'fileSize',
+  fileType: 'fileType',
+  storagePath: 'storagePath',
+  description: 'description',
+  userId: 'userId'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -187,7 +199,8 @@ exports.Prisma.ModelName = {
   Session: 'Session',
   User: 'User',
   VerificationToken: 'VerificationToken',
-  DemoRequest: 'DemoRequest'
+  DemoRequest: 'DemoRequest',
+  UserFile: 'UserFile'
 };
 
 /**
