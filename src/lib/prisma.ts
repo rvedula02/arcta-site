@@ -33,55 +33,46 @@ function logConnectionInfo() {
   }
 }
 
-// Get a properly configured DATABASE_URL for the current environment
-function getDatabaseUrl() {
-  let url = process.env.DATABASE_URL;
-  if (!url) return url;
-
-  // If using Prisma Accelerate format, don't modify the URL
-  if (url.startsWith('prisma://')) {
+// Fix database URL protocol - crucial for Prisma 6.7.0
+function getFixedDatabaseUrl() {
+  const url = process.env.DATABASE_URL || '';
+  
+  if (!url) {
+    console.error('DATABASE_URL is not set');
     return url;
   }
   
-  // Check if we have a direct Postgres URL as fallback
-  const postgresUrl = process.env.POSTGRES_PRISMA_URL || process.env.POSTGRES_URL;
-  if (postgresUrl && !postgresUrl.startsWith('prisma://')) {
-    console.log('Using POSTGRES_PRISMA_URL instead of DATABASE_URL');
-    url = postgresUrl;
+  // Force postgresql:// protocol
+  if (url.startsWith('postgres://')) {
+    const fixedUrl = 'postgresql://' + url.substring('postgres://'.length);
+    console.log('Fixed DATABASE_URL protocol from postgres:// to postgresql://');
+    return fixedUrl;
   }
-
-  // For production/Vercel: ensure SSL is enabled on standard PostgreSQL URLs
-  if (process.env.NODE_ENV === 'production' && !url.startsWith('prisma://')) {
-    // If URL doesn't include sslmode, add it
-    if (!url.includes('sslmode=')) {
-      const hasParams = url.includes('?');
-      return `${url}${hasParams ? '&' : '?'}sslmode=require`;
-    }
+  
+  // Add sslmode if needed for production
+  if (process.env.NODE_ENV === 'production' && !url.includes('sslmode=')) {
+    const separator = url.includes('?') ? '&' : '?';
+    const sslUrl = `${url}${separator}sslmode=require`;
+    console.log('Added sslmode=require to DATABASE_URL');
+    return sslUrl;
   }
   
   return url;
 }
 
-// Prepare connection options - SIMPLIFIED FOR PRODUCTION
+// Simple initialization - works better with Prisma 5.x
 function getPrismaClient() {
-  // Production environment needs additional configuration
   const isProduction = process.env.NODE_ENV === 'production';
   
-  if (isProduction) {
-    logConnectionInfo();
-    console.log(`Running in production${isVercel ? ' on Vercel' : ''}`);
+  const options = {
+    log: isProduction 
+      ? ['error'] 
+      : ['query', 'error', 'warn'],
+  };
 
-    // In production, use the simplest client initialization possible
-    // This avoids issues with Prisma interpreting the DATABASE_URL
-    return new PrismaClient({
-      log: ['error'],
-    });
-  }
-  
-  // In development, use more verbose logging
-  return new PrismaClient({
-    log: ['query', 'error', 'warn'],
-  });
+  // Create a new client with basic options
+  // Prisma 5.x handles DATABASE_URL through env vars without needing datasources override
+  return new PrismaClient(options);
 }
 
 // Prevent multiple instances of Prisma Client in development
