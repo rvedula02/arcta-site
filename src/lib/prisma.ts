@@ -16,10 +16,17 @@ function logConnectionInfo() {
     const safeUrl = url.replace(/:([^@]*)@/, ':****@');
     console.log(`Database URL detected: ${safeUrl.substring(0, 10)}...${safeUrl.substring(safeUrl.indexOf('@'))}`);
     
-    // Check for SSL configuration in URL
-    const hasSSL = url.includes('sslmode=');
-    if (!hasSSL && process.env.NODE_ENV === 'production') {
-      console.warn('Warning: Production database URL does not include SSL parameters');
+    // Check for Prisma Accelerate URL format
+    if (url.startsWith('prisma://')) {
+      console.log('Using Prisma Accelerate URL format');
+    } else {
+      console.log('Using standard PostgreSQL URL format');
+      
+      // Check for SSL configuration in standard URL
+      const hasSSL = url.includes('sslmode=');
+      if (!hasSSL && process.env.NODE_ENV === 'production') {
+        console.warn('Warning: Production database URL does not include SSL parameters');
+      }
     }
   } else {
     console.error('DATABASE_URL environment variable is not set');
@@ -28,11 +35,23 @@ function logConnectionInfo() {
 
 // Get a properly configured DATABASE_URL for the current environment
 function getDatabaseUrl() {
-  const url = process.env.DATABASE_URL;
+  let url = process.env.DATABASE_URL;
   if (!url) return url;
 
-  // For production/Vercel: ensure SSL is enabled
-  if (process.env.NODE_ENV === 'production') {
+  // If using Prisma Accelerate format, don't modify the URL
+  if (url.startsWith('prisma://')) {
+    return url;
+  }
+  
+  // Check if we have a direct Postgres URL as fallback
+  const postgresUrl = process.env.POSTGRES_PRISMA_URL || process.env.POSTGRES_URL;
+  if (postgresUrl && !postgresUrl.startsWith('prisma://')) {
+    console.log('Using POSTGRES_PRISMA_URL instead of DATABASE_URL');
+    url = postgresUrl;
+  }
+
+  // For production/Vercel: ensure SSL is enabled on standard PostgreSQL URLs
+  if (process.env.NODE_ENV === 'production' && !url.startsWith('prisma://')) {
     // If URL doesn't include sslmode, add it
     if (!url.includes('sslmode=')) {
       const hasParams = url.includes('?');
@@ -53,16 +72,19 @@ function getPrismaClient() {
     console.log(`Running in production${isVercel ? ' on Vercel' : ''}`);
   }
   
+  // Determine the final database URL to use
+  const databaseUrl = getDatabaseUrl();
+  
   const prismaOptions: any = {
     log: isProduction 
       ? ['error'] 
       : ['query', 'error', 'warn'],
     // Use the potentially modified URL with SSL for production
-    datasources: isProduction ? {
+    datasources: {
       db: {
-        url: getDatabaseUrl(),
+        url: databaseUrl,
       },
-    } : undefined,
+    },
   };
 
   // Create new client with configured options

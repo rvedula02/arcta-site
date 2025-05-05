@@ -7,11 +7,13 @@
   ],
   "build": {
     "env": {
-      "PRISMA_GENERATE_DATAPROXY": "false"
+      "PRISMA_GENERATE_DATAPROXY": "false",
+      "PRISMA_CLIENT_ENGINE_TYPE": "library"
     }
   },
   "env": {
-    "NEXT_PUBLIC_VERCEL_ENV": "production"
+    "NEXT_PUBLIC_VERCEL_ENV": "production",
+    "DATABASE_URL_PROTOCOL_CHECK": "true"
   },
   "headers": [
     {
