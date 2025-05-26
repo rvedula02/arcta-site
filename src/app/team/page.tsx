@@ -4,20 +4,6 @@ import Link from 'next/link';
 export default function TeamPage() {
   const teamMembers = [
     {
-      name: 'Arjun Hegde',
-      position: 'COO',
-      email: 'ah2362@cornell.edu',
-      degree: 'MEng in CS',
-      image: '/team/arjun.png',
-    },
-    {
-      name: 'Rahul Vedula',
-      position: 'CSO',
-      email: 'rv299@cornell.edu',
-      degree: 'MEng in CS',
-      image: '/team/rahul.png',
-    },
-    {
       name: 'Tarun Venkatasamy',
       position: 'CEO',
       email: 'tv89@cornell.edu',
@@ -30,13 +16,13 @@ export default function TeamPage() {
       email: 'ak2677@cornell.edu',
       degree: 'MEng in CS',
       image: '/team/arnie.png',
-    }
+    },
     {
-      name: 'Emily Gelchie',
-      position: 'Intern',
-      email: 'emg2757@cornell.edu',
+      name: 'Rahul Vedula',
+      position: 'CSO',
+      email: 'rv299@cornell.edu',
       degree: 'MEng in CS',
-      image: '/team/IMG_2858.JPG',
+      image: '/team/rahul.png',
     }
   ];
 
@@ -47,13 +33,13 @@ export default function TeamPage() {
         <div className="mb-16 text-center">
           <h1 className="text-5xl md:text-7xl font-bold text-white tracking-tight mb-6">Our Team</h1>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            Five engineers who have been building together since we landed on campus,
+            Three engineers who have been building together since we landed on campus,
             meshing together industry & academic experience in product, engineering, and VC.
           </p>
         </div>
 
         {/* Team Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
           {teamMembers.map((member, index) => (
             <div 
               key={index} 
