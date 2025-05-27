@@ -11,33 +11,17 @@ if (dbUrl && dbUrl.startsWith('postgres://')) {
   dbUrl = dbUrl.replace(/^postgres:\/\//, 'postgresql://');
 }
 
-const prisma = new PrismaClient({
-  datasources: {
-    db: {
-      url: dbUrl
-    }
-  }
-});
-
-// Simple database helper functions
-const db = {
-  getUserCount: async (): Promise<number> => {
-    try {
-      return await prisma.user.count();
-    } catch (error: any) {
-      console.error('Error counting users:', error);
-      throw new Error(`Database operation failed: ${error.message}`);
-    }
-  }
-};
-
 export async function GET(): Promise<NextResponse> {
+  // Instantiate Prisma client per request
+  const prisma = new PrismaClient({
+    datasources: { db: { url: dbUrl! } }
+  });
   try {
     // Test Prisma connection
     const startTime = Date.now();
     
-    // Use the db helper
-    const userCount = await db.getUserCount();
+    // Count users directly
+    const userCount = await prisma.user.count();
     
     const duration = Date.now() - startTime;
     
