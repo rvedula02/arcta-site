@@ -3,7 +3,7 @@ import { Inter } from 'next/font/google';
 import "./globals.css";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
-import AuthProvider from "./providers";
+import AppProvider from "./providers";
 
 // Configure Inter font with better fallback
 const font = Inter({ 
@@ -49,13 +49,13 @@ export default function RootLayout({
   return (
     <html lang="en" className="h-full">
       <body className={`${font.className} h-full`}>
-        <AuthProvider>
+        <AppProvider>
           <div className="flex min-h-full flex-col">
             <Navbar />
             <main className="flex-grow">{children}</main>
             <Footer />
           </div>
-        </AuthProvider>
+        </AppProvider>
       </body>
     </html>
   );

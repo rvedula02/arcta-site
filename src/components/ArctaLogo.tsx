@@ -2,46 +2,32 @@ import Image from 'next/image';
 import React from 'react';
 
 interface ArctaLogoProps {
-  variant?: 'default' | 'footer' | 'mobile';
   imageSize?: number;
   className?: string;
 }
 
 /**
- * A reusable component for displaying the Arcta logo with text
- * The dark green color (#023535) is used for the brand text "ARCTA"
+ * A reusable component for displaying the Arcta word logo
+ * Uses the arcta_word.png image instead of text
  */
 export default function ArctaLogo({
-  variant = 'default',
   imageSize = 48,
   className = '',
 }: ArctaLogoProps) {
-  let textClasses = '';
+  // Calculate word logo dimensions based on imageSize
+  const wordLogoHeight = imageSize * 0.6; // Proportional height
+  const wordLogoWidth = wordLogoHeight * 3; // Approximately 3:1 aspect ratio for word logo
   
-  switch (variant) {
-    case 'footer':
-      textClasses = 'text-2xl font-semibold text-primary-green bg-white px-1 rounded';
-      break;
-    case 'mobile':
-      textClasses = 'text-2xl font-semibold text-dark-green';
-      break;
-    default:
-      textClasses = 'text-2xl font-semibold text-dark-green';
-      break;
-  }
-
   return (
-    <div className={`flex items-center ${className}`}>
+    <div className={`flex items-start ${className}`}>
       <Image
-        src="/arcta-logo.png"
+        src="/arcta_word.png"
         alt="Arcta"
-        width={imageSize}
-        height={imageSize}
-        className="mr-3"
+        width={wordLogoWidth}
+        height={wordLogoHeight}
+        className="object-contain"
+        priority
       />
-      <span className={textClasses}>
-        ARCTA
-      </span>
     </div>
   );
 } 

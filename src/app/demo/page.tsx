@@ -1,30 +1,7 @@
-'use client';
-
 import React from 'react';
-import { useSession } from 'next-auth/react';
-import { InlineWidget } from 'react-calendly';
-import { format } from 'date-fns'; // For formatting the date/time
+import DemoRequestForm from '@/components/DemoRequestForm';
 
 export default function DemoPage() {
-  const { data: session, status } = useSession();
-  const isLoading = status === 'loading';
-
-  // Define placeholders for Calendly custom question IDs
-  const COMPANY_QUESTION_ID = 'a1'; // <-- Replace 'a1' with your actual Company question ID from Calendly
-  const NEEDS_QUESTION_ID = 'a2';   // <-- Replace 'a2' with your actual Needs Description question ID from Calendly
-
-  // Function to format the date and time nicely
-  const formatBookingTime = (date: Date | null | undefined) => {
-    if (!date) return '';
-    try {
-        // Example format: Tuesday, May 7, 2025 at 10:00 AM
-        return format(date, "EEEE, MMMM d, yyyy 'at' h:mm a");
-    } catch (error) {
-        console.error("Error formatting date:", error);
-        return "Invalid Date";
-    }
-  };
-
   return (
     <div className="bg-white">
       <div className="relative isolate px-6 py-24 sm:py-32 lg:px-8">
@@ -39,53 +16,14 @@ export default function DemoPage() {
         </div>
 
         <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Book Your Demo</h2>
+          <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Request Your Demo</h2>
           <p className="mt-2 text-lg leading-8 text-gray-600">
-            {status === 'authenticated' && session?.user?.demoBookingTime
-              ? 'Your demo is scheduled. See details below.'
-              : 'Schedule a time that works best for you using the calendar below.'}
+            Get a personalized demonstration of Arcta&apos;s AI-powered platform. Fill out the form below and we&apos;ll schedule a demo that fits your needs.
           </p>
         </div>
 
         <div className="mt-10 max-w-xl mx-auto">
-          {isLoading ? (
-            <div className="text-center py-10">Loading...</div> // Show loading state
-          ) : status === 'authenticated' && session?.user?.demoBookingTime ? (
-            // Show booking confirmation for logged-in user with booking
-            <div className="text-center bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
-              <strong className="font-bold">Demo Scheduled!</strong>
-              <p>Your meeting is confirmed for:</p>
-              <p className="mt-2 text-lg font-medium">{formatBookingTime(session.user.demoBookingTime)}</p>
-              {session.user.demoBookingUri && (
-                 <p className="mt-2"><a href={session.user.demoBookingUri} target="_blank" rel="noopener noreferrer" className="font-medium text-indigo-600 hover:text-indigo-500">View Calendly Event Details</a></p>
-              )}
-            </div>
-          ) : (
-            // Show Calendly widget for logged-out users or logged-in users without booking
-            <InlineWidget
-              url="https://calendly.com/tarunv711"
-              styles={{
-                height: '1000px',
-              }}
-              prefill={status === 'authenticated' && session?.user ? {
-                email: session.user.email || '',
-                firstName: session.user.firstName || '',
-                lastName: session.user.lastName || '',
-                name: `${session.user.firstName || ''} ${session.user.lastName || ''}`.trim(), // Combine first/last for Calendly 'Name' field
-                customAnswers: {
-                  [COMPANY_QUESTION_ID]: session.user.company || '',
-                  [NEEDS_QUESTION_ID]: session.user.needsDescription || '',
-                }
-              } : {}}
-              pageSettings={{
-                backgroundColor: 'ffffff',
-                hideEventTypeDetails: false,
-                hideLandingPageDetails: false,
-                primaryColor: '00a2ff',
-                textColor: '4d5055',
-              }}
-            />
-          )}
+          <DemoRequestForm />
         </div>
 
         <div className="mt-20 rounded-2xl bg-gray-50 p-8 max-w-xl mx-auto">

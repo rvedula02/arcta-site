@@ -1,26 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { PrismaClient } from '../../../../generated/prisma';
-
-// Create a Prisma client with explicit database URL
-let dbUrl = process.env.DATABASE_URL || 
-          process.env.POSTGRES_PRISMA_URL || 
-          process.env.POSTGRES_URL;
-
-// Fix protocol if needed
-if (dbUrl && dbUrl.startsWith('postgres://')) {
-  dbUrl = dbUrl.replace(/^postgres:\/\//, 'postgresql://');
-}
-
-const prisma = new PrismaClient({
-  datasources: {
-    db: {
-      url: dbUrl
-    }
-  }
-});
+import { prisma } from '../../../../lib/prisma';
 
 export async function POST(req: NextRequest) {
   try {
+    // Check if prisma is available
+    if (!prisma) {
+      console.error('Database connection not available');
+      return NextResponse.json({ message: 'Database connection not available' }, { status: 500 });
+    }
+
     const payload = await req.json();
 
     console.log('Received Calendly Webhook Payload:', JSON.stringify(payload, null, 2));
@@ -29,33 +17,55 @@ export async function POST(req: NextRequest) {
     if (payload.event === 'invitee.created') {
       const inviteeEmail = payload.payload?.email;
       const eventStartTime = payload.payload?.scheduled_event?.start_time;
-      const eventUri = payload.payload?.scheduled_event?.uri; // Or maybe payload.payload.event.uri depending on structure
+      const eventUri = payload.payload?.scheduled_event?.uri;
 
       if (inviteeEmail && eventStartTime && eventUri) {
-        // Find user by email
-        const user = await prisma.user.findUnique({
-          where: { email: inviteeEmail },
+        // Find demo request by email and update with booking details
+        // Only update requests that don't already have booking information
+        const updatedRequests = await prisma.demoRequest.updateMany({
+          where: { 
+            email: inviteeEmail.toLowerCase().trim(),
+            bookedTime: null // Only update requests without existing bookings
+          },
+          data: {
+            bookedTime: new Date(eventStartTime),
+            meetingLink: eventUri,
+            status: 'booked'
+          },
         });
 
-        if (user) {
-          // Update user with booking details
-          await prisma.user.update({
-            where: { id: user.id },
-            data: {
-              demoBookingTime: new Date(eventStartTime), // Convert string to Date
-              demoBookingUri: eventUri,
-            },
-          });
-          console.log(`Updated demo booking info for user: ${inviteeEmail}`);
+        if (updatedRequests.count > 0) {
+          console.log(`Updated ${updatedRequests.count} demo request(s) for email: ${inviteeEmail}`);
         } else {
-          console.log(`No registered user found for email: ${inviteeEmail}`);
-          // Decide if you want to handle non-registered users, e.g., store in DemoRequest?
+          console.log(`No pending demo requests found for email: ${inviteeEmail}`);
         }
       } else {
-         console.warn('Missing required fields in Calendly payload.');
+        console.warn('Missing required fields in Calendly payload.');
+      }
+    } else if (payload.event === 'invitee.canceled') {
+      // Handle cancellations
+      const inviteeEmail = payload.payload?.email;
+      const eventUri = payload.payload?.scheduled_event?.uri;
+
+      if (inviteeEmail && eventUri) {
+        const updatedRequests = await prisma.demoRequest.updateMany({
+          where: { 
+            email: inviteeEmail.toLowerCase().trim(),
+            meetingLink: eventUri
+          },
+          data: {
+            status: 'cancelled',
+            bookedTime: null,
+            meetingLink: null
+          },
+        });
+
+        if (updatedRequests.count > 0) {
+          console.log(`Cancelled ${updatedRequests.count} demo request(s) for email: ${inviteeEmail}`);
+        }
       }
     } else {
-         console.log(`Received non-invitee.created event: ${payload.event}`);
+      console.log(`Received event: ${payload.event}`);
     }
 
     // Respond to Calendly quickly to acknowledge receipt
@@ -64,9 +74,9 @@ export async function POST(req: NextRequest) {
   } catch (error) {
     console.error('Error processing Calendly webhook:', error);
     if (error instanceof Error) {
-         return NextResponse.json({ message: 'Error processing webhook', error: error.message }, { status: 500 });
+      return NextResponse.json({ message: 'Error processing webhook', error: error.message }, { status: 500 });
     }
-     return NextResponse.json({ message: 'Unknown error processing webhook' }, { status: 500 });
+    return NextResponse.json({ message: 'Unknown error processing webhook' }, { status: 500 });
   }
 }
 

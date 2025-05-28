@@ -20,7 +20,7 @@ export default function Navbar() {
         <div className="flex lg:flex-1 items-center">
           <Link href="/" className="-m-1.5 p-1.5">
             <span className="sr-only">Arcta</span>
-            <ArctaLogo variant="default" imageSize={48} />
+            <ArctaLogo imageSize={48} />
           </Link>
         </div>
         <div className="hidden lg:flex lg:gap-x-12">
@@ -59,7 +59,7 @@ export default function Navbar() {
           <div className="flex items-center justify-between">
             <Link href="/" className="-m-1.5 p-1.5">
               <span className="sr-only">Arcta</span>
-              <ArctaLogo variant="mobile" imageSize={48} />
+              <ArctaLogo imageSize={48} />
             </Link>
             <button
               type="button"

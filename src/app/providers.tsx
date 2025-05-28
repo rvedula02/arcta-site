@@ -1,18 +1,11 @@
 'use client'; // This directive makes it a Client Component
 
-import { SessionProvider } from "next-auth/react";
-import { Session } from "next-auth";
 import React from "react";
 
-interface AuthProviderProps {
+interface AppProviderProps {
   children: React.ReactNode;
-  session?: Session | null;
 }
 
-export default function AuthProvider({ children, session }: AuthProviderProps) {
-  return (
-    <SessionProvider session={session} refetchOnWindowFocus={false} refetchInterval={0}>
-      {children}
-    </SessionProvider>
-  );
+export default function AppProvider({ children }: AppProviderProps) {
+  return <>{children}</>;
 } 
