@@ -4,6 +4,8 @@ import "./globals.css";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 import AppProvider from "./providers";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 // Configure Inter font with better fallback
 const font = Inter({ 
@@ -56,6 +58,8 @@ export default function RootLayout({
             <Footer />
           </div>
         </AppProvider>
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
