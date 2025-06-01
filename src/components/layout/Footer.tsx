@@ -22,13 +22,15 @@ const navigation = {
       name: 'X',
       href: 'https://x.com/arcta_ai',
       icon: () => (
-        <Image 
-          src="/x_logo.png" 
-          alt="X Logo" 
-          width={32} 
-          height={32} 
-          className="h-8 w-8 object-contain"
-        />
+        <div className="h-8 w-8 bg-gray-400 rounded-lg flex items-center justify-center">
+          <Image 
+            src="/x_logo.png" 
+            alt="X Logo" 
+            width={25} 
+            height={25} 
+            className="h-6 w-6 object-contain"
+          />
+        </div>
       ),
     },
   ],
